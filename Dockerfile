@@ -10,8 +10,10 @@ RUN apt-get update
 RUN apt-get install -y git ccache fakeroot libncurses5-dev
 RUN apt-get build-dep -y linux
 
-RUN git clone --depth 1 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git /build-kernel/linux
+RUN git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git /build-kernel/linux
 RUN mkdir /build-kernel/build
+RUN mkdir /build-kernel/dpkg
 
 COPY ./docker-entrypoint.sh /
+EXPOSE 8000
 ENTRYPOINT ["/docker-entrypoint.sh"]

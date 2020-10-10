@@ -2,8 +2,9 @@
 
 ```
 $ docker build -t build-kernel .
-$ docker run build-kernel
+$ docker run -p 8080:8000 build-kernel
 ```
+Borwse http://localhost:8080/ and you can get built debian packages from `dpkg` directory.
 
 # reference
 
