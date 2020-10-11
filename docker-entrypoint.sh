@@ -3,7 +3,9 @@ set -eux
 
 cd /build-kernel/linux
 
-GENERIC_CONFIG_URL=http://kernel.ubuntu.com/~kernel-ppa/config/bionic/linux/4.15.0-21.22/amd64-config.flavour.generic
+git checkout -b tag/v5.8 refs/tags/v5.8
+
+GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/focal/linux/5.4.0-49.53/amd64-config.flavour.generic
 curl -L $GENERIC_CONFIG_URL > /build-kernel/build/.config
 
 ./scripts/config --file /build-kernel/build/.config --disable DEBUG_INFO
@@ -18,4 +20,6 @@ time make bindeb-pkg  O=/build-kernel/build/ LOCALVERSION=-stock
 
 cd /build-kernel
 cp *.deb dpkg
+
+
 python3 -m http.server
