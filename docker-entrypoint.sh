@@ -3,6 +3,7 @@ set -eux
 
 cd /build-kernel/linux
 
+git fetch origin
 git checkout -b tag/v5.8 refs/tags/v5.8
 
 GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/focal/linux/5.4.0-49.53/amd64-config.flavour.generic
@@ -14,7 +15,7 @@ make O=/build-kernel/build/ olddefconfig
 
 time make -j9         O=/build-kernel/build/ LOCALVERSION=-stock
 
-time make modules -j9 O=/build-kernel/build/ LOCALVERSION=-stock
+time make -j9 modules O=/build-kernel/build/ LOCALVERSION=-stock
 
 time make bindeb-pkg  O=/build-kernel/build/ LOCALVERSION=-stock
 
