@@ -4,8 +4,9 @@ set -eux
 cd /build-kernel/linux
 
 git fetch origin
-git checkout -b tag/v5.16 refs/tags/v5.16
+git checkout -b tag/v5.17 refs/tags/v5.17
 
+# GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/jammy/linux/5.15.0-16.16/amd64-config.flavour.generic
 GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/focal/linux/5.4.0-49.53/amd64-config.flavour.generic
 curl -L $GENERIC_CONFIG_URL > /build-kernel/build/.config
 
