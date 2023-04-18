@@ -4,24 +4,28 @@ set -eux
 cd /build-kernel/linux
 
 git fetch origin
-git checkout -b tag/v5.17 refs/tags/v5.17
+git checkout -b tag/v6.2 refs/tags/v6.2
+make clean
 
-# GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/jammy/linux/5.15.0-16.16/amd64-config.flavour.generic
-GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/focal/linux/5.4.0-49.53/amd64-config.flavour.generic
+GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/lunar/linux/6.2.0-21.21/amd64-config.flavour.generic
 curl -L $GENERIC_CONFIG_URL > /build-kernel/build/.config
+./scripts/config --file /build-kernel/build/.config \
+	--disable DEBUG_INFO \
+	--disable SYSTEM_TRUSTED_KEYS \
+	--disable SYSTEM_REVOCATION_KEYS
 
-./scripts/config --file /build-kernel/build/.config --disable DEBUG_INFO
+make olddefconfig O=/build-kernel/build/
 
-make O=/build-kernel/build/ olddefconfig
-
-time make -j16            O=/build-kernel/build/ LOCALVERSION=-stock
-
-time make -j16 modules    O=/build-kernel/build/ LOCALVERSION=-stock
-
-time make -j16 bindeb-pkg O=/build-kernel/build/ LOCALVERSION=-stock
+JOBS=`getconf _NPROCESSORS_ONLN`
+JOBS=`expr $JOBS + $JOBS`
+JOBS=`expr $JOBS + $JOBS`
+LOCALVERSION=-`date +%Y%m%d`
+time make -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+time make -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+time make -j $JOBS bindeb-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+time make -j $JOBS htmldocs BUILDDIR=/build-kernel/htmldocs
 
 cd /build-kernel
-cp *.deb dpkg
-
-
+mv *.deb *.buildinfo *.changes ./deb-pkg
 python3 -m http.server
+

@@ -2,10 +2,14 @@
 
 ```
 $ docker build -t build-kernel .
-$ docker run -it --rm -p 8080:8000 build-kernel
+$ docker run -it --rm -p 8000:8000 build-kernel
 ```
-Borwse http://localhost:8080/ and you can get built debian packages from `dpkg` directory.
+Borwse http://localhost:8000/ and you can get built debian packages from `dpkg` directory.
 
 # reference
 
-see also. https://gihyo.jp/admin/serial/01/ubuntu-recipe/0526?page=2
+* [Ubuntu - GitKernelBuild](https://wiki.ubuntu.com/KernelTeam/GitKernelBuild)
+* [Ubuntu - BuildYourOwnKernel](https://wiki.ubuntu.com/Kernel/BuildYourOwnKernel)
+* [Debian - BuildADebianKernelPackage](https://wiki.debian.org/BuildADebianKernelPackage)
+* [Ubuntuで最新のカーネルをお手軽にビルドする方法](https://gihyo.jp/admin/serial/01/ubuntu-recipe/0526?page=2)
+
