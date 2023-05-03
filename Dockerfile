@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:23.04
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
