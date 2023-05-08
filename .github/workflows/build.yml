@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-      - name: Build docker images
+      - name: Build docker image
         run: docker build -t build-kernel .
       - name: Build Linux Kernel
         run: docker run -it build-kernel
