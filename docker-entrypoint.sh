@@ -4,7 +4,7 @@ set -eux
 cd /build-kernel/linux
 
 git fetch origin
-git checkout -b tag/v6.3 refs/tags/v6.3
+git checkout -b tag/v6.4-rc1 refs/tags/v6.4-rc1
 make clean
 
 GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/lunar/linux/6.2.0-21.21/amd64-config.flavour.generic
