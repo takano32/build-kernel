@@ -27,5 +27,8 @@ time make -j $JOBS htmldocs BUILDDIR=/build-kernel/htmldocs
 
 cd /build-kernel
 mv *.deb *.buildinfo *.changes ./deb-pkg
-python3 -m http.server
+
+if [ -z $CI ]; then
+  python3 -m http.server
+fi
 
