@@ -3,7 +3,7 @@ set -eux
 
 cd /build-kernel/linux
 
-git fetch origin
+git fetch --all
 git checkout -b tag/v6.4-rc1 refs/tags/v6.4-rc1
 make clean
 
@@ -20,12 +20,16 @@ JOBS=`getconf _NPROCESSORS_ONLN`
 JOBS=`expr $JOBS + $JOBS`
 JOBS=`expr $JOBS + $JOBS`
 LOCALVERSION=-`date +%Y%m%d`
+
 time make -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time make -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time make -j $JOBS binrpm-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+
+python3 -m pip install -r ./Documentation/sphinx/requirements.txt
+python3 -m pip install docutils==0.17
 time make -j $JOBS htmldocs BUILDDIR=/build-kernel/htmldocs
 
 cd /build-kernel
-mv *.deb *.buildinfo *.changes ./deb-pkg
+# mv *.deb *.buildinfo *.changes ./deb-pkg
 python3 -m http.server
 
