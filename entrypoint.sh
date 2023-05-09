@@ -4,7 +4,7 @@ set -eux
 cd /build-kernel/linux
 
 git fetch --all
-git checkout -b tag/v6.4-rc1 refs/tags/v6.4-rc1
+git checkout -b tag/v6.3 refs/tags/v6.3
 if [ -n "${CI:-}" ]; then
   rm -rf .git
 fi
