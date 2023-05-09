@@ -16,6 +16,7 @@ RUN mkdir /build-kernel/build
 RUN mkdir /build-kernel/deb-pkg
 
 RUN apt-get build-dep -y linux
+RUN apt-get clean
 
 COPY ./entrypoint.sh /
 RUN chmod 755 /entrypoint.sh

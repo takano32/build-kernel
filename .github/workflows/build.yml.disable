@@ -11,4 +11,4 @@ jobs:
       - name: Build docker image
         run: docker build -t build-kernel .
       - name: Build Linux Kernel
-        run: docker run build-kernel
+        run: docker run -e CIbuild-kernel
