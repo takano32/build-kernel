@@ -22,7 +22,7 @@ JOBS=`expr $JOBS + $JOBS`
 LOCALVERSION=-`date +%Y%m%d`
 time make -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time make -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
-time make -j $JOBS bindeb-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+time make -j $JOBS binrpm-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time make -j $JOBS htmldocs BUILDDIR=/build-kernel/htmldocs
 
 cd /build-kernel
