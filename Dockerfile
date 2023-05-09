@@ -17,8 +17,8 @@ RUN mkdir /build-kernel/deb-pkg
 
 RUN apt-get build-dep -y linux
 
-COPY ./docker-entrypoint.sh /
-RUN chmod 755 /docker-entrypoint.sh
+COPY ./entrypoint.sh /
+RUN chmod 755 /entrypoint.sh
 EXPOSE 8000
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
