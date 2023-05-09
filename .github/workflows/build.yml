@@ -13,4 +13,4 @@ jobs:
       - name: Create Build Directory
         run: mkdir build
       - name: Build Linux Kernel
-        run: docker run -v $(pwd)/build:/build-kernel/build build-kernel
+        run: docker run -e CI=$CI -v $(pwd)/build:/build-kernel/build build-kernel
