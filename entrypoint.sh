@@ -5,7 +5,7 @@ cd /build-kernel/linux
 
 git fetch --all
 git checkout -b tag/v6.4-rc1 refs/tags/v6.4-rc1
-if [ -n $CI ]; then
+if [ -n "${CI:-}" ]; then
   rm -rf .git
 fi
 
@@ -32,7 +32,7 @@ time make -j $JOBS htmldocs BUILDDIR=/build-kernel/htmldocs
 cd /build-kernel
 mv *.deb *.buildinfo *.changes ./deb-pkg
 
-if [ -z $CI ]; then
+if [ -z "${CI:-}" ]; then
   python3 -m http.server
 fi
 
