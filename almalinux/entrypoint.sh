@@ -16,20 +16,21 @@ curl -L $GENERIC_CONFIG_URL > /build-kernel/build/.config
 
 make olddefconfig O=/build-kernel/build/
 
+LOCALVERSION=-`date +%Y%m%d`
 JOBS=`getconf _NPROCESSORS_ONLN`
 JOBS=`expr $JOBS + $JOBS`
 JOBS=`expr $JOBS + $JOBS`
-LOCALVERSION=-`date +%Y%m%d`
-
 time make -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time make -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time make -j $JOBS binrpm-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 
 python3 -m pip install -r ./Documentation/sphinx/requirements.txt
 python3 -m pip install docutils==0.17
+JOBS=1
 time make -j $JOBS htmldocs BUILDDIR=/build-kernel/htmldocs
 
 cd /build-kernel
-# mv *.deb *.buildinfo *.changes ./deb-pkg
+cp $HOME/rpmbuild/RPMS/x86_64/*.rpm ./rpm-pkg
+mv $HOME/rpmbuild .
 python3 -m http.server
 

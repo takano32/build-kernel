@@ -1,20 +1,23 @@
-FROM almalinux:9.1
+FROM takano32/almalinux:9.2
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum -y install git
 
 ENV ORIGIN=https://github.com/torvalds/linux.git
-RUN git clone --jobs 32 ${ORIGIN} /build-kernel/linux
+RUN git config --global http.version HTTP/1.1
+RUN git config --global http.postBuffer 524288000
+RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
+RUN cd /build-kernel/linux && git fetch --unshallow
+RUN cd /build-kernel/linux && git pull --all
+
 RUN mkdir /build-kernel/build
 RUN mkdir /build-kernel/rpm-pkg
 
-#RUN yum install -y ncurses-devel
-#RUN yum install -y hmaccalc zlib-devel binutils-devel elfutils-libelf-devel
 RUN yum install -y ncurses-devel make gcc bc bison flex elfutils-libelf-devel openssl-devel
-RUN yum install -y make
+RUN yum install -y make diffutils cpio zstd rpm-build rsync
+
 # make htmldocs
-RUN yum install -y python3-pip
-RUN yum install -y graphviz texlive-latex librsvg2-tools
+RUN yum install -y python3-pip graphviz texlive-latex librsvg2-tools
 
 RUN yum -y clean all  && rm -rf /var/cache
 

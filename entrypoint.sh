@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eux
 
+OS_NAME=`sed -ne 's/^NAME="\([^"]*\)"$/\1/p' /etc/os-release`
+
 cd /build-kernel/linux
 
 git fetch --all
@@ -20,13 +22,15 @@ curl -L $GENERIC_CONFIG_URL > /build-kernel/build/.config
 
 make olddefconfig O=/build-kernel/build/
 
+LOCALVERSION=-`date +%Y%m%d`
 JOBS=`getconf _NPROCESSORS_ONLN`
 JOBS=`expr $JOBS + $JOBS`
 JOBS=`expr $JOBS + $JOBS`
-LOCALVERSION=-`date +%Y%m%d`
 time make -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time make -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time make -j $JOBS bindeb-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+
+JOBS=1
 time make -j $JOBS htmldocs BUILDDIR=/build-kernel/htmldocs
 
 cd /build-kernel

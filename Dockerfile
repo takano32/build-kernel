@@ -9,9 +9,13 @@ RUN grep '^deb ' /etc/apt/sources.list | sed 's/^deb/deb-src/g' > /etc/apt/sourc
 RUN apt-get update
 RUN apt-get install -y git
 
-#ENV ORIGIN=https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 ENV ORIGIN=https://github.com/torvalds/linux.git
-RUN git clone --jobs 32 ${ORIGIN} /build-kernel/linux
+RUN git config --global http.version HTTP/1.1
+RUN git config --global http.postBuffer 524288000
+RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
+RUN cd /build-kernel/linux && git fetch --unshallow
+RUN cd /build-kernel/linux && git pull --all
+
 RUN mkdir /build-kernel/build
 RUN mkdir /build-kernel/deb-pkg
 
