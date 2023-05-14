@@ -1,4 +1,4 @@
-FROM takano32/almalinux:9.2
+FROM almalinux:9.2
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum -y install git
