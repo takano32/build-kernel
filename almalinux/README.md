@@ -1,10 +1,10 @@
-# build-kernel-rpm
+# build-kernel-almalinux
 
 ```
-$ docker build -t build-kernel-rpm .
-$ docker run -it --rm -p 8000:8000 build-kernel-rpm
+$ docker build -t build-kernel-almalinux .
+$ docker run -it --rm -p 8000:8000 build-kernel-almalinux
 ```
-Borwse http://localhost:8000/ and you can get built rpm packages from `rpm` directory.
+Borwse http://localhost:8000/ and you can get built rpm packages from `rpm-pkg` directory.
 
 # reference
 
