@@ -34,7 +34,7 @@ time make -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time make -j $JOBS bindeb-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 
 cd /build-kernel
-mv *.deb *.buildinfo *.changes ./deb-pkg
+mv *.deb *.buildinfo *.changes ./deb-pkg || :
 
 if [ -z "${CI:-}" ]; then
   python3 -m http.server
