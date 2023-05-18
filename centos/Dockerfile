@@ -1,15 +1,15 @@
 FROM centos:8.4.2105
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
-ENV CENTOS mirror.centos.org
-ENV VAULT vault.centos.org
+ENV CENTOS=mirror.centos.org
+ENV VAULT=vault.centos.org
 RUN cd /etc/yum.repos.d && sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
 RUN cd /etc/yum.repos.d && sed -i "s|#baseurl=http://$CENTOS|baseurl=http://$VAULT|g" /etc/yum.repos.d/CentOS-*
 
 
 RUN yum -y install git
 
-ENV ORIGIN https://github.com/torvalds/linux.git
+ENV ORIGIN=https://github.com/torvalds/linux.git
 RUN git config --global http.version HTTP/1.1
 RUN git config --global http.postBuffer 524288000
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux

@@ -7,7 +7,7 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 RUN mkdir /build-kernel
 RUN emerge -qv dev-vcs/git
 
-ENV ORIGIN https://github.com/torvalds/linux.git
+ENV ORIGIN=https://github.com/torvalds/linux.git
 RUN git config --global http.version HTTP/1.1
 RUN git config --global http.postBuffer 524288000
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux

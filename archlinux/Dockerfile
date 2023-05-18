@@ -1,7 +1,7 @@
 FROM archlinux:latest
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
-ENV BUILD_DIR /build-kernel/build
+ENV BUILD_DIR=/build-kernel/build
 
 RUN mkdir /build-kernel
 RUN mkdir /build-kernel/build
@@ -18,7 +18,7 @@ RUN useradd takano32
 RUN mkdir /home/takano32
 RUN chown -R takano32.takano32 /build-kernel /home/takano32
 RUN echo "takano32 ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/takano32
-ENV SUDO "sudo -u takano32"
+ENV SUDO="sudo -u takano32"
 RUN $SUDO git config --global http.version HTTP/1.1
 RUN $SUDO git config --global http.postBuffer 524288000
 
