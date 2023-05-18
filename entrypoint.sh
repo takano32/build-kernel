@@ -1,7 +1,8 @@
 #!/bin/bash
 set -eux
 
-OS_NAME=`sed -ne 's/^NAME="\([^"]*\)"$/\1/p' /etc/os-release`
+OS_NAME=`grep ^NAME= /etc/os-release | cut -d'=' -f2`
+OS_NAME=`echo echo $OS_NAME | /bin/sh`
 
 cd /build-kernel/linux
 
