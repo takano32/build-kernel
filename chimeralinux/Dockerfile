@@ -4,7 +4,7 @@ LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 RUN apk update
 RUN apk add bash git
 
-ENV ORIGIN https://github.com/torvalds/linux.git
+ENV ORIGIN=https://github.com/torvalds/linux.git
 RUN git config --global http.version HTTP/1.1
 RUN git config --global http.postBuffer 524288000
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux

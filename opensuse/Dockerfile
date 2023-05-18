@@ -7,7 +7,7 @@ RUN zypper ref && zypper update -y
 RUN zypper in -y which
 RUN zypper in -y git
 
-ENV ORIGIN https://github.com/torvalds/linux.git
+ENV ORIGIN=https://github.com/torvalds/linux.git
 RUN git config --global http.version HTTP/1.1
 RUN git config --global http.postBuffer 524288000
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
