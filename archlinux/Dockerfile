@@ -28,7 +28,7 @@ RUN $SUDO git config --global http.version HTTP/1.1
 RUN $SUDO git config --global http.postBuffer 524288000
 RUN while :; do cd $BUILD_DIR/linux && $SUDO makepkg -o --skippgpcheck && break || sleep 5; done
 
-COPY ./entrypoint.sh /
+COPY ./archlinux/entrypoint.sh /
 RUN chmod 755 /entrypoint.sh
 EXPOSE 8000
 ENTRYPOINT ["/entrypoint.sh"]
