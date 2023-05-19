@@ -6,33 +6,61 @@ services:
       dockerfile: ./ubuntu/Dockerfile
     restart: on-failure
     ports:
-      - 8010:8000
+      - 8001:8000
   almalinux:
     build:
       context: .
       dockerfile: ./almalinux/Dockerfile
     restart: on-failure
     ports:
-      - 8020:8000
+      - 8002:8000
+  archlinux:
+    build:
+      context: .
+      dockerfile: ./archlinux/Dockerfile
+    restart: on-failure
+    ports:
+      - 8003:8000
+  chimeralinux:
+    build:
+      context: .
+      dockerfile: ./chimeralinux/Dockerfile
+    restart: on-failure
+    ports:
+      - 8004:8000
   gentoo:
     build:
       context: .
       dockerfile: ./gentoo/Dockerfile
     restart: on-failure
     ports:
-      - 8030:8000
+      - 8005:8000
+  amazonlinux:
+    build:
+      context: .
+      dockerfile: ./amazonlinux/Dockerfile
+    restart: on-failure
+    ports:
+      - 8006:8000
   opensuse:
     build:
       context: .
       dockerfile: ./opensuse/Dockerfile
     restart: on-failure
     ports:
-      - 8040:8000
+      - 8007:8000
+  rocylinux:
+    build:
+      context: .
+      dockerfile: ./rockylinux/Dockerfile
+    restart: on-failure
+    ports:
+      - 8008:8000
   centos:
     build:
       context: .
       dockerfile: ./centos/Dockerfile
     restart: on-failure
     ports:
-      - 8050:8000
+      - 8009:8000
 
