@@ -5,10 +5,8 @@ RUN apk update
 RUN apk add bash git
 
 ENV ORIGIN=https://github.com/torvalds/linux.git
-RUN git config --global http.version HTTP/1.1
-RUN git config --global http.postBuffer 524288000
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
-RUN cd /build-kernel/linux && git fetch --unshallow
+RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
 RUN cd /build-kernel/linux && git pull --all
 
 RUN mkdir /build-kernel/build
