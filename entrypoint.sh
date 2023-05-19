@@ -6,8 +6,8 @@ OS_ID=`echo echo $OS_ID | /bin/sh`
 
 cd /build-kernel/linux
 
-git fetch --all
-git checkout -b tag/v6.3 refs/tags/v6.3
+git fetch --all --tags
+git checkout -fb tag/v6.3 refs/tags/v6.3
 
 if [ -n "${CI:-}" ]; then
   rm -rf .git
@@ -25,8 +25,13 @@ curl -L $GENERIC_CONFIG_URL > /build-kernel/build/.config
 make olddefconfig O=/build-kernel/build/
 
 if [ "$OS_ID" != "ubuntu" ]; then
-  python3 -m pip install -r ./Documentation/sphinx/requirements.txt
-  python3 -m pip install docutils==0.17
+  PYTHON3_PIP_OPTS=""
+  if [ "$OS_ID" = "gentoo" ]; then
+    PYTHON3_PIP_OPTS="--break-system-packages"
+  fi
+  python3 -m pip install $PYTHON3_PIP_OPTS -r ./Documentation/sphinx/requirements.txt
+  python3 -m pip install $PYTHON3_PIP_OPTS docutils==0.17
+  python3 -m pip install $PYTHON3_PIP_OPTS -U Sphinx
 fi
 JOBS=1
 time make -j $JOBS htmldocs BUILDDIR=/build-kernel/htmldocs
