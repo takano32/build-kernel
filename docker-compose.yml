@@ -21,13 +21,13 @@ services:
     restart: on-failure
     ports:
       - 8003:8000
-  chimeralinux:
-    build:
-      context: .
-      dockerfile: ./chimeralinux/Dockerfile
-    restart: on-failure
-    ports:
-      - 8004:8000
+#  chimeralinux:
+#    build:
+#      context: .
+#      dockerfile: ./chimeralinux/Dockerfile
+#    restart: on-failure
+#    ports:
+#      - 8004:8000
   gentoo:
     build:
       context: .
