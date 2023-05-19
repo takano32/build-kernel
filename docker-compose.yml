@@ -14,4 +14,25 @@ services:
     restart: on-failure
     ports:
       - 8020:8000
+  gentoo:
+    build:
+      context: .
+      dockerfile: ./gentoo/Dockerfile
+    restart: on-failure
+    ports:
+      - 8030:8000
+  opensuse:
+    build:
+      context: .
+      dockerfile: ./opensuse/Dockerfile
+    restart: on-failure
+    ports:
+      - 8040:8000
+  centos:
+    build:
+      context: .
+      dockerfile: ./centos/Dockerfile
+    restart: on-failure
+    ports:
+      - 8050:8000
 
