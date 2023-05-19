@@ -1,19 +1,32 @@
 #!/bin/bash
 set -eux
 
+LINUX_VERSION=v6.3
+
 OS_ID=`grep ^ID= /etc/os-release | cut -d'=' -f2`
 OS_ID=`echo echo $OS_ID | /bin/sh`
+
+MAKE_OPTS=""
+if [ "$OS_ID" = "chimera" ]; then
+  MAKE_OPTS="LLVM=1"
+fi
+
+PYTHON3_PIP_OPTS=""
+if [ "$OS_ID" = "gentoo" ]; then
+  PYTHON3_PIP_OPTS="--break-system-packages"
+fi
 
 cd /build-kernel/linux
 
 git fetch --all --tags
-git checkout -fb tag/v6.3 refs/tags/v6.3
+git branch -D tag/$LINUX_VERSION || :
+git checkout -b tag/$LINUX_VERSION refs/tags/$LINUX_VERSION
 
 if [ -n "${CI:-}" ]; then
   rm -rf .git
 fi
 
-make clean
+make $MAKE_OPTS clean
 
 GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/lunar/linux/6.2.0-21.21/amd64-config.flavour.generic
 curl -L $GENERIC_CONFIG_URL > /build-kernel/build/.config
@@ -22,35 +35,29 @@ curl -L $GENERIC_CONFIG_URL > /build-kernel/build/.config
 	--disable SYSTEM_TRUSTED_KEYS \
 	--disable SYSTEM_REVOCATION_KEYS
 
-make olddefconfig O=/build-kernel/build/
+make $MAKE_OPTS olddefconfig O=/build-kernel/build/
 
 if [ "$OS_ID" != "ubuntu" ]; then
-  PYTHON3_PIP_OPTS=""
-  if [ "$OS_ID" = "gentoo" ]; then
-    PYTHON3_PIP_OPTS="--break-system-packages"
-  fi
-  python3 -m pip install $PYTHON3_PIP_OPTS -r ./Documentation/sphinx/requirements.txt
-  python3 -m pip install $PYTHON3_PIP_OPTS docutils==0.17
+  # python3 -m pip install $PYTHON3_PIP_OPTS -r ./Documentation/sphinx/requirements.txt
+  # python3 -m pip install $PYTHON3_PIP_OPTS docutils==0.17
   python3 -m pip install $PYTHON3_PIP_OPTS -U Sphinx
 fi
 JOBS=1
-time make -j $JOBS htmldocs BUILDDIR=/build-kernel/htmldocs
+time make $MAKE_OPTS -j $JOBS htmldocs BUILDDIR=/build-kernel/htmldocs
 
 LOCALVERSION=-`date +%Y%m%d`
 JOBS=`getconf _NPROCESSORS_ONLN`
-JOBS=`expr $JOBS + $JOBS`
-JOBS=`expr $JOBS + $JOBS`
-time make -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
-time make -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+time make $MAKE_OPTS -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+time make $MAKE_OPTS -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 # NO_MAKE_PKG=("arch" "chimera")
 MAKE_BINDEB_PKG=("ubuntu" "gentoo")
 MAKE_BINRPM_PKG=("almalinux" "amzn" "centos" "opensuse-tumbleweed" "rocky")
 IFS="|"
 if [[ "(${MAKE_BINDEB_PKG[*]})" =~ ${OS_ID} ]]; then
-  time make -j $JOBS bindeb-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+  time make $MAKE_OPTS -j $JOBS bindeb-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 fi
 if [[ "(${MAKE_BINRPM_PKG[*]})" =~ ${OS_ID} ]]; then
-  time make -j $JOBS binrpm-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+  time make $MAKE_OPTS -j $JOBS binrpm-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 fi
 unset IFS
 
