@@ -20,7 +20,8 @@ cd /build-kernel/linux
 
 git fetch --all --tags
 git branch -D tag/$LINUX_VERSION || :
-git checkout -b tag/$LINUX_VERSION refs/tags/$LINUX_VERSION
+git checkout -b tag/$LINUX_VERSION refs/tags/$LINUX_VERSION || :
+git checkout tag/$LINUX_VERSION
 
 if [ -n "${CI:-}" ]; then
   rm -rf .git
