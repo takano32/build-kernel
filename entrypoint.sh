@@ -5,6 +5,9 @@ LINUX_VERSION=v6.3
 
 OS_ID=`grep ^ID= /etc/os-release | cut -d'=' -f2`
 OS_ID=`echo echo $OS_ID | /bin/sh`
+# NO_MAKE_PKG=("arch" "chimera")
+MAKE_BINDEB_PKG=("ubuntu" "debian")
+MAKE_BINRPM_PKG=("almalinux" "amzn" "centos" "gentoo" "opensuse-tumbleweed" "rocky")
 
 MAKE_OPTS=""
 if [ "$OS_ID" = "chimera" ]; then
@@ -50,9 +53,6 @@ LOCALVERSION=-`date +%Y%m%d`
 JOBS=`getconf _NPROCESSORS_ONLN`
 time make $MAKE_OPTS -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time make $MAKE_OPTS -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
-# NO_MAKE_PKG=("arch" "chimera")
-MAKE_BINDEB_PKG=("ubuntu" "gentoo")
-MAKE_BINRPM_PKG=("almalinux" "amzn" "centos" "opensuse-tumbleweed" "rocky")
 IFS="|"
 if [[ "(${MAKE_BINDEB_PKG[*]})" =~ ${OS_ID} ]]; then
   time make $MAKE_OPTS -j $JOBS bindeb-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
