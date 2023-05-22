@@ -56,4 +56,12 @@ services:
       dockerfile: ./centos/Dockerfile
     ports:
       - 8009:8000
+  mageia:
+    build:
+      context: .
+      dockerfile: ./mageia/Dockerfile
+    ports:
+      - 8010:8000
+    profiles:
+      - mageia
 
