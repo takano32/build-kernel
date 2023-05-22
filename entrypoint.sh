@@ -64,15 +64,17 @@ unset IFS
 
 
 cd /build-kernel
+mkdir -p deb-pkg
+mkdir -p rpm-pkg
 
 # bindeb-pkg
 mv *.deb *.buildinfo *.changes ./deb-pkg || :
 # binrpm-pkg
 ## openSUSE
 cp /usr/src/packages/RPMS/x86_64/*.rpm ./rpm-pkg || :
-cp /root/rpmbuild/RPMS/x86_64/*.rpm ./rpm-pkg || :
 mv /usr/src/packages . || :
 ## RHEL Like
+cp /root/rpmbuild/RPMS/x86_64/*.rpm ./rpm-pkg || :
 mv /root/rpmbuild . || :
 
 if [ -z "${CI:-}" ]; then
