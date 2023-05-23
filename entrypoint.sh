@@ -7,7 +7,7 @@ OS_ID=`grep ^ID= /etc/os-release | cut -d'=' -f2`
 OS_ID=`echo echo $OS_ID | /bin/sh`
 # NO_MAKE_PKG=("arch" "chimera")
 MAKE_BINDEB_PKG=("ubuntu" "debian")
-MAKE_BINRPM_PKG=("almalinux" "amzn" "centos" "gentoo" "opensuse-tumbleweed" "rocky")
+MAKE_BINRPM_PKG=("ubuntu" "debian" "almalinux" "amzn" "centos" "gentoo" "opensuse-tumbleweed" "rocky")
 
 MAKE_OPTS=""
 if [ "$OS_ID" = "chimera" ]; then
