@@ -1,7 +1,14 @@
-FROM takano32/rockylinux:9.2-ubi
+FROM debian:bookworm-slim
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
-RUN yum -y install git
+ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBCONF_NOWARNINGS=yes
+
+COPY ./debian/sources.list /etc/apt/
+RUN grep '^deb ' /etc/apt/sources.list | sed 's/^deb/deb-src/g' > /etc/apt/sources.list.d/deb-src.list
+
+RUN apt-get update
+RUN apt-get install -y git
 
 ENV ORIGIN=https://github.com/torvalds/linux.git
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
@@ -9,16 +16,11 @@ RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || slee
 RUN cd /build-kernel/linux && git pull --all
 
 RUN mkdir /build-kernel/build
-RUN mkdir /build-kernel/rpm-pkg
+RUN mkdir /build-kernel/deb-pkg
 
-RUN yum install -y ncurses-devel make gcc bc bison flex elfutils-libelf-devel openssl-devel
-RUN yum install -y make diffutils cpio zstd rpm-build rsync
-
-# make htmldocs
-RUN yum install -y python3-pip graphviz texlive-latex librsvg2-tools
-RUN yum install -y texlive
-
-RUN yum -y clean all  && rm -rf /var/cache
+RUN apt-get build-dep -y linux
+RUN apt-get install -y rpm
+RUN apt-get clean
 
 COPY ./entrypoint.sh /
 RUN chmod 755 /entrypoint.sh

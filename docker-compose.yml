@@ -44,7 +44,7 @@ services:
       dockerfile: ./opensuse/Dockerfile
     ports:
       - 8007:8000
-  rocylinux:
+  rockylinux:
     build:
       context: .
       dockerfile: ./rockylinux/Dockerfile
@@ -64,4 +64,16 @@ services:
       - 8010:8000
     profiles:
       - mageia
+  debian:
+    build:
+      context: .
+      dockerfile: ./debian/Dockerfile
+    ports:
+      - 8011:8000
+  redhat:
+    build:
+      context: .
+      dockerfile: ./redhat/Dockerfile
+    ports:
+      - 8012:8000
 

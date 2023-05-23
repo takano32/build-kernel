@@ -1,4 +1,4 @@
-FROM takano32/rockylinux:9.2-ubi
+FROM redhat/ubi9:9.2
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum -y install git
@@ -11,12 +11,11 @@ RUN cd /build-kernel/linux && git pull --all
 RUN mkdir /build-kernel/build
 RUN mkdir /build-kernel/rpm-pkg
 
-RUN yum install -y ncurses-devel make gcc bc bison flex elfutils-libelf-devel openssl-devel
+RUN yum install -y ncurses-devel make gcc bc openssl-devel
 RUN yum install -y make diffutils cpio zstd rpm-build rsync
 
 # make htmldocs
-RUN yum install -y python3-pip graphviz texlive-latex librsvg2-tools
-RUN yum install -y texlive
+RUN yum install -y python3-pip
 
 RUN yum -y clean all  && rm -rf /var/cache
 
