@@ -1,0 +1,28 @@
+name: build
+
+on: push
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          overprovision-lvm: true
+          remove-dotnet: true
+          remove-android: true
+          remove-haskell: true
+          remove-codeql: true
+          remove-docker-images: true
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Create `.env` file
+        run: echo "CI=$CI" >> .env
+      - name: Build docker image
+        run: docker compose build ${{ matrix.os }}
+      - name: Build Linux Kernel
+        run: docker compose up ${{ matrix.os }}

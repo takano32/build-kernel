@@ -15,9 +15,12 @@ USE_LLVM=("chimera")
 MAKE_OPTS=""
 IFS="|"
 if [[ "(${USE_LLVM[*]})" =~ ${OS_ID} ]]; then
-  MAKE_OPTS="LLVM=1"
+  MAKE_OPTS="LLVM=1 $MAKE_OPTS"
 fi
 unset IFS
+if [ -n "${CI:-}" ]; then
+  MAKE_OPTS="V=0 $MAKE_OPTS"
+fi
 
 USE_PIP_WITH_BREAK_SYSTEM_PACKAGES=("debian" "gentoo")
 PYTHON3_PIP_OPTS=""
