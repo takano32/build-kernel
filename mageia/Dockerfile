@@ -15,7 +15,6 @@ RUN cd /build-kernel/linux && git fetch --unshallow
 RUN cd /build-kernel/linux && git pull --all
 
 RUN mkdir /build-kernel/build
-RUN mkdir /build-kernel/rpm-pkg
 
 RUN urpmi --auto ncurses-devel make gcc bc bison flex elfutils-libelf-devel openssl-devel
 RUN urpmi --auto make diffutils cpio zstd rpm-build rsync

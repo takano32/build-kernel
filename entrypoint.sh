@@ -5,20 +5,27 @@ LINUX_VERSION=v6.3
 
 OS_ID=`grep ^ID= /etc/os-release | cut -d'=' -f2`
 OS_ID=`echo echo $OS_ID | /bin/sh`
+
 # NO_MAKE_PKG=("arch" "chimera")
 MAKE_BINDEB_PKG=("ubuntu" "debian")
-MAKE_BINRPM_PKG=("ubuntu" "debian" "almalinux" "amzn" "centos" "gentoo" "opensuse-tumbleweed" "rocky")
+MAKE_BINRPM_PKG=("ubuntu" "debian" "gentoo"
+  "almalinux" "amzn" "centos" "opensuse-tumbleweed" "rocky")
 
+USE_LLVM=("chimera")
 MAKE_OPTS=""
-if [ "$OS_ID" = "chimera" ]; then
+IFS="|"
+if [[ "(${USE_LLVM[*]})" =~ ${OS_ID} ]]; then
   MAKE_OPTS="LLVM=1"
 fi
+unset IFS
 
+USE_PIP_WITH_BREAK_SYSTEM_PACKAGES=("debian" "gentoo")
 PYTHON3_PIP_OPTS=""
-if [ "$OS_ID" = "gentoo" ]; then
+IFS="|"
+if [[ "(${USE_PIP_WITH_BREAK_SYSTEM_PACKAGES[*]})" =~ ${OS_ID} ]]; then
   PYTHON3_PIP_OPTS="--break-system-packages"
 fi
-
+unset IFS
 cd /build-kernel/linux
 
 git fetch --all --tags
@@ -55,17 +62,17 @@ time make $MAKE_OPTS -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LO
 time make $MAKE_OPTS -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 IFS="|"
 if [[ "(${MAKE_BINDEB_PKG[*]})" =~ ${OS_ID} ]]; then
+  mkdir -p /build-kernel/deb-pkg
   time make $MAKE_OPTS -j $JOBS bindeb-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 fi
 if [[ "(${MAKE_BINRPM_PKG[*]})" =~ ${OS_ID} ]]; then
+  mkdir -p /build-kernel/rpm-pkg
   time make $MAKE_OPTS -j $JOBS binrpm-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 fi
 unset IFS
 
 
 cd /build-kernel
-mkdir -p deb-pkg
-mkdir -p rpm-pkg
 
 # bindeb-pkg
 mv *.deb *.buildinfo *.changes ./deb-pkg || :

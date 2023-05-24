@@ -9,7 +9,6 @@ RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || slee
 RUN cd /build-kernel/linux && git pull --all
 
 RUN mkdir /build-kernel/build
-RUN mkdir /build-kernel/rpm-pkg
 
 RUN yum install -y ncurses-devel make gcc bc openssl-devel
 RUN yum install -y make diffutils cpio zstd rpm-build rsync

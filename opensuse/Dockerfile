@@ -13,7 +13,6 @@ RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || slee
 RUN cd /build-kernel/linux && git pull --all
 
 RUN mkdir /build-kernel/build
-RUN mkdir /build-kernel/rpm-pkg
 
 # https://boxofcables.dev/building-a-kernel-for-wsl-on-opensuse/
 RUN zypper in -y -t pattern devel_basis

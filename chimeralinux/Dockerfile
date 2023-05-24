@@ -10,7 +10,6 @@ RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || slee
 RUN cd /build-kernel/linux && git pull --all
 
 RUN mkdir /build-kernel/build
-RUN mkdir /build-kernel/rpm-pkg
 
 RUN apk add gmake curl
 RUN ln -s /usr/sbin/gmake /usr/local/bin/make
