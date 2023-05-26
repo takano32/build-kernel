@@ -1,0 +1,13 @@
+name: build
+
+on: push
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        linux: [ubuntu, debian]
+    uses: takano32/build-kernel/.github/workflows/build.yml@master
+    with:
+      linux: ${{ matrix.linux }}
+
