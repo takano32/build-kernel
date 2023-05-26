@@ -5,8 +5,12 @@ on: push
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
-        linux: [ubuntu, debian]
+        linux: [debian, gentoo, ubuntu
+          almalinux, amazonlinux, centos, opensuse, rockylinux,
+          archlinux, chimeralinux, mageia, redhat
+          ]
     uses: takano32/build-kernel/.github/workflows/build.yml@master
     with:
       linux: ${{ matrix.linux }}
