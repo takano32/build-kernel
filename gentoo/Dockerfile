@@ -4,8 +4,10 @@ FROM gentoo/stage3:latest
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
-RUN mkdir /build-kernel
+RUN eselect news read new
 RUN emerge -qv dev-vcs/git
+
+RUN mkdir /build-kernel
 
 ENV ORIGIN=https://github.com/torvalds/linux.git
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
