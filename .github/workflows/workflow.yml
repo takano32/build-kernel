@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linux: [debian, gentoo, ubuntu
+        linux: [debian, gentoo, ubuntu,
           almalinux, amazonlinux, centos, opensuse, rockylinux,
           archlinux, chimeralinux, mageia, redhat
           ]
