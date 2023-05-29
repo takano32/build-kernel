@@ -16,7 +16,9 @@ RUN mkdir /build-kernel/build
 RUN dnf distro-sync -y dnf python3-dnf dnf-conf && dnf clean all
 RUN dnf distro-sync -y && dnf clean all
 
-RUN urpmi --auto ncurses-devel make gcc bc bison flex elfutils-libelf-devel openssl-devel
+RUN urpmi --auto ncurses-devel make gcc bc bison flex openssl-devel
+# RUN urpmi --auto elfutils-libelf-devel
+RUN urpmi --auto lib64elfutils-devel elfutils
 RUN urpmi --auto make diffutils cpio zstd rpm-build rsync
 
 # make htmldocs
