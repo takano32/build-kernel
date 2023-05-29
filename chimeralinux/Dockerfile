@@ -27,7 +27,7 @@ RUN apk add elftoolchain-devel
 RUN apk add openssl-devel
 RUN apk add linux-headers
 
-#RUN yum -y clean all  && rm -rf /var/cache
+RUN rm -rf /var/cache/apk/*
 
 COPY ./entrypoint.sh /
 RUN chmod 755 /entrypoint.sh
