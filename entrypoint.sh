@@ -18,6 +18,8 @@ if [[ "(${USE_LLVM[*]})" =~ ${OS_ID} ]]; then
   MAKE_OPTS="LLVM=1 $MAKE_OPTS"
 fi
 unset IFS
+
+echo "CI: #{CI}"
 if [ -n "${CI:-}" ]; then
   MAKE_OPTS="V=0 $MAKE_OPTS"
 fi
@@ -87,6 +89,7 @@ mv /usr/src/packages . || :
 cp /root/rpmbuild/RPMS/x86_64/*.rpm ./rpm-pkg || :
 mv /root/rpmbuild . || :
 
+echo "CI: #{CI}"
 if [ -z "${CI:-}" ]; then
   python3 -m http.server
 fi
