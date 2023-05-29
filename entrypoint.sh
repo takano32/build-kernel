@@ -19,7 +19,7 @@ if [[ "(${USE_LLVM[*]})" =~ ${OS_ID} ]]; then
 fi
 unset IFS
 
-echo "CI: #{CI}"
+echo "CI: ${CI}"
 if [ -n "${CI:-}" ]; then
   MAKE_OPTS="V=0 $MAKE_OPTS"
 fi
