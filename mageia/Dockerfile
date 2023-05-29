@@ -1,11 +1,10 @@
-FROM mageia:cauldron
+FROM mageia:8
+# FROM mageia:cauldron
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
-RUN urpmi --auto --auto-update
-RUN urpmi.addmedia --distrib --mirrorlist '$MIRRORLIST'
-RUN urpmi.update -a && urpmi --auto-select
-
-RUN urpmi --auto git
+RUN dnf update -y
+RUN dnf distro-sync -y
+RUN dnf install -y git
 
 ENV ORIGIN=https://github.com/torvalds/linux.git
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
@@ -13,6 +12,9 @@ RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || slee
 RUN cd /build-kernel/linux && git pull --all
 
 RUN mkdir /build-kernel/build
+
+RUN dnf distro-sync -y dnf python3-dnf dnf-conf && dnf clean all
+RUN dnf distro-sync -y && dnf clean all
 
 RUN urpmi --auto ncurses-devel make gcc bc bison flex elfutils-libelf-devel openssl-devel
 RUN urpmi --auto make diffutils cpio zstd rpm-build rsync
