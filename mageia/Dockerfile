@@ -2,8 +2,9 @@ FROM mageia:8
 # FROM mageia:cauldron
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
-RUN dnf update -y
-RUN dnf distro-sync -y
+RUN echo "%_netsharedpath /sys:/proc" >> /etc/rpm/macros.dist
+RUN dnf distro-sync -y dnf python3-dnf dnf-conf && dnf clean all
+RUN dnf upgrade -y && dnf distro-sync -y && dnf clean all
 RUN dnf install -y git
 
 ENV ORIGIN=https://github.com/torvalds/linux.git
@@ -13,9 +14,6 @@ RUN cd /build-kernel/linux && git pull --all
 
 RUN mkdir /build-kernel/build
 
-RUN dnf distro-sync -y dnf python3-dnf dnf-conf && dnf clean all
-RUN dnf distro-sync -y && dnf clean all
-
 RUN urpmi --auto ncurses-devel make gcc bc bison flex openssl-devel
 # RUN urpmi --auto elfutils-libelf-devel
 RUN urpmi --auto lib64elfutils-devel elfutils
@@ -24,7 +22,7 @@ RUN urpmi --auto make diffutils cpio zstd rpm-build rsync
 # make htmldocs
 RUN urpmi --auto python3-pip graphviz texlive-latex librsvg2-tools
 
-RUN yum -y clean all  && rm -rf /var/cache
+RUN yum -y clean all
 
 COPY ./entrypoint.sh /
 RUN chmod 755 /entrypoint.sh
