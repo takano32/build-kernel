@@ -1,6 +1,7 @@
 #!/bin/bash
 set -eux
 
+CI=${CI:-false}
 LINUX_VERSION=v6.3
 
 OS_ID=`grep ^ID= /etc/os-release | cut -d'=' -f2`
@@ -20,8 +21,7 @@ if [[ "(${USE_LLVM[*]})" =~ ${OS_ID} ]]; then
 fi
 unset IFS
 
-echo "CI: ${CI}"
-if [ -n "${CI:-}" ]; then
+if "$CI"; then
   MAKE_OPTS="V=0 $MAKE_OPTS"
 fi
 
@@ -39,7 +39,7 @@ git branch -D tag/$LINUX_VERSION || :
 git checkout -b tag/$LINUX_VERSION refs/tags/$LINUX_VERSION || :
 git checkout tag/$LINUX_VERSION
 
-if [ -n "${CI:-}" ]; then
+if "$CI"; then
   rm -rf .git
 fi
 
@@ -92,8 +92,7 @@ mv /usr/src/packages . || :
 cp /root/rpmbuild/RPMS/x86_64/*.rpm ./rpm-pkg || :
 mv /root/rpmbuild . || :
 
-echo "CI: #{CI}"
-if [ -z "${CI:-}" ]; then
+if ! "$CI"; then
   python3 -m http.server
 fi
 

@@ -28,6 +28,4 @@ jobs:
         run: docker compose build ${{ inputs.linux }}
       - name: Build Linux Kernel
         run: docker compose up ${{ inputs.linux }}
-      - name: Display `.env` file contents
-        run: cat .env
 
