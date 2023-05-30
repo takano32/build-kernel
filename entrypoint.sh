@@ -10,6 +10,7 @@ OS_ID=`echo echo $OS_ID | /bin/sh`
 MAKE_BINDEB_PKG=("ubuntu" "debian")
 MAKE_BINRPM_PKG=("ubuntu" "debian" "gentoo"
   "almalinux" "amzn" "centos" "opensuse-tumbleweed" "rocky")
+MAKE_HTMLDOCS=()
 
 USE_LLVM=("chimera")
 MAKE_OPTS=""
@@ -54,12 +55,14 @@ curl -L $GENERIC_CONFIG_URL > /build-kernel/build/.config
 make $MAKE_OPTS olddefconfig O=/build-kernel/build/
 
 if [ "$OS_ID" != "ubuntu" ]; then
-  # python3 -m pip install $PYTHON3_PIP_OPTS -r ./Documentation/sphinx/requirements.txt
-  # python3 -m pip install $PYTHON3_PIP_OPTS docutils==0.17
   python3 -m pip install $PYTHON3_PIP_OPTS -U Sphinx
 fi
-JOBS=1
-time make $MAKE_OPTS -j $JOBS htmldocs BUILDDIR=/build-kernel/htmldocs
+
+IFS="|"
+if [[ "(${MAKE_HTMLDOCS[*]})" =~ ${OS_ID} ]]; then
+  time make $MAKE_OPTS htmldocs BUILDDIR=/build-kernel/htmldocs
+fi
+unset IFS
 
 LOCALVERSION=-`date +%Y%m%d`
 JOBS=`getconf _NPROCESSORS_ONLN`
