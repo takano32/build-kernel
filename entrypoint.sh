@@ -45,7 +45,7 @@ fi
 
 make $MAKE_OPTS clean
 
-GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/lunar/linux/6.2.0-21.21/amd64-config.flavour.generic
+GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/mantic/linux/6.3.0-5.5/amd64-config.flavour.generic
 curl -L $GENERIC_CONFIG_URL > /build-kernel/build/.config
 ./scripts/config --file /build-kernel/build/.config \
 	--disable DEBUG_INFO \
