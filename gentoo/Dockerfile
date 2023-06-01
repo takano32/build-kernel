@@ -17,10 +17,10 @@ RUN cd /build-kernel/linux && git pull --all
 
 RUN emerge -qv sys-kernel/gentoo-sources
 
-RUN emerge -qv dev-python/pip
-RUN emerge -qv app-portage/flaggie
-RUN flaggie media-libs/gd +fontconfig +truetype
-RUN FEATURES="ipc-sandbox network-sandbox pid-sandbox" emerge -qv media-gfx/graphviz
+# RUN emerge -qv dev-python/pip
+# RUN emerge -qv app-portage/flaggie
+# RUN flaggie media-libs/gd +fontconfig +truetype
+# RUN FEATURES="ipc-sandbox network-sandbox pid-sandbox" emerge -qv media-gfx/graphviz
 
 RUN emerge -qv app-arch/rpm
 RUN emerge -qv app-arch/dpkg
