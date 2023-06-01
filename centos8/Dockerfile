@@ -1,5 +1,11 @@
-FROM quay.io/centos/centos:stream9
+FROM centos:8.4.2105
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
+
+ENV CENTOS=mirror.centos.org
+ENV VAULT=vault.centos.org
+RUN cd /etc/yum.repos.d && sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+RUN cd /etc/yum.repos.d && sed -i "s|#baseurl=http://$CENTOS|baseurl=http://$VAULT|g" /etc/yum.repos.d/CentOS-*
+
 
 RUN yum -y install git
 
