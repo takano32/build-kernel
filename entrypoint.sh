@@ -54,12 +54,11 @@ curl -L $GENERIC_CONFIG_URL > /build-kernel/build/.config
 
 make $MAKE_OPTS olddefconfig O=/build-kernel/build/
 
-if [ "$OS_ID" != "ubuntu" ]; then
-  python3 -m pip install $PYTHON3_PIP_OPTS -U Sphinx
-fi
-
 IFS="|"
 if [[ "(${MAKE_HTMLDOCS[*]})" =~ ${OS_ID} ]]; then
+  if [ "$OS_ID" != "ubuntu" ]; then
+    python3 -m pip install $PYTHON3_PIP_OPTS -U Sphinx
+  fi
   time make $MAKE_OPTS htmldocs BUILDDIR=/build-kernel/htmldocs
 fi
 unset IFS
