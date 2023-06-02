@@ -7,6 +7,7 @@ ENV DEBCONF_NOWARNINGS=yes
 RUN grep '^deb ' /etc/apt/sources.list | sed 's/^deb/deb-src/g' > /etc/apt/sources.list.d/deb-src.list
 
 RUN apt-get update
+RUN apt-get upgrade -y && apt-get dist-upgrade -y
 RUN apt-get install -y git
 
 ENV ORIGIN=https://github.com/torvalds/linux.git
