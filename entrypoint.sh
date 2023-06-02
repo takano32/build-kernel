@@ -11,7 +11,7 @@ OS_ID=`echo echo $OS_ID | /bin/sh`
 MAKE_BINDEB_PKG=("ubuntu" "debian")
 MAKE_BINRPM_PKG=("ubuntu" "debian" "gentoo"
   "almalinux" "amzn" "centos" "opensuse-tumbleweed" "rocky")
-MAKE_HTMLDOCS=()
+MAKE_HTMLDOCS=("ubuntu" "debian")
 
 USE_LLVM=("chimera")
 MAKE_OPTS=""
