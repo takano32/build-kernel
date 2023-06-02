@@ -17,6 +17,7 @@ RUN yum install -y make diffutils cpio zstd rpm-build rsync
 # make htmldocs
 RUN yum install -y python3-pip graphviz texlive-latex librsvg2-tools
 
+RUN yum install -y openssl
 RUN yum -y clean all  && rm -rf /var/cache
 
 COPY ./entrypoint.sh /
