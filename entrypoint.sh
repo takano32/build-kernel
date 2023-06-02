@@ -59,7 +59,9 @@ if [[ "(${MAKE_HTMLDOCS[*]})" =~ ${OS_ID} ]]; then
   if [ "$OS_ID" != "ubuntu" ]; then
     python3 -m pip install $PYTHON3_PIP_OPTS -U Sphinx
   fi
-  time make $MAKE_OPTS htmldocs BUILDDIR=/build-kernel/htmldocs
+  if ! "$CI"; then
+    time make $MAKE_OPTS htmldocs BUILDDIR=/build-kernel/htmldocs
+  fi
 fi
 unset IFS
 
