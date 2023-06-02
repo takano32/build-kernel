@@ -16,5 +16,9 @@ cd /build-kernel/build
 mv linux/src/archlinux-linux/Documentation/output ../htmldocs
 mv linux/*.zst ../zst-pkg
 cd ..
-python3 -m http.server
+
+if ! "$CI"; then
+  python3 -m http.server
+fi
+
 
