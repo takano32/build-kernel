@@ -7,8 +7,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linux: [debian, gentoo, ubuntu,
-          almalinux, amazonlinux, centos, opensuse, rockylinux,
+        linux: [debian, gentoo, linux-mint, ubuntu,
+          almalinux, amazonlinux, centos, centos8, fedora, kalilinux,
+          opensuse, oraclelinux, rockylinux, void-linux,
           archlinux, chimeralinux, mageia, redhat
           ]
     uses: takano32/build-kernel/.github/workflows/build.yml@master
