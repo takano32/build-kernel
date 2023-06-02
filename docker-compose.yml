@@ -32,8 +32,6 @@ services:
       - CI=$CI
     ports:
       - 8004:8000
-    profiles:
-      - chimeralinux
   gentoo:
     build:
       context: .
@@ -82,8 +80,6 @@ services:
       - CI=$CI
     ports:
       - 8010:8000
-    profiles:
-      - mageia
   debian:
     build:
       context: .
