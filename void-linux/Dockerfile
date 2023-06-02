@@ -22,6 +22,8 @@ RUN xbps-install -Suvy python3-pip graphviz texlive librsvg
 RUN xbps-install -Suvy curl
 RUN xbps-install -Suvy coreutils findutils diffutils
 RUN xbps-install -Suvy rpm
+
+RUN xbps-install -Suvy tar
 RUN xbps-remove -Oo
 
 RUN echo "ID=voidlinux" > /etc/os-release
