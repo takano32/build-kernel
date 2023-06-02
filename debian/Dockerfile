@@ -1,10 +1,9 @@
-FROM debian:bookworm-slim
+FROM debian:bullseye-slim
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBCONF_NOWARNINGS=yes
 
-COPY ./debian/sources.list /etc/apt/
 RUN grep '^deb ' /etc/apt/sources.list | sed 's/^deb/deb-src/g' > /etc/apt/sources.list.d/deb-src.list
 
 RUN apt-get update
