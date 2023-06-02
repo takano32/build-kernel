@@ -2,6 +2,7 @@ FROM takano32/chimeralinux
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN apk update
+RUN apk upgrade || apk fix
 RUN apk add bash git
 
 ENV ORIGIN=https://github.com/torvalds/linux.git
