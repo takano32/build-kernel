@@ -116,4 +116,36 @@ services:
       - CI=$CI
     ports:
       - 8014:8000
+  oraclelinux:
+    build:
+      context: .
+      dockerfile: ./oraclelinux/Dockerfile
+    environment:
+      - CI=$CI
+    ports:
+      - 8015:8000
+  fedora:
+    build:
+      context: .
+      dockerfile: ./fedora/Dockerfile
+    environment:
+      - CI=$CI
+    ports:
+      - 8016:8000
+  kalilinux:
+    build:
+      context: .
+      dockerfile: ./kalilinux/Dockerfile
+    environment:
+      - CI=$CI
+    ports:
+      - 8017:8000
+  centos8:
+    build:
+      context: .
+      dockerfile: ./centos/Dockerfile
+    environment:
+      - CI=$CI
+    ports:
+      - 8018:8000
 
