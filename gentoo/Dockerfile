@@ -16,6 +16,7 @@ RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || slee
 RUN cd /build-kernel/linux && git pull --all
 
 RUN emerge -qv sys-kernel/gentoo-sources
+RUN emerge -qv sys-kernel/linux-docs
 
 # RUN emerge -qv dev-python/pip
 # RUN emerge -qv app-portage/flaggie
