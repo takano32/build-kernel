@@ -25,7 +25,7 @@ if "$CI"; then
   MAKE_OPTS="V=0 $MAKE_OPTS"
 fi
 
-USE_PIP_WITH_BREAK_SYSTEM_PACKAGES=("debian" "gentoo")
+USE_PIP_WITH_BREAK_SYSTEM_PACKAGES=("gentoo")
 PYTHON3_PIP_OPTS=""
 IFS="|"
 if [[ "(${USE_PIP_WITH_BREAK_SYSTEM_PACKAGES[*]})" =~ ${OS_ID} ]]; then
