@@ -27,6 +27,13 @@ $ docker compose up ubuntu
 * [gg7/gentoo-kernel/guide](https://github.com/gg7/gentoo-kernel-guide)
 * [jeekkd/gentoo-kernel-build](https://github.com/jeekkd/gentoo-kernel-build)
 
+## linux-mint
+
+* [Linux Mint](https://linuxmint.com/)
+* [Linux Mint Installation Guide](https://linuxmint-installation-guide.readthedocs.io/en/latest/)
+* [Upgrades](https://linuxmint-user-guide.readthedocs.io/en/latest/upgrade.html)
+* [Upgrade Mint from command line? - Linux Mint Forums](https://forums.linuxmint.com/viewtopic.php?t=311267)
+
 ## ubuntu
 
 * [Ubuntu - GitKernelBuild](https://wiki.ubuntu.com/KernelTeam/GitKernelBuild)
