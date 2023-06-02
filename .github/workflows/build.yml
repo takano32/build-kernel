@@ -27,5 +27,5 @@ jobs:
       - name: Build docker image
         run: docker compose build ${{ inputs.linux }}
       - name: Build Linux Kernel
-        run: docker compose up ${{ inputs.linux }}
+        run: docker compose up --abort-on-container-exit ${{ inputs.linux }}
 
