@@ -100,4 +100,20 @@ services:
       - CI=$CI
     ports:
       - 8012:8000
+  void-linux:
+    build:
+      context: .
+      dockerfile: ./void-linux/Dockerfile
+    environment:
+      - CI=$CI
+    ports:
+      - 8013:8000
+  linux-mint:
+    build:
+      context: .
+      dockerfile: ./linux-mint/Dockerfile
+    environment:
+      - CI=$CI
+    ports:
+      - 8014:8000
 
