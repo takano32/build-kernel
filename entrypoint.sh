@@ -15,6 +15,7 @@ MAKE_HTMLDOCS=("ubuntu" "debian")
 
 USE_LLVM=("chimera")
 MAKE_OPTS=""
+
 IFS="|"
 if [[ "(${USE_LLVM[*]})" =~ ${OS_ID} ]]; then
   MAKE_OPTS="LLVM=1 $MAKE_OPTS"
@@ -56,7 +57,7 @@ make $MAKE_OPTS olddefconfig O=/build-kernel/build/
 
 IFS="|"
 if [[ "(${MAKE_HTMLDOCS[*]})" =~ ${OS_ID} ]]; then
-  if [ "$OS_ID" != "ubuntu" ]; then
+  if [[ "$OS_ID" =~ ubuntu\|debian\|linuxmint ]]; then
     python3 -m pip install $PYTHON3_PIP_OPTS -U Sphinx
   fi
   if ! "$CI"; then
