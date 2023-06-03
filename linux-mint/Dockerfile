@@ -1,4 +1,4 @@
-FROM vcatechnology/linux-mint:18.2
+FROM takano32/linux-mint:21.1
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
