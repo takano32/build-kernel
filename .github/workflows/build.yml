@@ -22,10 +22,8 @@ jobs:
           remove-docker-images: true
       - name: Check out code
         uses: actions/checkout@v3
-      - name: Create `.env` file
-        run: echo "CI=$CI" >> .env
       - name: Build docker image
         run: docker compose build ${{ inputs.linux }}
       - name: Build Linux Kernel
-        run: docker compose up --abort-on-container-exit ${{ inputs.linux }}
+        run: docker compose run --rm --env CI=$CI --service-ports ${{ inputs.linux }}
 
