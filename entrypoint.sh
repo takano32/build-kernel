@@ -4,6 +4,12 @@ set -eux
 CI=${CI:-false}
 LINUX_VERSION=v6.3
 
+MAKE=gmake
+if which gmake > /dev/null; then
+  MAKE="gmake"
+else
+  MAKE="make"
+fi
 OS_ID=`grep ^ID= /etc/os-release | cut -d'=' -f2`
 OS_ID=`echo echo $OS_ID | /bin/sh`
 
@@ -45,7 +51,7 @@ if "$CI"; then
   rm -rf .git
 fi
 
-make $MAKE_OPTS clean
+$MAKE $MAKE_OPTS clean
 mkdir -p /build-kernel/build
 GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/mantic/linux/6.3.0-5.5/amd64-config.flavour.generic
 curl -kL $GENERIC_CONFIG_URL > /build-kernel/build/.config
@@ -54,7 +60,7 @@ curl -kL $GENERIC_CONFIG_URL > /build-kernel/build/.config
 	--disable SYSTEM_TRUSTED_KEYS \
 	--disable SYSTEM_REVOCATION_KEYS
 
-make $MAKE_OPTS olddefconfig O=/build-kernel/build/
+$MAKE $MAKE_OPTS olddefconfig O=/build-kernel/build/
 
 IFS="|"
 if [[ "(${MAKE_HTMLDOCS[*]})" =~ ${OS_ID} ]]; then
@@ -62,23 +68,23 @@ if [[ "(${MAKE_HTMLDOCS[*]})" =~ ${OS_ID} ]]; then
     python3 -m pip install $PYTHON3_PIP_OPTS -U Sphinx
   fi
   if ! "$CI"; then
-    time make $MAKE_OPTS htmldocs BUILDDIR=/build-kernel/htmldocs
+    time $MAKE $MAKE_OPTS htmldocs BUILDDIR=/build-kernel/htmldocs
   fi
 fi
 unset IFS
 
 LOCALVERSION=-`date +%Y%m%d`
 JOBS=`getconf _NPROCESSORS_ONLN`
-time make $MAKE_OPTS -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
-time make $MAKE_OPTS -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+time $MAKE $MAKE_OPTS -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+time $MAKE $MAKE_OPTS -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 IFS="|"
 if [[ "(${MAKE_BINDEB_PKG[*]})" =~ ${OS_ID} ]]; then
   mkdir -p /build-kernel/deb-pkg
-  time make $MAKE_OPTS -j $JOBS bindeb-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+  time $MAKE $MAKE_OPTS -j $JOBS bindeb-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 fi
 if [[ "(${MAKE_BINRPM_PKG[*]})" =~ ${OS_ID} ]]; then
   mkdir -p /build-kernel/rpm-pkg
-  time make $MAKE_OPTS -j $JOBS binrpm-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
+  time $MAKE $MAKE_OPTS -j $JOBS binrpm-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 fi
 unset IFS
 
