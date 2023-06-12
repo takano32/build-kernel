@@ -46,6 +46,13 @@ RUN mv coreutils-9.3.tar.gz archives
 RUN cd archives && $SUDO tar xvf coreutils-9.3.tar.gz
 RUN cd archives/coreutils-9.3 && $SUDO ./configure && $SUDO make && make install
 
+RUN apk add texinfo
+RUN curl https://ftp.gnu.org/gnu/bc/bc-1.07.1.tar.gz > bc-1.07.1.tar.gz
+RUN chown takano32:takano32 bc-1.07.1.tar.gz
+RUN mv bc-1.07.1.tar.gz archives
+RUN cd archives && $SUDO tar xvf bc-1.07.1.tar.gz
+RUN cd archives/bc-1.07.1 && $SUDO ./configure && $SUDO make && make install
+
 RUN apk add llvm
 RUN rm -rf /var/cache/apk/*
 
