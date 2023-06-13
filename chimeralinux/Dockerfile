@@ -24,12 +24,6 @@ RUN apk add elftoolchain-devel
 RUN apk add openssl-devel
 RUN apk add linux-headers
 
-RUN apk add gmake gm4 gsed gtar
-#RUN ln -sf /usr/sbin/gmake /usr/local/bin/make
-RUN ln -sf /usr/sbin/gm4  /usr/local/bin/m4
-RUN ln -sf /usr/sbin/gsed /usr/local/bin/sed
-RUN ln -sf /usr/sbin/gtar /usr/local/bin/tar
-
 RUN useradd takano32
 RUN mkdir -p /home/takano32
 RUN chown -R takano32:takano32 /home/takano32
@@ -38,6 +32,7 @@ RUN chown root:root /etc/doas.conf
 RUN chmod 0400 /etc/doas.conf
 ENV SUDO="doas -u takano32"
 
+RUN apk add bmake
 RUN apk add opendoas
 RUN mkdir archives
 RUN chown takano32:takano32 archives
@@ -45,14 +40,23 @@ RUN curl https://ftp.gnu.org/gnu/coreutils/coreutils-9.3.tar.gz > coreutils-9.3.
 RUN chown takano32:takano32 coreutils-9.3.tar.gz
 RUN mv coreutils-9.3.tar.gz archives
 RUN cd archives && $SUDO tar xvf coreutils-9.3.tar.gz
-RUN cd archives/coreutils-9.3 && $SUDO ./configure MAKE="gmake" && $SUDO gmake && gmake install
+RUN cd archives/coreutils-9.3 && $SUDO ./configure && $SUDO make && make install
 
 RUN apk add texinfo
 RUN curl https://ftp.gnu.org/gnu/bc/bc-1.07.1.tar.gz > bc-1.07.1.tar.gz
 RUN chown takano32:takano32 bc-1.07.1.tar.gz
 RUN mv bc-1.07.1.tar.gz archives
 RUN cd archives && $SUDO tar xvf bc-1.07.1.tar.gz
-RUN cd archives/bc-1.07.1 && $SUDO ./configure MAKE="gmake" && $SUDO gmake && gmake install
+RUN cd archives/bc-1.07.1 && $SUDO ./configure && $SUDO make && make install
+RUN apk del bmake
+
+RUN apk add gmake
+RUN apk add gmake gm4 gsed gtar findutils
+# RUN ln -sf /usr/sbin/gmake /usr/local/bin/make
+RUN ln -sf /usr/sbin/gm4   /usr/local/bin/m4
+RUN ln -sf /usr/sbin/gtar  /usr/local/bin/tar
+RUN ln -sf /usr/sbin/gsed  /usr/local/bin/sed
+RUN ln -sf /usr/sbin/gfind /usr/local/bin/find
 
 RUN apk add llvm
 RUN rm -rf /var/cache/apk/*
