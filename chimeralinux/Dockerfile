@@ -10,6 +10,7 @@ RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || slee
 RUN cd /build-kernel/linux && git pull --all
 
 RUN apk add curl
+RUN apk add chimerautils-extra
 #RUN yum install -y ncurses-devel make gcc bc bison flex elfutils-libelf-devel openssl-devel
 #RUN yum install -y make diffutils cpio zstd rpm-build rsync
 
@@ -37,14 +38,14 @@ RUN ln -sf /usr/sbin/gmake /usr/local/bin/make
 RUN apk add opendoas
 RUN mkdir archives
 RUN chown takano32:takano32 archives
-RUN curl https://ftp.gnu.org/gnu/coreutils/coreutils-9.3.tar.gz > coreutils-9.3.tar.gz
+RUN fetch https://ftp.gnu.org/gnu/coreutils/coreutils-9.3.tar.gz
 RUN chown takano32:takano32 coreutils-9.3.tar.gz
 RUN mv coreutils-9.3.tar.gz archives
 RUN cd archives && $SUDO tar xvf coreutils-9.3.tar.gz
 RUN cd archives/coreutils-9.3 && $SUDO ./configure && $SUDO make && make install
 
 RUN apk add texinfo
-RUN curl https://ftp.gnu.org/gnu/bc/bc-1.07.1.tar.gz > bc-1.07.1.tar.gz
+RUN fetch https://ftp.gnu.org/gnu/bc/bc-1.07.1.tar.gz
 RUN chown takano32:takano32 bc-1.07.1.tar.gz
 RUN mv bc-1.07.1.tar.gz archives
 RUN cd archives && $SUDO tar xvf bc-1.07.1.tar.gz
