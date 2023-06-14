@@ -55,6 +55,7 @@ RUN ln -sf /usr/sbin/gm4   /usr/local/bin/m4
 RUN ln -sf /usr/sbin/gtar  /usr/local/bin/tar
 RUN ln -sf /usr/sbin/gsed  /usr/local/bin/sed
 RUN ln -sf /usr/sbin/gfind /usr/local/bin/find
+RUN apk add xz
 
 RUN apk add llvm
 RUN rm -rf /var/cache/apk/*
