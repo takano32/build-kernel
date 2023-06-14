@@ -32,7 +32,8 @@ RUN chown root:root /etc/doas.conf
 RUN chmod 0400 /etc/doas.conf
 ENV SUDO="doas -u takano32"
 
-RUN apk add bmake
+RUN apk add gmake
+RUN ln -sf /usr/sbin/gmake /usr/local/bin/make
 RUN apk add opendoas
 RUN mkdir archives
 RUN chown takano32:takano32 archives
@@ -48,11 +49,8 @@ RUN chown takano32:takano32 bc-1.07.1.tar.gz
 RUN mv bc-1.07.1.tar.gz archives
 RUN cd archives && $SUDO tar xvf bc-1.07.1.tar.gz
 RUN cd archives/bc-1.07.1 && $SUDO ./configure && $SUDO make && make install
-RUN apk del bmake
 
-RUN apk add gmake
-RUN apk add gmake gm4 gsed gtar findutils
-# RUN ln -sf /usr/sbin/gmake /usr/local/bin/make
+RUN apk add gm4 gtar gsed findutils
 RUN ln -sf /usr/sbin/gm4   /usr/local/bin/m4
 RUN ln -sf /usr/sbin/gtar  /usr/local/bin/tar
 RUN ln -sf /usr/sbin/gsed  /usr/local/bin/sed
