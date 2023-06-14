@@ -26,6 +26,8 @@ MAKE_OPTS=""
 IFS="|"
 if [[ "(${USE_LLVM[*]})" =~ ${OS_ID} ]]; then
   MAKE_OPTS="LLVM=1 $MAKE_OPTS"
+else
+  MAKE_OPTS="LLVM=1 $MAKE_OPTS"
 fi
 unset IFS
 
