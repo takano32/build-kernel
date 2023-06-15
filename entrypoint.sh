@@ -20,7 +20,7 @@ MAKE_BINRPM_PKG=("ubuntu" "debian" "gentoo"
   "opensuse-tumbleweed" "ol" "rocky" "voidlinux")
 MAKE_HTMLDOCS=("ubuntu" "debian")
 
-USE_LLVM=("archlinux" "chimera")
+USE_LLVM=("arch" "chimera")
 MAKE_OPTS=""
 
 IFS="|"
