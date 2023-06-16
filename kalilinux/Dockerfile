@@ -17,6 +17,7 @@ RUN cd /build-kernel/linux && git pull --all
 RUN mkdir /build-kernel/build
 
 RUN apt-get build-dep -y linux
+RUN apt-get install -y llvm clang lld
 RUN apt-get install -y rpm
 RUN apt-get install -y curl python3-pip
 RUN apt-get clean
