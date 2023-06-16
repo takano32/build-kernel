@@ -9,9 +9,9 @@ jobs:
       matrix:
         linux: [debian, gentoo, linux-mint, ubuntu,
           almalinux, amazonlinux, centos, centos8, fedora, kalilinux,
-          opensuse, oraclelinux, rockylinux, void-linux,
+          mageia, opensuse, oraclelinux, rockylinux, void-linux,
           archlinux, chimeralinux
-          ] # redhat, mageia
+          ] # redhat
     uses: takano32/build-kernel/.github/workflows/build.yml@master
     with:
       linux: ${{ matrix.linux }}
