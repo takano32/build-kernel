@@ -75,8 +75,12 @@ if [[ "(${MAKE_HTMLDOCS[*]})" =~ ${OS_ID} ]]; then
 fi
 unset IFS
 
-LOCALVERSION=-`date +%Y%m%d`
-JOBS=`getconf _NPROCESSORS_ONLN`
+LOCALVERSION=-$(date +%Y%m%d)
+JOBS=$(getconf _NPROCESSORS_ONLN)
+JOBS=$(expr "$JOBS" + "$JOBS")
+JOBS=$(expr "$JOBS" + "$JOBS")
+JOBS=$(expr "$JOBS" + "$JOBS")
+JOBS=$(expr "$JOBS" + "$JOBS")
 time $MAKE $MAKE_OPTS -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time $MAKE $MAKE_OPTS -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 IFS="|"
@@ -94,7 +98,7 @@ unset IFS
 cd /build-kernel
 
 # bindeb-pkg
-mv *.deb *.buildinfo *.changes ./deb-pkg || :
+mv ./*.deb ./*.buildinfo ./*.changes ./deb-pkg || :
 # binrpm-pkg
 ## openSUSE
 cp /usr/src/packages/RPMS/x86_64/*.rpm ./rpm-pkg || :
