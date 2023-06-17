@@ -17,10 +17,10 @@ OS_ID=`echo echo $OS_ID | /bin/sh`
 MAKE_BINDEB_PKG=("ubuntu" "debian" "kali" "linuxmint")
 MAKE_BINRPM_PKG=("ubuntu" "debian" "gentoo"
   "almalinux" "amzn" "centos" "fedora" "linuxmint"
-  "opensuse-tumbleweed" "ol" "rocky" "voidlinux")
+  "mageia" "opensuse-tumbleweed" "ol" "rocky" "voidlinux")
 MAKE_HTMLDOCS=("ol")
 
-# USE_LLVM=("chimera" "debian" "kali" "ubuntu" "mageia" "voidlinux")
+# USE_LLVM=("chimera" "debian" "kali" "voidlinux")
 USE_LLVM=("chimera")
 MAKE_OPTS=""
 
