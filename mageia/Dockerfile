@@ -3,8 +3,8 @@ LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN echo "%_netsharedpath /sys:/proc" >> /etc/rpm/macros.dist
 RUN dnf distro-sync -y --allowerasing
-RUN rpm --rebuilddb
 RUN dnf upgrade -y && dnf distro-sync -y && dnf clean all
+RUN dnf makecache
 RUN dnf install -y git
 
 ENV ORIGIN=https://github.com/torvalds/linux.git
@@ -14,16 +14,16 @@ RUN cd /build-kernel/linux && git pull --all
 
 RUN mkdir /build-kernel/build
 
-RUN urpmi --auto ncurses-devel make gcc bc bison flex openssl-devel
-# RUN urpmi --auto elfutils-libelf-devel
-RUN urpmi --auto lib64elfutils-devel elfutils
-RUN urpmi --auto make diffutils cpio zstd rpm-build rsync
-RUN urpmi --auto llvm clang lld
+RUN dnf install -y ncurses-devel make gcc bc bison flex openssl-devel
+RUN dnf install -y elfutils-libelf-devel
+RUN dnf install -y lib64elfutils-devel elfutils
+RUN dnf install -y make diffutils cpio zstd rpm-build rsync
+RUN dnf install -y llvm clang lld
 
 # make htmldocs
-RUN urpmi --auto python3-pip graphviz texlive-latex librsvg2-tools
+RUN dnf install -y python3-pip graphviz texlive-latex librsvg2-tools
 
-RUN yum -y clean all
+RUN dnf clean all
 
 COPY ./entrypoint.sh /
 RUN chmod 755 /entrypoint.sh
