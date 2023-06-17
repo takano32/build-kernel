@@ -78,9 +78,6 @@ unset IFS
 LOCALVERSION=-$(date +%Y%m%d)
 JOBS=$(getconf _NPROCESSORS_ONLN)
 JOBS=$(expr "$JOBS" + "$JOBS")
-JOBS=$(expr "$JOBS" + "$JOBS")
-JOBS=$(expr "$JOBS" + "$JOBS")
-JOBS=$(expr "$JOBS" + "$JOBS")
 time $MAKE $MAKE_OPTS -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time $MAKE $MAKE_OPTS -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 IFS="|"
