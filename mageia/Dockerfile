@@ -3,6 +3,7 @@ LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN echo "%_netsharedpath /sys:/proc" >> /etc/rpm/macros.dist
 RUN dnf distro-sync -y --allowerasing
+RUN rpm --rebuilddb
 RUN dnf upgrade -y && dnf distro-sync -y && dnf clean all
 RUN dnf install -y git
 
