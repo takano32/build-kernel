@@ -8,9 +8,9 @@ jobs:
       fail-fast: false
       matrix:
         linux: [gentoo, linux-mint, ubuntu,
-          almalinux, amazonlinux, centos, centos8, fedora
-          mageia, opensuse, oraclelinux, rockylinux
-          archlinux, chimeralinux
+          almalinux, amazonlinux, centos, centos8, fedora,
+          mageia, opensuse, oraclelinux, rockylinux,
+          archlinux, chimeralinux,
           ] # redhat, chimeralinux, debian, kalilinux, void-linux
     uses: takano32/build-kernel/.github/workflows/build.yml@master
     with:
