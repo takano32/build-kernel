@@ -108,4 +108,10 @@ services:
       dockerfile: ./centos/Dockerfile
     ports:
       - 8018:8000
+  cbl-mariner:
+    build:
+      context: .
+      dockerfile: ./cbl-mariner/Dockerfile
+    ports:
+      - 8019:8000
 
