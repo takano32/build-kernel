@@ -16,7 +16,7 @@ RUN yum install -y make diffutils cpio zstd rpm-build rsync
 # make htmldocs
 RUN yum install -y python3-pip
 
-RUN yum -y clean all  && rm -rf /var/cache
+RUN yum -y clean all
 
 COPY ./entrypoint.sh /
 RUN chmod 755 /entrypoint.sh
