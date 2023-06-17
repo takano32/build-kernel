@@ -10,7 +10,7 @@ jobs:
         linux: [gentoo, linux-mint, ubuntu,
           almalinux, amazonlinux, centos, centos8, fedora,
           mageia, opensuse, oraclelinux, rockylinux,
-          archlinux, chimeralinux,
+          archlinux,
           ] # redhat, chimeralinux, debian, kalilinux, void-linux
     uses: takano32/build-kernel/.github/workflows/build.yml@master
     with:
