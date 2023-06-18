@@ -14,7 +14,7 @@ OS_ID=`grep ^ID= /etc/os-release | cut -d'=' -f2`
 OS_ID=`echo echo $OS_ID | /bin/sh`
 
 # NO_MAKE_PKG=("chimera")
-MAKE_BINDEB_PKG=("ubuntu" "debian" "kali" "linuxmint")
+MAKE_BINDEB_PKG=("debian" "kali")
 MAKE_BINRPM_PKG=("ubuntu" "debian" "gentoo"
   "almalinux" "amzn" "centos" "fedora" "linuxmint"
   "mageia" "opensuse-tumbleweed" "ol" "rocky" "voidlinux")
