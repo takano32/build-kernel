@@ -44,9 +44,13 @@ unset IFS
 cd /build-kernel/linux
 
 git fetch --all --tags
-git branch -D tag/$LINUX_VERSION || :
-git checkout -b tag/$LINUX_VERSION refs/tags/$LINUX_VERSION || :
-git checkout tag/$LINUX_VERSION
+if [ "mariner" = "$OS_ID" ]; then
+  git branch -D rolling-lts/mariner || :
+  git checkout -b rolling-lts/mariner -t origin/rolling-lts/mariner || :
+else
+  git branch -D tag/$LINUX_VERSION || :
+  git checkout -b tag/$LINUX_VERSION refs/tags/$LINUX_VERSION || :
+fi
 
 if "$CI"; then
   rm -rf .git
