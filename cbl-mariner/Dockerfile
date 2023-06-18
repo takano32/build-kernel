@@ -4,8 +4,7 @@ LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 RUN yum upgrade -y
 RUN yum install -y git
 
-ENV ORIGIN=https://github.com/torvalds/linux.git
-# RUN git config --global http.sslbackend schannel
+ENV ORIGIN=https://github.com/microsoft/CBL-Mariner-Linux-Kernel.git
 RUN git config --global http.sslVerify false
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
 RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
