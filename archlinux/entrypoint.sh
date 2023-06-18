@@ -3,6 +3,7 @@ set -eux
 
 SUDO="sudo -u takano32"
 
+chown -R takano32:takano32 /build-kernel/build
 $SUDO mkdir -p /build-kernel/build/linux
 $SUDO rm -rf   /build-kernel/build/linux
 $SUDO mkdir -p /build-kernel/build/linux
