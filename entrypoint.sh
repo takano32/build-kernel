@@ -2,7 +2,7 @@
 set -eux
 
 CI=${CI:-false}
-LINUX_VERSION=v6.4-rc6
+LINUX_VERSION=v6.4
 
 MAKE=gmake
 if which gmake > /dev/null; then
