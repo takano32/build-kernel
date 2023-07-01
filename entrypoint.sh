@@ -15,7 +15,7 @@ OS_ID=`echo echo $OS_ID | /bin/sh`
 
 # NO_MAKE_PKG=("chimera")
 MAKE_BINDEB_PKG=("debian" "kali")
-MAKE_BINRPM_PKG=("ubuntu" "debian" "gentoo"
+MAKE_BINRPM_PKG=("debian" "gentoo"
   "almalinux" "amzn" "centos" "fedora" "linuxmint"
   "mageia" "opensuse-tumbleweed" "ol" "rocky" "voidlinux")
 MAKE_HTMLDOCS=("ol")
