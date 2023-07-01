@@ -1,8 +1,6 @@
 FROM opensuse/tumbleweed
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
-RUN mkdir /build-kernel
-
 RUN zypper ref && zypper update -y
 RUN zypper in -y which
 RUN zypper in -y git
@@ -11,8 +9,6 @@ ENV ORIGIN=https://github.com/torvalds/linux.git
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
 RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
 RUN cd /build-kernel/linux && git pull --all
-
-RUN mkdir /build-kernel/build
 
 # https://boxofcables.dev/building-a-kernel-for-wsl-on-opensuse/
 RUN zypper in -y -t pattern devel_basis

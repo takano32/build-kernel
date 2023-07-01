@@ -15,8 +15,6 @@ RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
 RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
 RUN cd /build-kernel/linux && git pull --all
 
-RUN mkdir /build-kernel/build
-
 RUN apt-get build-dep -y linux
 RUN apt-get install -y rpm
 RUN apt-get clean

@@ -10,8 +10,6 @@ RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
 RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
 RUN cd /build-kernel/linux && git pull --all
 
-RUN mkdir /build-kernel/build
-
 RUN xbps-install -Suvy make gcc bc bison flex elfutils elfutils-devel libelf openssl-devel
 RUN xbps-install -Suvy rpm
 #RUN yum install -y make diffutils cpio zstd rpm-build rsync

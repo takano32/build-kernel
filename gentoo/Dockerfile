@@ -7,9 +7,6 @@ COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 RUN eselect news read new
 RUN emerge -qv dev-vcs/git
 
-RUN mkdir /build-kernel
-RUN mkdir /build-kernel/build
-
 ENV ORIGIN=https://github.com/torvalds/linux.git
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
 RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
