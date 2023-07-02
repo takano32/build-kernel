@@ -7,12 +7,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linux: [debian, kalilinux, linux-mint, ubuntu,
+        linux: [linux-mint, ubuntu, # debian, kalilinux
           almalinux, amazonlinux,
           centos, centos8, fedora, mageia,
           opensuse, oraclelinux, rockylinux,
-          archlinux, gentoo, void-linux,
-          ] # redhat, cbl-mariner, chimeralinux
+          archlinux, gentoo] # void-linux
+          # redhat, cbl-mariner, chimeralinux
     uses: takano32/build-kernel/.github/workflows/build.yml@master
     with:
       linux: ${{ matrix.linux }}
