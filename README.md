@@ -3,7 +3,6 @@
 Build Linux Kernel with Docker Compose.
 
 ```
-$ docker compose build ubuntu
 $ docker compose up ubuntu
 ```
 
