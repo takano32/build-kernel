@@ -3,10 +3,7 @@ LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBCONF_NOWARNINGS=yes
-
 COPY ./debian/sources.list /etc/apt/
-RUN grep '^deb ' /etc/apt/sources.list | sed 's/^deb/deb-src/g' > /etc/apt/sources.list.d/deb-src.list
-
 RUN apt-get update
 RUN apt-get install -y git
 
@@ -17,6 +14,7 @@ RUN cd /build-kernel/linux && git pull --all
 
 RUN apt-get build-dep -y linux
 RUN apt-get install -y llvm clang lld
+RUN apt-get install -y zstd
 RUN apt-get install -y rpm
 RUN apt-get install -y curl python3-pip
 RUN apt-get clean
