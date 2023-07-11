@@ -19,8 +19,8 @@ while :; do $SUDO makepkg -o --skippgpcheck && break || sleep 5; done
 # `makepkg` in `$BUILD_DIR/linux`
 JOBS=$(getconf _NPROCESSORS_ONLN)
 JOBS=$(expr "$JOBS" + "$JOBS")
-MAKEFLAGS="-j$(JOBS)"
-$SUDO bash -c "MAKEFLAGS=$MAKEFLAGS makepkg --skippgpcheck"
+MAKEFLAGS="-j $JOBS"
+$SUDO bash -c "MAKEFLAGS=""$MAKEFLAGS"" makepkg --skippgpcheck"
 
 cd $BUILD_DIR
 mv linux/src/archlinux-linux/Documentation/output ../htmldocs
