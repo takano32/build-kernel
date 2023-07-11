@@ -4,6 +4,7 @@ set -eux
 BUILD_DIR=/build-kernel/build
 SUDO="sudo -u takano32"
 
+rm -rf $BUILD_DIR/* || :
 mkdir -p $BUILD_DIR
 chown -R takano32:takano32 $BUILD_DIR
 cd $BUILD_DIR
@@ -17,10 +18,7 @@ $SUDO git config --global http.postBuffer 524288000
 while :; do $SUDO makepkg -o --skippgpcheck && break || sleep 5; done
 
 # `makepkg` in `$BUILD_DIR/linux`
-JOBS=$(getconf _NPROCESSORS_ONLN)
-JOBS=$(expr "$JOBS" + "$JOBS")
-MAKEFLAGS="-j $JOBS"
-$SUDO bash -c "MAKEFLAGS=""$MAKEFLAGS"" makepkg --skippgpcheck"
+$SUDO makepkg --skippgpcheck
 
 cd $BUILD_DIR
 mv linux/src/archlinux-linux/Documentation/output ../htmldocs
