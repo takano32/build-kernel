@@ -2,7 +2,7 @@
 set -eux
 
 BUILD_DIR=/build-kernel/build
-SUDO="sudo -Eu takano32"
+SUDO="sudo -u takano32"
 
 mkdir -p $BUILD_DIR
 chown -R takano32:takano32 $BUILD_DIR
@@ -20,8 +20,7 @@ while :; do $SUDO makepkg -o --skippgpcheck && break || sleep 5; done
 JOBS=$(getconf _NPROCESSORS_ONLN)
 JOBS=$(expr "$JOBS" + "$JOBS")
 MAKEFLAGS="-j$(JOBS)"
-export MAKEFLAGS
-$SUDO makepkg --skippgpcheck
+$SUDO bash -c "MAKEFLAGS=$MAKEFLAGS makepkg --skippgpcheck"
 
 cd $BUILD_DIR
 mv linux/src/archlinux-linux/Documentation/output ../htmldocs
