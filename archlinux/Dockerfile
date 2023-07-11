@@ -4,9 +4,9 @@ LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 RUN pacman-db-upgrade
 RUN pacman -Syyu --noconfirm
 
-RUN pacman -S --noconfirm git
-RUN pacman -S --noconfirm asp base-devel
-RUN pacman -S --noconfirm pacman-contrib
+RUN pacman -Syy --noconfirm git
+RUN pacman -Syy --noconfirm asp base-devel
+RUN pacman -Syy --noconfirm pacman-contrib
 RUN pacman -Scc
 
 RUN useradd takano32
