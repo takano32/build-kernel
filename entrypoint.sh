@@ -32,6 +32,8 @@ unset IFS
 
 if "$CI"; then
   MAKE_OPTS="V=0 $MAKE_OPTS"
+else
+  MAKE_OPTS="V=12 $MAKE_OPTS"
 fi
 
 USE_PIP_WITH_BREAK_SYSTEM_PACKAGES=("gentoo")
