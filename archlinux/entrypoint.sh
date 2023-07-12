@@ -1,6 +1,7 @@
 #!/bin/bash
 set -eux
 
+CI=${CI:-false}
 BUILD_DIR=/build-kernel/build
 SUDO="sudo -u takano32"
 
