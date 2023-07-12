@@ -1,4 +1,4 @@
-name: build
+name: Build Linux Kernel
 
 on: push
 
@@ -13,7 +13,7 @@ jobs:
           opensuse, oraclelinux, rockylinux,
           archlinux, gentoo] # void-linux
           # redhat, cbl-mariner, chimeralinux
-    uses: takano32/build-kernel/.github/workflows/build.yml@master
+    uses: ./.github/workflows/build.yml
     with:
       linux: ${{ matrix.linux }}
 
