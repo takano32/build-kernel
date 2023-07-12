@@ -1,4 +1,4 @@
-FROM takano32/rockylinux:9.2-ubi
+FROM rockylinux:9.2
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum -y install git
