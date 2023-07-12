@@ -1,3 +1,5 @@
+[![build](https://github.com/takano32/build-kernel/actions/workflows/workflow.yml/badge.svg)](https://github.com/takano32/build-kernel/actions/workflows/workflow.yml)
+
 # build-kernel
 
 Build Linux Kernel with Docker Compose.
