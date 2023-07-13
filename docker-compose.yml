@@ -114,4 +114,10 @@ services:
       dockerfile: ./cbl-mariner/Dockerfile
     ports:
       - 8019:8000
+  manjarolinux:
+    build:
+      context: .
+      dockerfile: ./manjarolinux/Dockerfile
+    ports:
+      - 8020:8000
 
