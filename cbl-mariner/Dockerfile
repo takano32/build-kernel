@@ -13,6 +13,7 @@ RUN cd /build-kernel/linux && git pull --all
 RUN yum install -y make gcc bc bison flex openssl-devel
 RUN yum install -y diffutils cpio zstd rpm-build rsync
 RUN yum install -y llvm clang lld
+RUN yum install -y glibc-headers
 
 RUN yum clean all
 
