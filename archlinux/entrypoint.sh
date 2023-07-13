@@ -1,28 +1,33 @@
 #!/bin/bash
 set -eux
 
+CI=${CI:-false}
+BUILD_DIR=/build-kernel/build
 SUDO="sudo -u takano32"
 
-chown -R takano32:takano32 /build-kernel/build
-$SUDO mkdir -p /build-kernel/build/linux
-$SUDO rm -rf   /build-kernel/build/linux
-$SUDO mkdir -p /build-kernel/build/linux
-cd /build-kernel/build/linux
+rm -rf $BUILD_DIR/* || :
+mkdir -p $BUILD_DIR
+chown -R takano32:takano32 $BUILD_DIR
+cd $BUILD_DIR
 $SUDO asp update linux
 $SUDO asp export linux
-$SUDO cp -a linux/* .
-$SUDO rm -rf linux
 
-# `makepkg` in `/build-kernel/bulid/linux`
+cd $BUILD_DIR/linux
+$SUDO updpkgsums && yes | $SUDO makepkg -seo
+$SUDO git config --global http.version HTTP/1.1
+$SUDO git config --global http.postBuffer 524288000
+while :; do $SUDO makepkg -o --skippgpcheck && break || sleep 5; done
+
+# `makepkg` in `$BUILD_DIR/linux`
 $SUDO makepkg --skippgpcheck
 
-cd /build-kernel/build
+cd $BUILD_DIR
 mv linux/src/archlinux-linux/Documentation/output ../htmldocs
+mkdir /build-kernel/zst-pkg
 mv linux/*.zst ../zst-pkg
 cd ..
 
 if ! "$CI"; then
   python3 -m http.server
 fi
-
 
