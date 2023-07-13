@@ -19,7 +19,7 @@ RUN apk add python-pip
 RUN apk add graphviz
 #RUN yum install -y python3-pip graphviz texlive-latex librsvg2-tools
 
-RUN apk add clang
+RUN apk add llvm clang lld
 RUN apk add flex bison
 RUN apk add elftoolchain-devel
 RUN apk add openssl-devel
