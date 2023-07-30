@@ -45,6 +45,10 @@ fi
 unset IFS
 cd /build-kernel/linux
 
+# PYTHON3_PIP_OPTS="--break-system-packages"
+python3 -m pip install $PYTHON3_PIP_OPTS -U Sphinx
+exit
+
 git fetch --all --tags
 if [ "mariner" = "$OS_ID" ]; then
   git branch -D rolling-lts/mariner || :
