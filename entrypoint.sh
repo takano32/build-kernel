@@ -45,7 +45,7 @@ fi
 unset IFS
 cd /build-kernel/linux
 
-# PYTHON3_PIP_OPTS="--break-system-packages"
+PYTHON3_PIP_OPTS="--break-system-packages"
 python3 -m pip install $PYTHON3_PIP_OPTS -U Sphinx
 exit
 
