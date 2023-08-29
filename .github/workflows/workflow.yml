@@ -11,8 +11,7 @@ jobs:
           almalinux, amazonlinux,
           centos, centos8, fedora, mageia,
           opensuse, oraclelinux, rockylinux,
-          archlinux, chimeralinux, gentoo, manjarolinux] # void-linux
-          # redhat, cbl-mariner
+          archlinux, cbl-mariner, chimeralinux, gentoo, manjarolinux] # void-linux
     uses: ./.github/workflows/build.yml
     with:
       linux: ${{ matrix.linux }}
