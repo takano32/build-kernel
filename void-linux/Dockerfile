@@ -1,8 +1,8 @@
 FROM ghcr.io/void-linux/void-linux:latest-thin-bb-x86_64
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
+RUN xbps-install -Suvy xbps
 RUN xbps-install -Suvy bash
-
 RUN xbps-install -Suvy git
 
 ENV ORIGIN=https://github.com/torvalds/linux.git
