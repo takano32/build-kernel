@@ -1,4 +1,5 @@
-FROM takano32/chimeralinux
+FROM chimeralinux/chimera
+# FROM takano32/chimeralinux
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN apk update && apk upgrade || apk fix
@@ -25,6 +26,14 @@ RUN apk add elftoolchain-devel
 RUN apk add openssl-devel
 RUN apk add linux-headers
 
+RUN apk add gm4 gtar gsed findutils
+RUN ln -sf /usr/sbin/gm4   /usr/local/bin/m4
+RUN ln -sf /usr/sbin/gtar  /usr/local/bin/tar
+RUN ln -sf /usr/sbin/gsed  /usr/local/bin/sed
+RUN ln -sf /usr/sbin/gfind /usr/local/bin/find
+RUN apk add xz
+
+RUN apk add shadow
 RUN useradd takano32
 RUN mkdir -p /home/takano32
 RUN chown -R takano32:takano32 /home/takano32
@@ -38,11 +47,11 @@ RUN ln -sf /usr/sbin/gmake /usr/local/bin/make
 RUN apk add opendoas
 RUN mkdir archives
 RUN chown takano32:takano32 archives
-RUN fetch https://ftp.gnu.org/gnu/coreutils/coreutils-9.3.tar.gz
-RUN chown takano32:takano32 coreutils-9.3.tar.gz
-RUN mv coreutils-9.3.tar.gz archives
-RUN cd archives && $SUDO tar xvf coreutils-9.3.tar.gz
-RUN cd archives/coreutils-9.3 && $SUDO ./configure && $SUDO make && make install
+RUN fetch https://ftp.gnu.org/gnu/coreutils/coreutils-9.4.tar.gz
+RUN chown takano32:takano32 coreutils-9.4.tar.gz
+RUN mv coreutils-9.4.tar.gz archives
+RUN cd archives && $SUDO tar xvf coreutils-9.4.tar.gz
+RUN cd archives/coreutils-9.4 && $SUDO ./configure && $SUDO make && make install
 
 RUN apk add texinfo
 RUN fetch https://ftp.gnu.org/gnu/bc/bc-1.07.1.tar.gz
@@ -51,14 +60,6 @@ RUN mv bc-1.07.1.tar.gz archives
 RUN cd archives && $SUDO tar xvf bc-1.07.1.tar.gz
 RUN cd archives/bc-1.07.1 && $SUDO ./configure && $SUDO make && make install
 
-RUN apk add gm4 gtar gsed findutils
-RUN ln -sf /usr/sbin/gm4   /usr/local/bin/m4
-RUN ln -sf /usr/sbin/gtar  /usr/local/bin/tar
-RUN ln -sf /usr/sbin/gsed  /usr/local/bin/sed
-RUN ln -sf /usr/sbin/gfind /usr/local/bin/find
-RUN apk add xz
-
-RUN apk add llvm
 RUN rm -rf /var/cache/apk/*
 
 COPY ./entrypoint.sh /
