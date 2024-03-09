@@ -18,7 +18,9 @@ $SUDO git config --global http.postBuffer 524288000
 while :; do $SUDO makepkg -o --skippgpcheck && break || sleep 5; done
 
 # `makepkg` in `$BUILD_DIR/linux`
-$SUDO makepkg --skippgpcheck
+JOBS=$(getconf _NPROCESSORS_ONLN)
+JOBS=$(expr "$JOBS" + "$JOBS")
+$SUDO MAKEFLAGS="-j$JOBS" makepkg --skippgpcheck
 
 cd $BUILD_DIR
 mv linux/src/archlinux-linux/Documentation/output ../htmldocs
