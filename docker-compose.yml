@@ -126,4 +126,9 @@ services:
       dockerfile: ./parrot/Dockerfile
     ports:
       - 8021:8000
-
+  solus:
+    build:
+      context: .
+      dockerfile: ./solus/Dockerfile
+    ports:
+      - 8022:8000
