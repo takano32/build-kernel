@@ -22,7 +22,7 @@ RUN yum install -y python3-dnf
 RUN yum install -y ncurses-devel make gcc bc bison flex openssl-devel
 RUN yum install -y lib64elfutils-devel elfutils
 RUN yum install -y make diffutils cpio zstd rpm-build rsync
-RUN yum install -y dwarves perl
+RUN yum install -y perl
 RUN yum install -y llvm clang lld
 
 # make htmldocs
