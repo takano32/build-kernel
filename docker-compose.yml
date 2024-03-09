@@ -120,4 +120,10 @@ services:
       dockerfile: ./manjarolinux/Dockerfile
     ports:
       - 8020:8000
+  parrot:
+    build:
+      context: .
+      dockerfile: ./parrot/Dockerfile
+    ports:
+      - 8021:8000
 
