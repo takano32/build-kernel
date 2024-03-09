@@ -9,8 +9,7 @@ rm -rf $BUILD_DIR/* || :
 mkdir -p $BUILD_DIR
 chown -R takano32:takano32 $BUILD_DIR
 cd $BUILD_DIR
-$SUDO asp update linux
-$SUDO asp export linux
+$SUDO pkgctl repo clone --protocol=https linux
 
 cd $BUILD_DIR/linux
 $SUDO updpkgsums && yes | $SUDO makepkg -seo
