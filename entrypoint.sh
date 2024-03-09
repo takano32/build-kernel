@@ -60,8 +60,8 @@ fi
 
 $MAKE $MAKE_OPTS clean
 mkdir -p /build-kernel/build
-GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/mantic/linux/6.3.0-5.5/amd64-config.flavour.generic
-curl -kL $GENERIC_CONFIG_URL > /build-kernel/build/.config
+#GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/mantic/linux/6.3.0-5.5/amd64-config.flavour.generic
+#curl -kL $GENERIC_CONFIG_URL > /build-kernel/build/.config
 ./scripts/config --file /build-kernel/build/.config \
 	--disable ANDROID_BINDER_IPC \
 	--disable ANDROID_BINDERFS \
