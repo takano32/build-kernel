@@ -63,11 +63,12 @@ mkdir -p /build-kernel/build
 #GENERIC_CONFIG_URL=https://kernel.ubuntu.com/~kernel-ppa/config/mantic/linux/6.3.0-5.5/amd64-config.flavour.generic
 #curl -kL $GENERIC_CONFIG_URL > /build-kernel/build/.config
 ./scripts/config --file /build-kernel/build/.config \
-	--disable ANDROID_BINDER_IPC \
-	--disable ANDROID_BINDERFS \
-	--disable SYSTEM_TRUSTED_KEYS \
-	--disable SYSTEM_REVOCATION_KEYS \
-	--disable DEBUG_INFO
+  --enable MODULES \
+  --disable ANDROID_BINDER_IPC \
+  --disable ANDROID_BINDERFS \
+  --disable SYSTEM_TRUSTED_KEYS \
+  --disable SYSTEM_REVOCATION_KEYS \
+  --disable DEBUG_INFO
 
 $MAKE $MAKE_OPTS olddefconfig O=/build-kernel/build/
 
