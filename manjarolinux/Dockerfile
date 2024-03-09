@@ -5,7 +5,7 @@ RUN pacman-db-upgrade
 RUN pacman -Syyu --noconfirm
 
 RUN pacman -Syy --noconfirm git
-RUN pacman -Syy --noconfirm asp base-devel
+RUN pacman -Syy --noconfirm devtools base-devel
 RUN pacman -Syy --noconfirm pacman-contrib
 RUN pacman -Scc
 
