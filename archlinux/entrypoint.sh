@@ -23,7 +23,7 @@ JOBS=$(expr "$JOBS" + "$JOBS")
 $SUDO MAKEFLAGS="-j$JOBS" makepkg --skippgpcheck
 
 cd $BUILD_DIR
-mv linux/src/archlinux-linux/Documentation/output ../htmldocs
+# mv linux/src/archlinux-linux/Documentation/output ../htmldocs
 mkdir /build-kernel/zst-pkg
 mv linux/*.zst ../zst-pkg
 cd ..
