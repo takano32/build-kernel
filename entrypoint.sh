@@ -17,7 +17,8 @@ OS_ID=`echo echo $OS_ID | /bin/sh`
 MAKE_BINDEB_PKG=("debian" "kali")
 MAKE_BINRPM_PKG=("debian" "gentoo"
   "almalinux" "amzn" "centos" "fedora" "linuxmint"
-  "mageia" "opensuse-tumbleweed" "ol" "rocky" "voidlinux")
+  "opensuse-tumbleweed" "rocky")
+  # mageia, ol voidlinux
 MAKE_HTMLDOCS=("ol")
 
 # USE_LLVM=("chimera" "debian" "kali" "voidlinux")
@@ -95,6 +96,7 @@ if [[ "(${MAKE_BINDEB_PKG[*]})" =~ ${OS_ID} ]]; then
   time $MAKE $MAKE_OPTS -j $JOBS bindeb-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 fi
 if [[ "(${MAKE_BINRPM_PKG[*]})" =~ ${OS_ID} ]]; then
+  yum install -y dwarves perl
   mkdir -p /build-kernel/rpm-pkg
   time $MAKE $MAKE_OPTS -j $JOBS binrpm-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 fi
