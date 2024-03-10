@@ -96,7 +96,7 @@ if [[ "(${MAKE_BINDEB_PKG[*]})" =~ ${OS_ID} ]]; then
   time $MAKE $MAKE_OPTS -j $JOBS bindeb-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 fi
 if [[ "(${MAKE_BINRPM_PKG[*]})" =~ ${OS_ID} ]]; then
-  yum install -y dwarves perl
+  [ -x "$(which yum)" ] && yum install -y dwarves perl
   mkdir -p /build-kernel/rpm-pkg
   time $MAKE $MAKE_OPTS -j $JOBS binrpm-pkg O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 fi
