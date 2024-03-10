@@ -20,7 +20,7 @@ while :; do $SUDO makepkg -o --skippgpcheck && break || sleep 5; done
 # `makepkg` in `$BUILD_DIR/linux`
 JOBS=$(getconf _NPROCESSORS_ONLN)
 JOBS=$(expr "$JOBS" + "$JOBS")
-echo "MAKEFLAGS='-j$JOBS'" | $SUDO tee -a /etc/makepkg.conf
+echo "MAKEFLAGS='-j$JOBS'" | tee -a /etc/makepkg.conf
 $SUDO makepkg --skippgpcheck
 
 cd $BUILD_DIR
