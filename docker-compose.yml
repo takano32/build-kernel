@@ -1,135 +1,135 @@
 version: '3.9'
 services:
-  ubuntu:
-    build:
-      context: .
-      dockerfile: ./ubuntu/Dockerfile
-    ports:
-      - 8001:8000
   almalinux:
     build:
       context: .
       dockerfile: ./almalinux/Dockerfile
     ports:
       - 8002:8000
-  archlinux:
-    build:
-      context: .
-      dockerfile: ./archlinux/Dockerfile
-    ports:
-      - 8003:8000
-  chimeralinux:
-    build:
-      context: .
-      dockerfile: ./chimeralinux/Dockerfile
-    ports:
-      - 8004:8000
-  gentoo:
-    build:
-      context: .
-      dockerfile: ./gentoo/Dockerfile
-    ports:
-      - 8005:8000
   amazonlinux:
     build:
       context: .
       dockerfile: ./amazonlinux/Dockerfile
     ports:
       - 8006:8000
-  opensuse:
+  archlinux:
     build:
       context: .
-      dockerfile: ./opensuse/Dockerfile
+      dockerfile: ./archlinux/Dockerfile
     ports:
-      - 8007:8000
-  rockylinux:
-    build:
-      context: .
-      dockerfile: ./rockylinux/Dockerfile
-    ports:
-      - 8008:8000
-  centos:
-    build:
-      context: .
-      dockerfile: ./centos/Dockerfile
-    ports:
-      - 8009:8000
-  mageia:
-    build:
-      context: .
-      dockerfile: ./mageia/Dockerfile
-    ports:
-      - 8010:8000
-  debian:
-    build:
-      context: .
-      dockerfile: ./debian/Dockerfile
-    ports:
-      - 8011:8000
-  redhat:
-    build:
-      context: .
-      dockerfile: ./redhat/Dockerfile
-    ports:
-      - 8012:8000
-  void-linux:
-    build:
-      context: .
-      dockerfile: ./void-linux/Dockerfile
-    ports:
-      - 8013:8000
-  linux-mint:
-    build:
-      context: .
-      dockerfile: ./linux-mint/Dockerfile
-    ports:
-      - 8014:8000
-  oraclelinux:
-    build:
-      context: .
-      dockerfile: ./oraclelinux/Dockerfile
-    ports:
-      - 8015:8000
-  fedora:
-    build:
-      context: .
-      dockerfile: ./fedora/Dockerfile
-    ports:
-      - 8016:8000
-  kalilinux:
-    build:
-      context: .
-      dockerfile: ./kalilinux/Dockerfile
-    ports:
-      - 8017:8000
-  centos8:
-    build:
-      context: .
-      dockerfile: ./centos/Dockerfile
-    ports:
-      - 8018:8000
+      - 8003:8000
   cbl-mariner:
     build:
       context: .
       dockerfile: ./cbl-mariner/Dockerfile
     ports:
       - 8019:8000
-  manjarolinux:
+  centos:
     build:
       context: .
-      dockerfile: ./manjarolinux/Dockerfile
+      dockerfile: ./centos/Dockerfile
     ports:
-      - 8020:8000
+      - 8009:8000
+  centos8:
+    build:
+      context: .
+      dockerfile: ./centos/Dockerfile
+    ports:
+      - 8018:8000
+  chimeralinux:
+    build:
+      context: .
+      dockerfile: ./chimeralinux/Dockerfile
+    ports:
+      - 8004:8000
+  debian:
+    build:
+      context: .
+      dockerfile: ./debian/Dockerfile
+    ports:
+      - 8011:8000
+  fedora:
+    build:
+      context: .
+      dockerfile: ./fedora/Dockerfile
+    ports:
+      - 8016:8000
+  gentoo:
+    build:
+      context: .
+      dockerfile: ./gentoo/Dockerfile
+    ports:
+      - 8005:8000
+  kalilinux:
+    build:
+      context: .
+      dockerfile: ./kalilinux/Dockerfile
+    ports:
+      - 8017:8000
+  linux-mint:
+    build:
+      context: .
+      dockerfile: ./linux-mint/Dockerfile
+    ports:
+      - 8014:8000
+  mageia:
+    build:
+      context: .
+      dockerfile: ./mageia/Dockerfile
+    ports:
+      - 8010:8000
+  opensuse:
+    build:
+      context: .
+      dockerfile: ./opensuse/Dockerfile
+    ports:
+      - 8007:8000
+  oraclelinux:
+    build:
+      context: .
+      dockerfile: ./oraclelinux/Dockerfile
+    ports:
+      - 8015:8000
   parrot:
     build:
       context: .
       dockerfile: ./parrot/Dockerfile
     ports:
       - 8021:8000
+  rockylinux:
+    build:
+      context: .
+      dockerfile: ./rockylinux/Dockerfile
+    ports:
+      - 8008:8000
   solus:
     build:
       context: .
       dockerfile: ./solus/Dockerfile
     ports:
       - 8022:8000
+  ubuntu:
+    build:
+      context: .
+      dockerfile: ./ubuntu/Dockerfile
+    ports:
+      - 8001:8000
+  void-linux:
+    build:
+      context: .
+      dockerfile: ./void-linux/Dockerfile
+    ports:
+      - 8013:8000
+  redhat:
+    build:
+      context: .
+      dockerfile: ./redhat/Dockerfile
+    ports:
+      - 8012:8000
+  manjarolinux:
+    build:
+      context: .
+      dockerfile: ./manjarolinux/Dockerfile
+    ports:
+      - 8020:8000
 

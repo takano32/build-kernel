@@ -7,13 +7,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linux: [linux-mint, ubuntu, # debian, kalilinux
+        linux: [debian, kalilinux, linux-mint, ubuntu,
           almalinux, amazonlinux,
-          centos, centos8, fedora, # mageia
-          opensuse, rockylinux, # oraclelinux
+          centos, centos8, fedora, mageia,
+          opensuse, oraclelinux, rockylinux,
           archlinux, cbl-mariner, chimeralinux,
-          gentoo, parrot, solus]
-          # manjarolinux, void-linux
+          gentoo, parrot, solus, void-linux]
+          # manjarolinux
           # redhat
     uses: ./.github/workflows/build.yml
     with:
