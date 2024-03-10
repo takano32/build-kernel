@@ -9,7 +9,7 @@ jobs:
       matrix:
         linux: [debian, kalilinux, linux-mint, ubuntu,
           almalinux, amazonlinux,
-          centos, centos8, fedora, mageia
+          centos, centos8, fedora, mageia,
           opensuse, oraclelinux, rockylinux,
           archlinux, cbl-mariner, chimeralinux,
           gentoo, parrot, solus, void-linux]
