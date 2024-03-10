@@ -12,8 +12,8 @@ jobs:
           centos, centos8, fedora, # mageia
           opensuse, rockylinux, # oraclelinux
           archlinux, cbl-mariner, chimeralinux,
-          gentoo, parrot, solus, void-linux]
-          # manjarolinux
+          gentoo, parrot, solus]
+          # manjarolinux, void-linux
           # redhat
     uses: ./.github/workflows/build.yml
     with:
