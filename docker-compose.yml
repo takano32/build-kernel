@@ -133,3 +133,9 @@ services:
     ports:
       - 8020:8000
 
+  termux:
+    build:
+      context: .
+      dockerfile: ./termux/Dockerfile
+    ports:
+      - 8023:8000
