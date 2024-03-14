@@ -15,7 +15,6 @@ RUN mkdir /home/takano32
 RUN chown -R takano32.takano32 /build-kernel /home/takano32
 RUN echo "takano32 ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/takano32
 ENV SUDO="sudo -u takano32"
-RUN echo 'export MAKEFLAGS="-j 8"' >> /etc/bash.bashrc
 
 COPY ./manjarolinux/entrypoint.sh /
 RUN chmod 755 /entrypoint.sh
