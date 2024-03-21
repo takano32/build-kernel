@@ -1,4 +1,4 @@
-[![build](https://github.com/takano32/build-kernel/actions/workflows/workflow.yml/badge.svg)](https://github.com/takano32/build-kernel/actions/workflows/workflow.yml)
+[![Build Linux Kernel](https://github.com/takano32/build-kernel/actions/workflows/build-all.yml/badge.svg)](https://github.com/takano32/build-kernel/actions/workflows/build-all.yml)
 
 # build-kernel
 
