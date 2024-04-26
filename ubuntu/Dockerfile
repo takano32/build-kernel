@@ -1,10 +1,10 @@
-FROM ubuntu:23.10
+FROM ubuntu:24.04
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBCONF_NOWARNINGS=yes
 
-RUN grep '^deb ' /etc/apt/sources.list | sed 's/^deb/deb-src/g' > /etc/apt/sources.list.d/deb-src.list
+RUN cd /etc/apt/sources.list.d && sed 's/^Types: deb/Types: deb-src/g' < ubuntu.sources > deb-src.sources
 
 RUN apt-get update
 RUN apt-get install -y git
