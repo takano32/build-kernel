@@ -12,6 +12,7 @@ RUN cd /build-kernel/linux && git pull --all
 
 # https://boxofcables.dev/building-a-kernel-for-wsl-on-opensuse/
 RUN zypper in -y -t pattern devel_basis
+RUN zypper rm -y busybox-diffutils
 RUN zypper in -y bc openssl openssl-devel dwarves rpm-build libelf-devel
 RUN zypper in -y zstd rpm-build rsync
 
