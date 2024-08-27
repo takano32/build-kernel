@@ -1,4 +1,4 @@
-FROM fedora:41
+FROM fedora:40
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum -y install git
