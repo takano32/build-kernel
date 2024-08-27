@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/cbl-mariner/base/core:2.0
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum upgrade -y
+RUN yum clean all
 RUN yum install -y git
 
 ENV ORIGIN=https://github.com/microsoft/CBL-Mariner-Linux-Kernel.git

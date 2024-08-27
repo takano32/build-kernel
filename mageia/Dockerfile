@@ -11,6 +11,7 @@ RUN dnf distro-sync -y --releasever=9
 RUN dnf upgrade -y --best --releasever=9 dnf python3-dnf dnf-conf
 RUN dnf install -y --best --releasever=9 yum
 RUN dnf clean packages
+RUN yum clean all
 RUN yum install -y git
 
 ENV ORIGIN=https://github.com/torvalds/linux.git
