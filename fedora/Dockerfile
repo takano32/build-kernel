@@ -10,7 +10,7 @@ RUN cd /build-kernel/linux && git pull --all
 
 RUN yum groupinstall -y "Development tools"
 RUN yum install -y ncurses-devel make gcc bc bison flex elfutils-libelf-devel openssl-devel
-RUN yum install -y make diffutils cpio zstd rpm-build rsync
+RUN yum install -y make diffutils cpio zstd rpm-build rsync hostname
 RUN yum install -y which
 
 # make htmldocs
