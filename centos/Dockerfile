@@ -9,7 +9,7 @@ RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || slee
 RUN cd /build-kernel/linux && git pull --all
 
 RUN yum install -y ncurses-devel make gcc bc bison flex elfutils-libelf-devel openssl-devel
-RUN yum install -y make diffutils cpio zstd rpm-build rsync hostname
+RUN yum install -y make diffutils cpio zstd rpm-build rsync hostname elfutils-devel
 
 # make htmldocs
 RUN yum install -y python3-pip graphviz texlive-latex librsvg2-tools
