@@ -4,11 +4,9 @@ set -eux
 CI=${CI:-false}
 LINUX_VERSION=v6.15
 
-MAKE=gmake
+MAKE=make
 if which gmake > /dev/null; then
-  MAKE="gmake"
-else
-  MAKE="make"
+  MAKE=gmake
 fi
 OS_ID=`grep ^ID= /etc/os-release | cut -d'=' -f2`
 OS_ID=`echo echo $OS_ID | /bin/sh`
