@@ -54,7 +54,7 @@ else
 fi
 
 if "$CI"; then
-  rm -rf .git
+  rm -rf .git || :
 fi
 
 $MAKE $MAKE_OPTS clean
