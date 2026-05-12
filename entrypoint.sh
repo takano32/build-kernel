@@ -45,7 +45,7 @@ unset IFS
 cd /build-kernel/linux
 
 git fetch --all --tags
-if [ "mariner" = "$OS_ID" ]; then
+if [ "azurelinux" = "" ]; then
   git branch -D rolling-lts/mariner || :
   git checkout -b rolling-lts/mariner -t origin/rolling-lts/mariner-3/6.6.96.1 || :
 else
