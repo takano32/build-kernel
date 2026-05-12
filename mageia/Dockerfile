@@ -1,4 +1,4 @@
-FROM mageia:cauldron
+FROM mageia:latest
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 
