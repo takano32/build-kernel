@@ -8,7 +8,7 @@ RUN rpmdb --rebuilddb --define "_db_backend sqlite"
 RUN echo "%_netsharedpath /sys:/proc" >> /etc/rpm/macros.dist
 RUN dnf upgrade -y --releasever=8
 RUN dnf distro-sync -y --releasever=9
-RUN dnf upgrade -y --best --releasever=9 dnf python3-dnf dnf-conf
+RUN dnf upgrade -y --best --releasever=9
 RUN dnf install -y --best --releasever=9 yum
 RUN dnf clean packages
 RUN yum clean all
