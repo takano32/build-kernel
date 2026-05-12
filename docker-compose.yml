@@ -17,10 +17,10 @@ services:
       dockerfile: ./archlinux/Dockerfile
     ports:
       - 8003:8000
-  cbl-mariner:
+  azurelinux:
     build:
       context: .
-      dockerfile: ./cbl-mariner/Dockerfile
+      dockerfile: ./azurelinux/Dockerfile
     ports:
       - 8019:8000
   centos:
