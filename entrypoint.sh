@@ -46,8 +46,9 @@ cd /build-kernel/linux
 
 git fetch --all --tags
 if [ "mariner" = "$OS_ID" ]; then
-  git branch -D rolling-lts/mariner || :
-  git checkout -b rolling-lts/mariner -t origin/rolling-lts/mariner-3/6.6.96.1 || :
+  MARINER_TAG=$(git tag -l 'rolling-lts/mariner-3/*' | sort -V | tail -n 1)
+  git branch -D tag/$MARINER_TAG || :
+  git checkout -b tag/$MARINER_TAG refs/tags/$MARINER_TAG || :
 else
   git branch -D tag/$LINUX_VERSION || :
   git checkout -b tag/$LINUX_VERSION refs/tags/$LINUX_VERSION || :
