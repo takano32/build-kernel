@@ -85,8 +85,11 @@ unset IFS
 
 LOCALVERSION=-$(date +%Y%m%d)
 JOBS=$(getconf _NPROCESSORS_ONLN)
-JOBS=$(expr "$JOBS" + "$JOBS")
-JOBS=$(expr "$JOBS" + "$JOBS")
+# clang needs far more memory per job; oversubscribing OOM-kills the CI runner
+if [[ "$MAKE_OPTS" != *LLVM=1* ]]; then
+  JOBS=$(expr "$JOBS" + "$JOBS")
+  JOBS=$(expr "$JOBS" + "$JOBS")
+fi
 time $MAKE $MAKE_OPTS -j $JOBS            O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 time $MAKE $MAKE_OPTS -j $JOBS modules    O=/build-kernel/build/ LOCALVERSION=$LOCALVERSION
 IFS="|"
