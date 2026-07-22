@@ -11,6 +11,7 @@ RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || slee
 RUN cd /build-kernel/linux && git pull --all
 
 # https://boxofcables.dev/building-a-kernel-for-wsl-on-opensuse/
+RUN zypper rm -y busybox-gawk || :
 RUN zypper in -y -t pattern devel_basis
 # RUN zypper rm -y busybox-diffutils
 RUN zypper in -y diffutils
