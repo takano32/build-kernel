@@ -4,7 +4,11 @@ LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBCONF_NOWARNINGS=yes
 
-RUN grep '^deb ' /etc/apt/sources.list | sed 's/^deb/deb-src/g' > /etc/apt/sources.list.d/deb-src.list
+RUN if ls /etc/apt/sources.list.d/*.sources > /dev/null 2>&1; then \
+      sed 's/^Types: deb/Types: deb-src/g' /etc/apt/sources.list.d/*.sources > /etc/apt/sources.list.d/deb-src.sources; \
+    else \
+      cat /etc/apt/sources.list /etc/apt/sources.list.d/*.list 2>/dev/null | grep '^deb ' | sed 's/^deb/deb-src/g' > /etc/apt/sources.list.d/deb-src.list; \
+    fi
 
 RUN apt-get update
 RUN apt-get install -y git

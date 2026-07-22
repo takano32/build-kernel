@@ -15,9 +15,10 @@ jobs:
           opensuse, oraclelinux, rockylinux,
           archlinux, manjarolinux,
           cbl-mariner, chimeralinux,
-          gentoo, solus, void-linux]
-          # parrot
-          # redhat
+          gentoo, solus, void-linux,
+          parrot]
+          # redhat: UBI repos lack bison/flex/dwarves; kernel cannot be built
+          # without a RHEL subscription
     uses: ./.github/workflows/build.yml
     with:
       linux: ${{ matrix.linux }}
