@@ -1,4 +1,5 @@
 [![Build Linux Kernel](https://github.com/takano32/build-kernel/actions/workflows/build-all.yml/badge.svg)](https://github.com/takano32/build-kernel/actions/workflows/build-all.yml)
+![Distributions](https://img.shields.io/badge/distributions-21-blue)
 
 # build-kernel
 
@@ -7,6 +8,20 @@ Build Linux Kernel with Docker Compose.
 ```
 $ docker compose up ubuntu
 ```
+
+## Supported distributions
+
+CI builds the kernel on these 21 distributions:
+
+almalinux, amazonlinux, archlinux, cbl-mariner, centos, centos8,
+chimeralinux, debian, fedora, gentoo, kalilinux, linux-mint, mageia,
+manjarolinux, opensuse, oraclelinux, parrot, rockylinux, solus,
+ubuntu, void-linux
+
+Defined in Docker Compose but not built in CI:
+
+* redhat: the public UBI repositories ship no bison/flex/dwarves,
+  so the kernel cannot be built without a RHEL subscription
 
 ## archlinux
 
@@ -41,6 +56,11 @@ $ docker compose up ubuntu
 * [Ubuntu - BuildYourOwnKernel](https://wiki.ubuntu.com/Kernel/BuildYourOwnKernel)
 * [Debian - BuildADebianKernelPackage](https://wiki.debian.org/BuildADebianKernelPackage)
 * [Ubuntuで最新のカーネルをお手軽にビルドする方法](https://gihyo.jp/admin/serial/01/ubuntu-recipe/0526?page=2)
+
+## parrot
+
+* [Parrot Security](https://parrotsec.org/)
+* [Docker Hub - parrotsec/core](https://hub.docker.com/r/parrotsec/core)
 
 ## mageia
 

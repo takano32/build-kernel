@@ -3,6 +3,8 @@ name: Build Linux Kernel
 on:
   workflow_dispatch:
   push:
+    paths-ignore:
+      - '**.md'
 
 jobs:
   build:
