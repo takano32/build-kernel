@@ -15,7 +15,7 @@ RUN zypper in -y -t pattern devel_basis
 # RUN zypper rm -y busybox-diffutils
 RUN zypper in -y diffutils
 RUN zypper in -y bc openssl openssl-devel dwarves rpm-build libelf-devel
-RUN zypper in -y zstd rpm-build rsync hostname libdw-dev
+RUN zypper in -y zstd rpm-build rsync hostname libdw-devel
 
 RUN zypper in -y python3 python3-pip graphviz
 RUN zypper clean -a
