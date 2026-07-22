@@ -21,7 +21,7 @@ jobs:
           remove-codeql: true
           remove-docker-images: true
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Build docker image
         run: docker compose build ${{ inputs.linux }}
       - name: Build Linux Kernel
