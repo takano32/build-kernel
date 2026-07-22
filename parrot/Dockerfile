@@ -9,7 +9,7 @@ RUN grep '^deb ' /etc/apt/sources.list | sed 's/^deb/deb-src/g' > /etc/apt/sourc
 RUN apt-get update
 RUN apt-get install -y git
 
-ENV ORIGIN=https://github.com/torvalds/linux.git
+ENV ORIGIN=https://github.com/gregkh/linux.git
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
 RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
 RUN cd /build-kernel/linux && git pull --all

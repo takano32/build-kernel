@@ -12,7 +12,7 @@ RUN eopkg install -y perl
 RUN usysconf run -f ssl-certs
 
 RUN eopkg install -y git
-ENV ORIGIN=https://github.com/torvalds/linux.git
+ENV ORIGIN=https://github.com/gregkh/linux.git
 RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
 RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
 RUN cd /build-kernel/linux && git pull --all
