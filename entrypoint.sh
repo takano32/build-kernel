@@ -14,6 +14,12 @@ ORIGIN=${ORIGIN:-https://github.com/gregkh/linux.git}
 SRC=/build-kernel/linux
 OUT=/build-kernel/build
 ARTIFACTS=/build-kernel/artifacts
+# mkspec and mkdebian write "$user@$host" into the package metadata and shell
+# out to `hostname` for the host part unless these are set; the oraclelinux and
+# cbl-mariner images have no hostname binary. Fixed values also keep the
+# packager field and /proc/version the same from one run to the next.
+export KBUILD_BUILD_USER=build-kernel
+export KBUILD_BUILD_HOST=docker
 
 MAKE="make"
 if command -v gmake > /dev/null; then MAKE="gmake"; fi

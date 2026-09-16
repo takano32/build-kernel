@@ -20,6 +20,8 @@ RUN xbps-install -Suvy llvm clang lld
 RUN xbps-install -Suvy rpm
 
 RUN xbps-install -Suvy tar xz
+# headers_install, which binrpm-pkg runs, needs rsync
+RUN xbps-install -Suvy rsync
 RUN xbps-remove -Oo
 
 RUN echo "ID=voidlinux" > /etc/os-release

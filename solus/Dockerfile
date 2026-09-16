@@ -19,6 +19,8 @@ RUN eopkg install -y llvm llvm-clang lldb
 RUN eopkg install -yc system.devel
 RUN eopkg install -y make
 RUN eopkg install -y rpm
+# headers_install, which binrpm-pkg runs, needs rsync
+RUN eopkg install -y rsync
 
 RUN eopkg install -y libelf-devel
 
