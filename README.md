@@ -9,6 +9,29 @@ Build Linux Kernel with Docker Compose.
 $ docker compose up ubuntu
 ```
 
+## What a build does
+
+Each service is one distribution's image with that distribution's toolchain.
+On start the container fetches a single pinned stable kernel tag
+(`LINUX_VERSION` in `entrypoint.sh`; override with
+`docker compose run -e LINUX_VERSION=v7.2.6 ubuntu`), builds it with an
+`alldefconfig`-based config plus modules, runs `bindeb-pkg` / `binrpm-pkg`
+where the image has the tools, and serves the results from
+`/build-kernel/artifacts` on port 8000 (see the port mapping in
+`docker-compose.yml`). A tag that cannot be fetched fails the build.
+
+`archlinux` and `manjarolinux` build Arch's official `linux` PKGBUILD
+instead, and `cbl-mariner` builds Microsoft's kernel tree at its newest
+`rolling-lts/mariner-3` tag.
+
+## CI
+
+Every push, plus a schedule on Monday and Thursday 00:00 UTC, builds all 21
+distributions. Each job uploads `artifacts/` (the packages and the kernel
+config) as a workflow artifact. The two Arch-based jobs keep a ccache
+between runs, which brings their full-config build from about 2.5 hours
+down to under an hour; the first run after a compiler update is cold again.
+
 ## Supported distributions
 
 CI builds the kernel on these 21 distributions:
