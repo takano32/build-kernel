@@ -2,6 +2,10 @@ FROM ghcr.io/void-linux/void-linux:latest-thin-bb-x86_64
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN xbps-install -Suvy xbps
+# The ghcr base image lags the repository. Without a full upgrade, packages
+# installed below link against newer libraries than the image ships (rsync
+# needed libacl ACL_1.3), so bring the whole system up to date first.
+RUN xbps-install -Suvy
 RUN xbps-install -Suvy bash
 RUN xbps-install -Suvy git
 
