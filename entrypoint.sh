@@ -29,20 +29,23 @@ PKG_DEB=false
 PKG_RPM=false
 USE_LLVM=false
 case "$ID" in
-  # debian and gentoo are not rpm distros, but both images install rpm.
-  debian)                             PKG_DEB=true;  PKG_RPM=true  ;;
-  gentoo)                                            PKG_RPM=true  ;;
-  kali)                               PKG_DEB=true                 ;;
-  almalinux|amzn|centos|fedora|rocky)                PKG_RPM=true  ;;
-  opensuse-tumbleweed)                               PKG_RPM=true  ;;
-  # linuxmint makes an rpm and no deb: bindeb-pkg was turned off for it and for
-  # ubuntu in 2023-06 (47b8226), ubuntu's binrpm-pkg in 2023-07 (7f340db).
-  # Neither commit says why, so re-enabling them is a follow-up to verify in CI.
-  linuxmint)                                         PKG_RPM=true  ;;
+  # Debian family: `apt-get build-dep linux` brings dpkg-dev and debhelper, and
+  # every one of these images also installs rpm, so both targets apply. ubuntu
+  # and linuxmint had bindeb-pkg turned off in 2023-06 (47b8226) and ubuntu's
+  # binrpm-pkg in 2023-07 (7f340db) without a recorded reason; back on since 2026-09.
+  debian|ubuntu|linuxmint|kali|parrot)          PKG_DEB=true; PKG_RPM=true ;;
+  # rpm-native distros. ol, mageia and voidlinux were dropped in 2024-03 (155cde8),
+  # most likely over rpmbuild's BuildRequires check (that commit also added a
+  # run-time `yum install dwarves perl` for the RHEL-likes); mariner and solus
+  # were never tried. The check is skipped now (see binrpm-pkg below).
+  almalinux|amzn|centos|fedora|rocky|ol|mageia) PKG_RPM=true ;;
+  opensuse-tumbleweed|mariner|voidlinux|solus)  PKG_RPM=true ;;
+  # gentoo installs rpm and dpkg, but bindeb-pkg needs debhelper, which Gentoo does not package.
+  gentoo)                                       PKG_RPM=true ;;
   # chimera: the image has clang/lld but no gcc; apk-based, so neither deb nor rpm applies.
-  chimera)                            USE_LLVM=true                ;;
-  # build only: ubuntu, parrot, mageia, ol, solus, voidlinux, mariner, unknown
-  *)                                                               ;;
+  chimera)                                      USE_LLVM=true ;;
+  # build only: anything else, e.g. rhel (the UBI image is defined but not in CI).
+  *) ;;
 esac
 
 if "$CI"; then
@@ -121,19 +124,23 @@ if "$PKG_DEB"; then
   time "$MAKE" "${MAKE_OPTS[@]}" -j "$JOBS" bindeb-pkg O="$OUT" LOCALVERSION="$LOCALVERSION"
 fi
 if "$PKG_RPM"; then
-  # rpm packaging needs these two, and not every yum-based Dockerfile has them.
-  if command -v yum > /dev/null; then yum install -y dwarves perl; fi
-  time "$MAKE" "${MAKE_OPTS[@]}" -j "$JOBS" binrpm-pkg O="$OUT" LOCALVERSION="$LOCALVERSION"
+  # kernel.spec's BuildRequires (dwarves, perl, rsync, ...) describe a build from
+  # source, but binrpm-pkg only packages the tree compiled above (rpmbuild
+  # --build-in-place --noprep), so the check can fail only on missing metadata
+  # packages. That is what kept ol, mageia, mariner, voidlinux and solus out and
+  # forced a run-time `yum install dwarves perl` on the RHEL-likes; --nodeps skips it.
+  time "$MAKE" "${MAKE_OPTS[@]}" -j "$JOBS" binrpm-pkg RPMOPTS=--nodeps O="$OUT" LOCALVERSION="$LOCALVERSION"
 fi
 
-# bindeb-pkg writes into the parent of O=; binrpm-pkg into /root/rpmbuild on
-# RHEL-likes, Fedora, Debian and Gentoo and /usr/src/packages on openSUSE. Only
-# the binary rpms are taken, not the SRPMS beside them.
+# bindeb-pkg writes the packages into the parent of O=. binrpm-pkg defines
+# _topdir as $OUT/rpmbuild (since v6.6), so the rpms are in there and not in
+# ~/rpmbuild or /usr/src/packages as they once were: the old script copied from
+# those two and had silently collected nothing since then.
 shopt -s nullglob
 for pkg in /build-kernel/*.deb /build-kernel/*.buildinfo /build-kernel/*.changes; do
   mv "$pkg" "$ARTIFACTS/"
 done
-for pkg in /root/rpmbuild/RPMS/*/*.rpm /usr/src/packages/RPMS/*/*.rpm; do
+for pkg in "$OUT"/rpmbuild/RPMS/*/*.rpm; do
   cp "$pkg" "$ARTIFACTS/"
 done
 ls -l "$ARTIFACTS"  # so the CI log says what the build actually produced
