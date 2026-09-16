@@ -8,6 +8,12 @@ SUDO="sudo -u takano32"
 rm -rf $BUILD_DIR/* || :
 mkdir -p $BUILD_DIR
 chown -R takano32:takano32 $BUILD_DIR
+# The ccache dir is bind-mounted from the CI workspace (build.yml) and arrives
+# owned by the runner user; makepkg runs as takano32, so hand it over. Stats are
+# zeroed so the numbers printed after the build describe this run only.
+mkdir -p /build-kernel/ccache
+chown -R takano32:takano32 /build-kernel/ccache
+$SUDO ccache --zero-stats
 cd $BUILD_DIR
 $SUDO pkgctl repo clone --protocol=https linux
 
@@ -23,6 +29,7 @@ JOBS=$(expr "$JOBS" + "$JOBS")
 JOBS=$(expr "$JOBS" + "$JOBS")
 echo "MAKEFLAGS=\"-j$JOBS\"" | tee -a /etc/makepkg.conf
 $SUDO makepkg --skippgpcheck
+$SUDO ccache --show-stats
 
 cd $BUILD_DIR
 # mv linux/src/archlinux-linux/Documentation/output ../htmldocs

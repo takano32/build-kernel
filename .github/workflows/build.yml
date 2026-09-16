@@ -22,14 +22,25 @@ jobs:
           remove-docker-images: true
       - name: Check out code
         uses: actions/checkout@v7
+      # archlinux and manjarolinux compile Arch's full kernel config, ~2.5 h on a
+      # 4-vCPU runner; a warm ccache cuts that to a fraction. The key is unique
+      # per run so every run saves a fresh cache, and restore takes the newest.
+      - name: Restore ccache
+        if: inputs.linux == 'archlinux' || inputs.linux == 'manjarolinux'
+        uses: actions/cache/restore@v6
+        with:
+          path: ccache
+          key: ccache-${{ inputs.linux }}-${{ github.run_id }}
+          restore-keys: ccache-${{ inputs.linux }}-
       - name: Build docker image
         run: docker compose build ${{ inputs.linux }}
       - name: Build Linux Kernel
         run: >
-          mkdir -p artifacts &&
+          mkdir -p artifacts ccache &&
           docker compose run --rm
           --env CI=$CI --service-ports
           -v "$PWD/artifacts:/build-kernel/artifacts"
+          -v "$PWD/ccache:/build-kernel/ccache"
           ${{ inputs.linux }}
       # entrypoint.sh copies .config into artifacts/ before compiling,
       # so `if: always()` still uploads the config of a failed build.
@@ -40,4 +51,10 @@ jobs:
           name: ${{ inputs.linux }}
           path: artifacts/
           if-no-files-found: warn
+      - name: Save ccache
+        if: always() && (inputs.linux == 'archlinux' || inputs.linux == 'manjarolinux')
+        uses: actions/cache/save@v6
+        with:
+          path: ccache
+          key: ccache-${{ inputs.linux }}-${{ github.run_id }}
 
