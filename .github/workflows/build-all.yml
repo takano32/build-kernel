@@ -6,9 +6,10 @@ on:
     paths-ignore:
       - '**.md'
   schedule:
-    # Weekly: this repo exists to catch upstream distro/toolchain drift,
-    # which happens whether or not anyone pushes.
-    - cron: '0 0 * * 1'
+    # Twice a week: this repo exists to catch upstream distro/toolchain drift,
+    # which happens whether or not anyone pushes, and GitHub drops caches that
+    # go unused for 7 days, so weekly would lose the arch/manjaro ccache.
+    - cron: '0 0 * * 1,4'
 
 jobs:
   build:
