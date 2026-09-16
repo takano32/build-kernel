@@ -26,7 +26,18 @@ jobs:
         run: docker compose build ${{ inputs.linux }}
       - name: Build Linux Kernel
         run: >
+          mkdir -p artifacts &&
           docker compose run --rm
           --env CI=$CI --service-ports
+          -v "$PWD/artifacts:/build-kernel/artifacts"
           ${{ inputs.linux }}
+      # entrypoint.sh copies .config into artifacts/ before compiling,
+      # so `if: always()` still uploads the config of a failed build.
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ inputs.linux }}
+          path: artifacts/
+          if-no-files-found: warn
 
