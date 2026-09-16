@@ -26,8 +26,8 @@ $SUDO makepkg --skippgpcheck
 
 cd $BUILD_DIR
 # mv linux/src/archlinux-linux/Documentation/output ../htmldocs
-mkdir /build-kernel/zst-pkg
-mv linux/*.zst ../zst-pkg
+mkdir -p /build-kernel/artifacts
+mv linux/*.zst /build-kernel/artifacts/
 cd ..
 
 if ! "$CI"; then

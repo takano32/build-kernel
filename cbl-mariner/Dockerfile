@@ -7,9 +7,6 @@ RUN yum install -y git
 
 ENV ORIGIN=https://github.com/microsoft/CBL-Mariner-Linux-Kernel.git
 RUN git config --global http.sslVerify false
-RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
-RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
-RUN cd /build-kernel/linux && git pull --all
 
 RUN yum install -y make gcc bc bison flex awk openssl-devel
 RUN yum install -y binutils diffutils cpio zstd rpm-build rsync

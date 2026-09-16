@@ -6,9 +6,6 @@ RUN xbps-install -Suvy bash
 RUN xbps-install -Suvy git
 
 ENV ORIGIN=https://github.com/gregkh/linux.git
-RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
-RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
-RUN cd /build-kernel/linux && git pull --all
 
 RUN xbps-install -Suvy make gcc bc bison flex elfutils elfutils-devel libelf openssl-devel
 RUN xbps-install -Suvy rpm
