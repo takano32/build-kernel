@@ -5,6 +5,10 @@ on:
   push:
     paths-ignore:
       - '**.md'
+  schedule:
+    # Weekly: this repo exists to catch upstream distro/toolchain drift,
+    # which happens whether or not anyone pushes.
+    - cron: '0 0 * * 1'
 
 jobs:
   build:
