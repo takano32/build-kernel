@@ -64,6 +64,11 @@ else
   MAKE_OPTS=(V=12)
 fi
 if "$USE_LLVM"; then MAKE_OPTS+=(LLVM=1); fi
+# Bionic's <sys/cdefs.h> defines __always_inline without `inline`, and
+# tools/include/linux/compiler.h only defines its own #ifndef, so the static
+# READ_ONCE helpers there turn into unused plain functions and objtool's -Werror
+# stops the build. HOSTCFLAGS reaches both objtool and its libsubcmd.
+if [ "$ID" = "termux" ]; then MAKE_OPTS+=(HOSTCFLAGS=-Wno-unused-function); fi
 
 # A tag that cannot be fetched has to fail the build: the old script checked out
 # with `|| :`, which silently built whatever HEAD the image happened to carry
