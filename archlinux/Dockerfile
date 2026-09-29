@@ -13,13 +13,14 @@ RUN pacman -Syy --noconfirm pacman-contrib
 # minor kernel version and would otherwise miss the whole cache; the only
 # effect is DW_AT_comp_dir inside the debug info. A full build's objects need
 # a bit over 5 GB at the default compression; 4G thrashed (255 cleanups per
-# run, 81% hits). 5G stays inside GitHub's 10 GB cache quota for the two
-# Arch-based jobs (an entry is about 0.9x of ccache's own size figure), and
-# zstd level 6 shrinks what has to fit.
+# run, 81% hits). archlinux and manjarolinux share this cache (build.yml), so
+# 8G leaves room for a second compiler's objects while Manjaro's gcc lags
+# Arch's, and one entry (about 0.9x of ccache's own size figure) still fits
+# GitHub's 10 GB cache quota. zstd level 6 shrinks what has to fit.
 RUN pacman -Syy --noconfirm ccache
 RUN sed -i '/^BUILDENV=/s/!ccache/ccache/' /etc/makepkg.conf \
     && grep -qE '^BUILDENV=.*[( ]ccache[ )]' /etc/makepkg.conf
-RUN printf 'cache_dir = /build-kernel/ccache\nmax_size = 5G\ncompression_level = 6\nhash_dir = false\n' > /etc/ccache.conf
+RUN printf 'cache_dir = /build-kernel/ccache\nmax_size = 8G\ncompression_level = 6\nhash_dir = false\n' > /etc/ccache.conf
 RUN pacman -Scc
 
 RUN useradd takano32

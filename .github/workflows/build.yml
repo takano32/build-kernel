@@ -23,15 +23,24 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v7
       # archlinux and manjarolinux compile Arch's full kernel config, ~2.5 h on a
-      # 4-vCPU runner; a warm ccache cuts that to a fraction. The key is unique
-      # per run so every run saves a fresh cache, and restore takes the newest.
+      # 4-vCPU runner; a warm ccache cuts that to a fraction. They share one
+      # cache, since both build the same PKGBUILD, and build-all.yml runs
+      # manjarolinux after archlinux. The key is unique per run and job so each
+      # save is a fresh entry, and restore takes the newest one under the
+      # prefix: archlinux gets the last run's manjarolinux save, manjarolinux
+      # this run's archlinux save.
       - name: Restore ccache
         if: inputs.linux == 'archlinux' || inputs.linux == 'manjarolinux'
         uses: actions/cache/restore@v6
         with:
           path: ccache
-          key: ccache-${{ inputs.linux }}-${{ github.run_id }}
-          restore-keys: ccache-${{ inputs.linux }}-
+          key: ccache-arch-${{ github.run_id }}-${{ inputs.linux }}
+          # The second prefix is the per-job key used before the caches were
+          # shared, so the first shared run is not cold; it can go once those
+          # entries have expired (GitHub drops caches unused for 7 days).
+          restore-keys: |
+            ccache-arch-
+            ccache-${{ inputs.linux }}-
       - name: Build docker image
         run: docker compose build ${{ inputs.linux }}
       - name: Build Linux Kernel
@@ -56,5 +65,5 @@ jobs:
         uses: actions/cache/save@v6
         with:
           path: ccache
-          key: ccache-${{ inputs.linux }}-${{ github.run_id }}
+          key: ccache-arch-${{ github.run_id }}-${{ inputs.linux }}
 

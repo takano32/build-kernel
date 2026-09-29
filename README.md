@@ -28,9 +28,11 @@ its newest `rolling-lts/mariner-3` tag.
 
 Every push, plus a schedule on Monday and Thursday 00:00 UTC, builds all 29
 distributions. Each job uploads `artifacts/` (the packages and the kernel
-config) as a workflow artifact. The two Arch-based jobs keep a ccache
+config) as a workflow artifact. The two Arch-based jobs share a ccache
 between runs, which brings their full-config build from about 2.5 hours
-down to under an hour; the first run after a compiler update is cold again.
+down to under an hour; manjarolinux runs after archlinux so it can reuse
+what archlinux just compiled. The first run after a compiler update is
+cold again.
 
 ## Supported distributions
 
