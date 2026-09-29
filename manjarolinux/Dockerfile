@@ -7,20 +7,6 @@ RUN pacman -Syyu --noconfirm
 RUN pacman -Syy --noconfirm git
 RUN pacman -Syy --noconfirm base-devel
 RUN pacman -Syy --noconfirm pacman-contrib
-# ccache: the kernel compile is ~140 of the job's ~150 minutes; a warm cache
-# (kept by actions/cache in build.yml, mounted at /build-kernel/ccache) removes
-# most of it. hash_dir=false because the source dir name changes with every
-# minor kernel version and would otherwise miss the whole cache; the only
-# effect is DW_AT_comp_dir inside the debug info. A full build's objects need
-# a bit over 5 GB at the default compression; 4G thrashed (255 cleanups per
-# run, 81% hits). archlinux and manjarolinux share this cache (build.yml), so
-# 8G leaves room for a second compiler's objects while Manjaro's gcc lags
-# Arch's, and one entry (about 0.9x of ccache's own size figure) still fits
-# GitHub's 10 GB cache quota. zstd level 6 shrinks what has to fit.
-RUN pacman -Syy --noconfirm ccache
-RUN sed -i '/^BUILDENV=/s/!ccache/ccache/' /etc/makepkg.conf \
-    && grep -qE '^BUILDENV=.*[( ]ccache[ )]' /etc/makepkg.conf
-RUN printf 'cache_dir = /build-kernel/ccache\nmax_size = 8G\ncompression_level = 6\nhash_dir = false\n' > /etc/ccache.conf
 RUN pacman -Scc
 
 RUN useradd takano32

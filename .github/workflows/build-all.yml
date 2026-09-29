@@ -7,8 +7,7 @@ on:
       - '**.md'
   schedule:
     # Twice a week: this repo exists to catch upstream distro/toolchain drift,
-    # which happens whether or not anyone pushes, and GitHub drops caches that
-    # go unused for 7 days, so weekly would lose the arch/manjaro ccache.
+    # which happens whether or not anyone pushes.
     - cron: '0 0 * * 1,4'
 
 jobs:
@@ -21,6 +20,7 @@ jobs:
           centos, centos8, fedora, mageia,
           opensuse, opensuse-leap, oraclelinux, rockylinux,
           openeuler, photon, altlinux,
+          archlinux, manjarolinux,
           azurelinux, cachyos, cbl-mariner, chimeralinux,
           alpine, gentoo, slackware, solus, void-linux,
           parrot, termux]
@@ -29,22 +29,3 @@ jobs:
     uses: ./.github/workflows/build.yml
     with:
       linux: ${{ matrix.linux }}
-
-  # archlinux and manjarolinux build the same Arch PKGBUILD with the same gcc
-  # most of the time, so they share one ccache (see build.yml). Running
-  # manjarolinux after archlinux lets it start from the cache archlinux just
-  # saved: only archlinux pays for a new kernel release, and neither job's
-  # additions get lost to the other saving at the same time.
-  archlinux:
-    uses: ./.github/workflows/build.yml
-    with:
-      linux: archlinux
-
-  manjarolinux:
-    needs: archlinux
-    # Still build Manjaro when the Arch job fails; only a cancel stops it.
-    if: ${{ !cancelled() }}
-    uses: ./.github/workflows/build.yml
-    with:
-      linux: manjarolinux
-

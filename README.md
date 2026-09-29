@@ -29,11 +29,10 @@ build Microsoft's kernel tree at its newest `rolling-lts/mariner-3` tag.
 
 Every push, plus a schedule on Monday and Thursday 00:00 UTC, builds all 30
 distributions. Each job uploads `artifacts/` (the packages and the kernel
-config) as a workflow artifact. The two Arch-based jobs share a ccache
-between runs, which brings their full-config build from about 2.5 hours
-down to under an hour; manjarolinux runs after archlinux so it can reuse
-what archlinux just compiled. The first run after a compiler update is
-cold again.
+config) as a workflow artifact. The longest jobs are the three that
+build their distro's full kernel config, archlinux, manjarolinux and
+cachyos, at two to three hours each; they run in parallel with the rest,
+so a whole run takes about as long as the slowest of them.
 
 ## Supported distributions
 
