@@ -28,12 +28,13 @@ RUN mkdir -p /build-kernel
 
 # Bionic is not glibc, and kbuild's host programs assume glibc headers. Kbuild
 # reads HOSTCFLAGS from the environment and hands it to objtool and libsubcmd too.
-# -I: termux/elf.h, a glibc-style <elf.h> on top of Bionic's; see there.
+# -I: termux/elf.h, a glibc-style <elf.h> on top of Bionic's, and
+# termux/signal.h, a SIGSTKSZ sized for the CPU; see there.
 # -Wno-unused-function: Bionic's <sys/cdefs.h> defines __always_inline without
 # `inline`, and tools/include/linux/compiler.h only defines its own #ifndef, so
 # the static READ_ONCE helpers there become unused plain functions, which
 # objtool's -Werror refuses.
-COPY ./termux/elf.h /termux-include/elf.h
+COPY ./termux/elf.h ./termux/signal.h /termux-include/
 ENV HOSTCFLAGS="-I/termux-include -Wno-unused-function"
 
 # The image's own /entrypoint.sh drops to the system user, who could not write
