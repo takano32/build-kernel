@@ -23,7 +23,7 @@ jobs:
           archlinux, manjarolinux,
           azurelinux, cbl-mariner, chimeralinux,
           alpine, gentoo, solus, void-linux,
-          parrot]
+          parrot, termux]
           # redhat: UBI repos lack bison/flex/dwarves; kernel cannot be built
           # without a RHEL subscription
     uses: ./.github/workflows/build.yml

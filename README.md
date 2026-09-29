@@ -1,5 +1,5 @@
 [![Build Linux Kernel](https://github.com/takano32/build-kernel/actions/workflows/build-all.yml/badge.svg)](https://github.com/takano32/build-kernel/actions/workflows/build-all.yml)
-![Distributions](https://img.shields.io/badge/distributions-23-blue)
+![Distributions](https://img.shields.io/badge/distributions-24-blue)
 
 # build-kernel
 
@@ -26,7 +26,7 @@ its newest `rolling-lts/mariner-3` tag.
 
 ## CI
 
-Every push, plus a schedule on Monday and Thursday 00:00 UTC, builds all 23
+Every push, plus a schedule on Monday and Thursday 00:00 UTC, builds all 24
 distributions. Each job uploads `artifacts/` (the packages and the kernel
 config) as a workflow artifact. The two Arch-based jobs keep a ccache
 between runs, which brings their full-config build from about 2.5 hours
@@ -34,12 +34,12 @@ down to under an hour; the first run after a compiler update is cold again.
 
 ## Supported distributions
 
-CI builds the kernel on these 23 distributions:
+CI builds the kernel on these 24 distributions:
 
 almalinux, alpine, amazonlinux, archlinux, azurelinux, cbl-mariner,
 centos, centos8, chimeralinux, debian, fedora, gentoo, kalilinux,
 linux-mint, mageia, manjarolinux, opensuse, oraclelinux, parrot,
-rockylinux, solus, ubuntu, void-linux
+rockylinux, solus, termux, ubuntu, void-linux
 
 Defined in Docker Compose but not built in CI:
 
