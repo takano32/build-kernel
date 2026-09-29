@@ -46,10 +46,12 @@ case "$ID" in
   # were never tried. The check is skipped now (see binrpm-pkg below).
   almalinux|amzn|centos|fedora|rocky|ol|mageia) PKG_RPM=true ;;
   opensuse-tumbleweed|mariner|voidlinux|solus)  PKG_RPM=true ;;
+  azurelinux)                                   PKG_RPM=true ;;
   # gentoo installs rpm and dpkg, but bindeb-pkg needs debhelper, which Gentoo does not package.
   gentoo)                                       PKG_RPM=true ;;
   # chimera: the image has clang/lld but no gcc; apk-based, so neither deb nor rpm applies.
   chimera)                                      USE_LLVM=true ;;
+  # alpine: apk-based like chimera, but with gcc, so build only.
   # build only: anything else, e.g. rhel (the UBI image is defined but not in CI).
   *) ;;
 esac
@@ -83,9 +85,9 @@ fetch_tag() {
   exit 1
 }
 
-# The pinned version does not exist in Microsoft's tree, so CBL-Mariner is built
-# at the newest tag of its rolling LTS series instead.
-if [ "$ID" = "mariner" ]; then
+# The pinned version does not exist in Microsoft's tree, so CBL-Mariner and its
+# successor Azure Linux are built at the newest tag of its rolling LTS series.
+if [ "$ID" = "mariner" ] || [ "$ID" = "azurelinux" ]; then
   LINUX_VERSION=$(git ls-remote --tags --refs "$ORIGIN" 'refs/tags/rolling-lts/mariner-3/*' |
     sed 's|.*refs/tags/||' | sort -V | tail -n 1)
   if [ -z "$LINUX_VERSION" ]; then
