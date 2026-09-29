@@ -143,7 +143,36 @@ services:
       dockerfile: ./manjarolinux/Dockerfile
     ports:
       - 8020:8000
-
+  opensuse-leap:
+    build:
+      context: .
+      dockerfile: ./opensuse-leap/Dockerfile
+    ports:
+      - 8026:8000
+  openeuler:
+    build:
+      context: .
+      dockerfile: ./openeuler/Dockerfile
+    ports:
+      - 8027:8000
+  photon:
+    build:
+      context: .
+      dockerfile: ./photon/Dockerfile
+    ports:
+      - 8028:8000
+  altlinux:
+    build:
+      context: .
+      dockerfile: ./altlinux/Dockerfile
+    ports:
+      - 8029:8000
+  slackware:
+    build:
+      context: .
+      dockerfile: ./slackware/Dockerfile
+    ports:
+      - 8030:8000
   termux:
     build:
       context: .

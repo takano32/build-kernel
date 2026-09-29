@@ -19,10 +19,11 @@ jobs:
         linux: [debian, kalilinux, linux-mint, ubuntu,
           almalinux, amazonlinux,
           centos, centos8, fedora, mageia,
-          opensuse, oraclelinux, rockylinux,
+          opensuse, opensuse-leap, oraclelinux, rockylinux,
+          openeuler, photon, altlinux,
           archlinux, manjarolinux,
           azurelinux, cbl-mariner, chimeralinux,
-          alpine, gentoo, solus, void-linux,
+          alpine, gentoo, slackware, solus, void-linux,
           parrot, termux]
           # redhat: UBI repos lack bison/flex/dwarves; kernel cannot be built
           # without a RHEL subscription

@@ -46,7 +46,9 @@ case "$ID" in
   # were never tried. The check is skipped now (see binrpm-pkg below).
   almalinux|amzn|centos|fedora|rocky|ol|mageia) PKG_RPM=true ;;
   opensuse-tumbleweed|mariner|voidlinux|solus)  PKG_RPM=true ;;
-  azurelinux)                                   PKG_RPM=true ;;
+  azurelinux|opensuse-leap|openEuler|photon)    PKG_RPM=true ;;
+  # slackware packages .txz, but its full install ships rpm 4.16.
+  slackware)                                    PKG_RPM=true ;;
   # gentoo installs rpm and dpkg, but bindeb-pkg needs debhelper, which Gentoo does not package.
   gentoo)                                       PKG_RPM=true ;;
   # chimera: the image has clang/lld but no gcc; apk-based, so neither deb nor rpm applies.
@@ -54,6 +56,8 @@ case "$ID" in
   # termux: clang is the only compiler Termux packages; ID comes from termux/Dockerfile.
   termux)                                       USE_LLVM=true ;;
   # alpine: apk-based like chimera, but with gcc, so build only.
+  # altlinux: rpm-based, but its rpm 4.13 fork has no --build-in-place, which
+  # binrpm-pkg needs (4.16+), so build only.
   # build only: anything else, e.g. rhel (the UBI image is defined but not in CI).
   *) ;;
 esac
