@@ -14,6 +14,12 @@ RUN apk add --no-cache build-base bc bison flex perl python3 \
 RUN apk add --no-cache coreutils findutils diffutils grep sed gawk tar xz \
     zstd cpio kmod rsync musl-utils
 
+# objtool sizes its signal stack with musl's fixed SIGSTKSZ, which is too small
+# on AMX-capable runners; see alpine/signal.h. Kbuild reads HOSTCFLAGS from the
+# environment and passes it on to objtool.
+COPY ./alpine/signal.h /alpine-include/signal.h
+ENV HOSTCFLAGS="-I/alpine-include"
+
 COPY ./entrypoint.sh /
 RUN chmod 755 /entrypoint.sh
 EXPOSE 8000
