@@ -1,11 +1,11 @@
-FROM fedora:40
+FROM fedora:46
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum -y install git
 
 ENV ORIGIN=https://github.com/gregkh/linux.git
 
-RUN yum groupinstall -y "Development tools"
+RUN dnf -y group install development-tools
 RUN yum install -y ncurses-devel make gcc bc bison flex elfutils-libelf-devel openssl-devel
 RUN yum install -y make diffutils cpio zstd rpm-build rsync hostname
 RUN yum install -y which

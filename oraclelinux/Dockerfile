@@ -1,4 +1,4 @@
-FROM oraclelinux:8.8
+FROM oraclelinux:10
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum -y install git

@@ -1,4 +1,4 @@
-FROM redhat/ubi9:9.2
+FROM redhat/ubi10:10.2
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum -y install git

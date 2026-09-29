@@ -1,10 +1,10 @@
-FROM takano32/linux-mint:21.2
+# Linux Mint's own image; it already lists the deb-src entries build-dep needs.
+FROM linuxmintd/mint22.3-amd64
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBCONF_NOWARNINGS=yes
 
-RUN grep '^deb ' /etc/apt/sources.list | sed 's/^deb/deb-src/g' > /etc/apt/sources.list.d/deb-src.list
 
 RUN apt-get update
 RUN apt-get upgrade -y && apt-get dist-upgrade -y

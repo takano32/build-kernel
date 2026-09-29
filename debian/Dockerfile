@@ -1,8 +1,10 @@
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBCONF_NOWARNINGS=yes
+# The image lists trixie in deb822 form without deb-src; sources.list replaces it.
+RUN rm -f /etc/apt/sources.list.d/debian.sources
 COPY ./debian/sources.list /etc/apt/
 RUN apt-get update
 RUN apt-get install -y git
