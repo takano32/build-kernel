@@ -51,6 +51,8 @@ case "$ID" in
   gentoo)                                       PKG_RPM=true ;;
   # chimera: the image has clang/lld but no gcc; apk-based, so neither deb nor rpm applies.
   chimera)                                      USE_LLVM=true ;;
+  # termux: clang is the only compiler Termux packages; ID comes from termux/Dockerfile.
+  termux)                                       USE_LLVM=true ;;
   # alpine: apk-based like chimera, but with gcc, so build only.
   # build only: anything else, e.g. rhel (the UBI image is defined but not in CI).
   *) ;;

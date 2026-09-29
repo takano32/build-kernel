@@ -1,28 +1,34 @@
-FROM termux/termux-docker
+FROM termux/termux-docker:x86_64
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
-#COPY ./termux/resolv.conf /etc/resolv.conf
-#RUN cat /etc/resolv.conf
-RUN ping -c 3 8.8.8.8
-RUN ping -c 3 google.com
+# Termux's package manager refuses to run as root, and $PREFIX belongs to the
+# image's system user (1000), so the packages go in as that user.
+USER 1000:1000
+RUN apt update && apt upgrade -y -o Dpkg::Options::=--force-confnew
+RUN apt install -y bash git
 
-RUN pkg update && pkg upgrade -y
-RUN apt update && apt install -yq clang
-RUN pkg install -y git
+ENV ORIGIN=https://github.com/gregkh/linux.git
 
-ENV ORIGIN=https://github.com/torvalds/linux.git
-#RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
-#RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
-#RUN cd /build-kernel/linux && git pull --all
+# There is no gcc in Termux, so this is an LLVM=1 build (see entrypoint.sh).
+RUN apt install -y clang lld llvm make bison flex bc perl python \
+    libelf openssl
+RUN apt install -y coreutils findutils diffutils grep sed gawk tar xz-utils \
+    zstd cpio rsync getconf
+RUN apt clean
 
-RUN apt-get build-dep -y linux
-RUN apt-get install -y llvm clang lld
-RUN apt-get install -y rpm
-RUN apt-get install -y curl python3-pip
-RUN apt-get clean
+# The rootfs is Android's: no /bin, /usr/bin or /etc/os-release. Kbuild runs
+# /bin/sh and its scripts' #!/usr/bin/env lines directly, and there is no
+# termux-exec in a container to rewrite them, so point both at $PREFIX/bin;
+# entrypoint.sh reads its distro knobs from /etc/os-release.
+USER root
+RUN [ -e /bin ] || ln -s "$PREFIX/bin" /bin
+RUN mkdir -p /usr && { [ -e /usr/bin ] || ln -s "$PREFIX/bin" /usr/bin; }
+RUN mkdir -p /etc && echo "ID=termux" > /etc/os-release
+RUN mkdir -p /build-kernel
 
-COPY ./entrypoint.sh /
-RUN chmod 755 /entrypoint.sh
+# The image's own /entrypoint.sh drops to the system user, who could not write
+# to the artifacts directory CI bind-mounts; /entrypoint_root.sh keeps root.
+COPY ./entrypoint.sh /build-kernel.sh
+RUN chmod 755 /build-kernel.sh
 EXPOSE 8000
-ENTRYPOINT ["/entrypoint.sh"]
-
+ENTRYPOINT ["/entrypoint_root.sh", "bash", "/build-kernel.sh"]
