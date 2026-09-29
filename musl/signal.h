@@ -6,7 +6,8 @@
  * SIGSTKSZ as sysconf(_SC_SIGSTKSZ) under _GNU_SOURCE; musl's sysconf gives the
  * same AT_MINSIGSTKSZ-based answer, so do what glibc does. objtool's
  * tools/objtool/signal.c is the only host program that uses SIGSTKSZ.
- * HOSTCFLAGS in alpine/Dockerfile puts this directory first.
+ * Used by the musl images, alpine and chimeralinux; HOSTCFLAGS in their
+ * Dockerfiles puts this directory first.
  */
 #include_next <signal.h>
 

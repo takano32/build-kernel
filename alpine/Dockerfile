@@ -15,10 +15,10 @@ RUN apk add --no-cache coreutils findutils diffutils grep sed gawk tar xz \
     zstd cpio kmod rsync musl-utils
 
 # objtool sizes its signal stack with musl's fixed SIGSTKSZ, which is too small
-# on AMX-capable runners; see alpine/signal.h. Kbuild reads HOSTCFLAGS from the
+# on AMX-capable runners; see musl/signal.h. Kbuild reads HOSTCFLAGS from the
 # environment and passes it on to objtool.
-COPY ./alpine/signal.h /alpine-include/signal.h
-ENV HOSTCFLAGS="-I/alpine-include"
+COPY ./musl/signal.h /musl-include/signal.h
+ENV HOSTCFLAGS="-I/musl-include"
 
 COPY ./entrypoint.sh /
 RUN chmod 755 /entrypoint.sh

@@ -59,6 +59,12 @@ RUN cd archives/bc-1.07.1 && $SUDO ./configure && $SUDO make && make install
 
 RUN rm -rf /var/cache/apk/*
 
+# objtool sizes its signal stack with musl's fixed SIGSTKSZ, which is too small
+# on AMX-capable runners; see musl/signal.h. Kbuild reads HOSTCFLAGS from the
+# environment and passes it on to objtool.
+COPY ./musl/signal.h /musl-include/signal.h
+ENV HOSTCFLAGS="-I/musl-include"
+
 COPY ./entrypoint.sh /
 RUN chmod 755 /entrypoint.sh
 EXPOSE 8000
