@@ -1,0 +1,32 @@
+name: Build Linux Kernel
+
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - '**.md'
+  schedule:
+    # Twice a week: this repo exists to catch upstream distro/toolchain drift,
+    # which happens whether or not anyone pushes, and GitHub drops caches that
+    # go unused for 7 days, so weekly would lose the arch/manjaro ccache.
+    - cron: '0 0 * * 1,4'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        linux: [debian, kalilinux, linux-mint, ubuntu,
+          almalinux, amazonlinux,
+          centos, centos8, fedora, mageia,
+          opensuse, oraclelinux, rockylinux,
+          archlinux, manjarolinux,
+          azurelinux, cbl-mariner, chimeralinux,
+          alpine, gentoo, solus, void-linux,
+          parrot]
+          # redhat: UBI repos lack bison/flex/dwarves; kernel cannot be built
+          # without a RHEL subscription
+    uses: ./.github/workflows/build.yml
+    with:
+      linux: ${{ matrix.linux }}
+

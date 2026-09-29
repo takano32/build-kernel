@@ -1,5 +1,10 @@
-version: '3.9'
 services:
+  alpine:
+    build:
+      context: .
+      dockerfile: ./alpine/Dockerfile
+    ports:
+      - 8023:8000
   almalinux:
     build:
       context: .
@@ -18,6 +23,12 @@ services:
       dockerfile: ./archlinux/Dockerfile
     ports:
       - 8003:8000
+  azurelinux:
+    build:
+      context: .
+      dockerfile: ./azurelinux/Dockerfile
+    ports:
+      - 8024:8000
   cbl-mariner:
     build:
       context: .
@@ -138,4 +149,4 @@ services:
       context: .
       dockerfile: ./termux/Dockerfile
     ports:
-      - 8023:8000
+      - 8025:8000

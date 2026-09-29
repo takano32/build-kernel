@@ -1,4 +1,4 @@
-FROM mageia:cauldron
+FROM mageia:latest
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 
@@ -8,15 +8,13 @@ RUN rpmdb --rebuilddb --define "_db_backend sqlite"
 RUN echo "%_netsharedpath /sys:/proc" >> /etc/rpm/macros.dist
 RUN dnf upgrade -y --releasever=8
 RUN dnf distro-sync -y --releasever=9
-RUN dnf upgrade -y --best --releasever=9 dnf python3-dnf dnf-conf
+RUN dnf upgrade -y --best --releasever=9
 RUN dnf install -y --best --releasever=9 yum
 RUN dnf clean packages
+RUN yum clean all
 RUN yum install -y git
 
-ENV ORIGIN=https://github.com/torvalds/linux.git
-RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
-RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
-RUN cd /build-kernel/linux && git pull --all
+ENV ORIGIN=https://github.com/gregkh/linux.git
 
 RUN yum install -y python3-dnf
 RUN yum install -y ncurses-devel make gcc bc bison flex openssl-devel

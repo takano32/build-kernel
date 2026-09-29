@@ -9,13 +9,10 @@ RUN cd /etc/yum.repos.d && sed -i "s|#baseurl=http://$CENTOS|baseurl=http://$VAU
 
 RUN yum -y install git
 
-ENV ORIGIN=https://github.com/torvalds/linux.git
-RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
-RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
-RUN cd /build-kernel/linux && git pull --all
+ENV ORIGIN=https://github.com/gregkh/linux.git
 
 RUN yum install -y ncurses-devel make gcc bc bison flex elfutils-libelf-devel openssl-devel
-RUN yum install -y make diffutils cpio zstd rpm-build rsync
+RUN yum install -y make diffutils cpio zstd rpm-build rsync hostname elfutils-devel
 
 # make htmldocs
 RUN yum install -y python3-pip graphviz texlive-latex librsvg2-tools

@@ -1,16 +1,13 @@
-FROM fedora:38
+FROM fedora:40
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum -y install git
 
-ENV ORIGIN=https://github.com/torvalds/linux.git
-RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
-RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
-RUN cd /build-kernel/linux && git pull --all
+ENV ORIGIN=https://github.com/gregkh/linux.git
 
 RUN yum groupinstall -y "Development tools"
 RUN yum install -y ncurses-devel make gcc bc bison flex elfutils-libelf-devel openssl-devel
-RUN yum install -y make diffutils cpio zstd rpm-build rsync
+RUN yum install -y make diffutils cpio zstd rpm-build rsync hostname
 RUN yum install -y which
 
 # make htmldocs

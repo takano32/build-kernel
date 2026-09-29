@@ -1,4 +1,5 @@
-[![build](https://github.com/takano32/build-kernel/actions/workflows/workflow.yml/badge.svg)](https://github.com/takano32/build-kernel/actions/workflows/workflow.yml)
+[![Build Linux Kernel](https://github.com/takano32/build-kernel/actions/workflows/build-all.yml/badge.svg)](https://github.com/takano32/build-kernel/actions/workflows/build-all.yml)
+![Distributions](https://img.shields.io/badge/distributions-23-blue)
 
 # build-kernel
 
@@ -8,9 +9,56 @@ Build Linux Kernel with Docker Compose.
 $ docker compose up ubuntu
 ```
 
+## What a build does
+
+Each service is one distribution's image with that distribution's toolchain.
+On start the container fetches a single pinned stable kernel tag
+(`LINUX_VERSION` in `entrypoint.sh`; override with
+`docker compose run -e LINUX_VERSION=v7.2.6 ubuntu`), builds it with an
+`alldefconfig`-based config plus modules, runs `bindeb-pkg` / `binrpm-pkg`
+where the image has the tools, and serves the results from
+`/build-kernel/artifacts` on port 8000 (see the port mapping in
+`docker-compose.yml`). A tag that cannot be fetched fails the build.
+
+`archlinux` and `manjarolinux` build Arch's official `linux` PKGBUILD
+instead, and `azurelinux` and `cbl-mariner` build Microsoft's kernel tree at
+its newest `rolling-lts/mariner-3` tag.
+
+## CI
+
+Every push, plus a schedule on Monday and Thursday 00:00 UTC, builds all 23
+distributions. Each job uploads `artifacts/` (the packages and the kernel
+config) as a workflow artifact. The two Arch-based jobs keep a ccache
+between runs, which brings their full-config build from about 2.5 hours
+down to under an hour; the first run after a compiler update is cold again.
+
+## Supported distributions
+
+CI builds the kernel on these 23 distributions:
+
+almalinux, alpine, amazonlinux, archlinux, azurelinux, cbl-mariner,
+centos, centos8, chimeralinux, debian, fedora, gentoo, kalilinux,
+linux-mint, mageia, manjarolinux, opensuse, oraclelinux, parrot,
+rockylinux, solus, ubuntu, void-linux
+
+Defined in Docker Compose but not built in CI:
+
+* redhat: the public UBI repositories ship no bison/flex/dwarves,
+  so the kernel cannot be built without a RHEL subscription
+
 ## archlinux
 
 * [ArchWiki - Kernel_Arch Build System](https://wiki.archlinux.org/title/Kernel/Arch_Build_System)
+
+## alpine
+
+* [Docker Hub - Alpine](https://hub.docker.com/_/alpine)
+* [Alpine Linux Wiki - Custom Kernel](https://wiki.alpinelinux.org/wiki/Custom_Kernel)
+
+## azurelinux
+
+* [microsoft/azurelinux](https://github.com/microsoft/azurelinux)
+* [microsoft/CBL-Mariner-Linux-Kernel](https://github.com/microsoft/CBL-Mariner-Linux-Kernel)
 
 ## almalinux
 
@@ -41,6 +89,11 @@ $ docker compose up ubuntu
 * [Ubuntu - BuildYourOwnKernel](https://wiki.ubuntu.com/Kernel/BuildYourOwnKernel)
 * [Debian - BuildADebianKernelPackage](https://wiki.debian.org/BuildADebianKernelPackage)
 * [Ubuntuで最新のカーネルをお手軽にビルドする方法](https://gihyo.jp/admin/serial/01/ubuntu-recipe/0526?page=2)
+
+## parrot
+
+* [Parrot Security](https://parrotsec.org/)
+* [Docker Hub - parrotsec/core](https://hub.docker.com/r/parrotsec/core)
 
 ## mageia
 

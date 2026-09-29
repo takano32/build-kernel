@@ -5,10 +5,7 @@ LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 RUN apk update && apk upgrade || apk fix
 RUN apk add bash git
 
-ENV ORIGIN=https://github.com/torvalds/linux.git
-RUN git clone --depth 1 ${ORIGIN} /build-kernel/linux
-RUN while :; do cd /build-kernel/linux && git fetch --unshallow && break || sleep 5; done
-RUN cd /build-kernel/linux && git pull --all
+ENV ORIGIN=https://github.com/gregkh/linux.git
 
 RUN apk add curl
 RUN apk add chimerautils-extra
@@ -47,11 +44,11 @@ RUN ln -sf /usr/sbin/gmake /usr/local/bin/make
 RUN apk add opendoas
 RUN mkdir archives
 RUN chown takano32:takano32 archives
-RUN fetch https://ftp.gnu.org/gnu/coreutils/coreutils-9.4.tar.gz
-RUN chown takano32:takano32 coreutils-9.4.tar.gz
-RUN mv coreutils-9.4.tar.gz archives
-RUN cd archives && $SUDO tar xvf coreutils-9.4.tar.gz
-RUN cd archives/coreutils-9.4 && $SUDO ./configure && $SUDO make && make install
+RUN fetch https://ftp.gnu.org/gnu/coreutils/coreutils-9.5.tar.gz
+RUN chown takano32:takano32 coreutils-9.5.tar.gz
+RUN mv coreutils-9.5.tar.gz archives
+RUN cd archives && $SUDO tar xvf coreutils-9.5.tar.gz
+RUN cd archives/coreutils-9.5 && $SUDO ./configure && $SUDO make && make install
 
 RUN apk add texinfo
 RUN fetch https://ftp.gnu.org/gnu/bc/bc-1.07.1.tar.gz
