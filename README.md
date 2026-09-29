@@ -21,8 +21,9 @@ where the image has the tools, and serves the results from
 `docker-compose.yml`). A tag that cannot be fetched fails the build.
 
 `archlinux` and `manjarolinux` build Arch's official `linux` PKGBUILD
-instead, and `azurelinux` and `cbl-mariner` build Microsoft's kernel tree at
-its newest `rolling-lts/mariner-3` tag.
+instead, `cachyos` builds CachyOS's `linux-cachyos` PKGBUILD (clang and
+ThinLTO, `_processor_opt=generic`), and `azurelinux` and `cbl-mariner`
+build Microsoft's kernel tree at its newest `rolling-lts/mariner-3` tag.
 
 ## CI
 

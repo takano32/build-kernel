@@ -1,8 +1,9 @@
 #!/bin/bash
 # Build one pinned stable kernel tag on whatever distro this container is,
 # run bindeb-pkg/binrpm-pkg on the distros the table below enables it for, and
-# leave the results in /build-kernel/artifacts. archlinux/ and manjarolinux/ do
-# not use this script: they build Arch's official PKGBUILD from their own entrypoint.
+# leave the results in /build-kernel/artifacts. archlinux/, manjarolinux/ and
+# cachyos/ do not use this script: they build their distro's kernel PKGBUILD
+# from their own entrypoint.
 # -x stays on because a CI log is the only debugger these builds get.
 set -euxo pipefail
 
@@ -58,7 +59,6 @@ case "$ID" in
   # alpine: apk-based like chimera, but with gcc, so build only.
   # altlinux: rpm-based, but its rpm 4.13 fork has no --build-in-place, which
   # binrpm-pkg needs (4.16+), so build only.
-  # cachyos: pacman-based, so build only; see cachyos/Dockerfile.
   # build only: anything else, e.g. rhel (the UBI image is defined but not in CI).
   *) ;;
 esac
