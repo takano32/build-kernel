@@ -21,7 +21,7 @@ jobs:
           centos, centos8, fedora, mageia,
           opensuse, opensuse-leap, oraclelinux, rockylinux,
           openeuler, photon, altlinux,
-          azurelinux, cbl-mariner, chimeralinux,
+          azurelinux, cachyos, cbl-mariner, chimeralinux,
           alpine, gentoo, slackware, solus, void-linux,
           parrot, termux]
           # redhat: UBI repos lack bison/flex/dwarves; kernel cannot be built

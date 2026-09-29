@@ -58,6 +58,7 @@ case "$ID" in
   # alpine: apk-based like chimera, but with gcc, so build only.
   # altlinux: rpm-based, but its rpm 4.13 fork has no --build-in-place, which
   # binrpm-pkg needs (4.16+), so build only.
+  # cachyos: pacman-based, so build only; see cachyos/Dockerfile.
   # build only: anything else, e.g. rhel (the UBI image is defined but not in CI).
   *) ;;
 esac

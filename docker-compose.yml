@@ -173,6 +173,12 @@ services:
       dockerfile: ./slackware/Dockerfile
     ports:
       - 8030:8000
+  cachyos:
+    build:
+      context: .
+      dockerfile: ./cachyos/Dockerfile
+    ports:
+      - 8031:8000
   termux:
     build:
       context: .
