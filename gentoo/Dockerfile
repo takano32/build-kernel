@@ -36,6 +36,14 @@ RUN emerge -qv sys-kernel/linux-docs
 # RUN FEATURES="ipc-sandbox network-sandbox pid-sandbox" emerge -qv media-gfx/graphviz
 
 RUN emerge -qv app-arch/rpm
+# musl has no obstack; dpkg's dependency sys-libs/obstack-standalone provides
+# it, but the ebuild does not link it, so on musl dpkg failed with undefined
+# references to _obstack_free. Link it for dpkg there only (glibc has none).
+RUN if [ -e /lib/ld-musl-x86_64.so.1 ]; then \
+      mkdir -p /etc/portage/env /etc/portage/package.env \
+      && echo 'LIBS="-lobstack"' > /etc/portage/env/obstack.conf \
+      && echo 'app-arch/dpkg obstack.conf' > /etc/portage/package.env/dpkg; \
+    fi
 RUN emerge -qv app-arch/dpkg
 RUN touch /var/lib/dpkg/status
 
