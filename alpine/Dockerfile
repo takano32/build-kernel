@@ -1,4 +1,6 @@
-FROM alpine:3.24
+# BASE: alpine-edge in docker-compose.yml builds the same with edge.
+ARG BASE=alpine:3.24
+FROM ${BASE}
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN apk upgrade --no-cache

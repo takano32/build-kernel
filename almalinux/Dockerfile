@@ -1,4 +1,6 @@
-FROM almalinux:10
+# BASE: almalinux-kitten in docker-compose.yml builds the same with Kitten.
+ARG BASE=almalinux:10
+FROM ${BASE}
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum -y install git

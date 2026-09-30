@@ -51,6 +51,7 @@ case "$ID" in
   centos) [ "${VERSION_ID%%.*}" = 8 ] || PKG_RPM=true ;;
   opensuse-tumbleweed|mariner|voidlinux|solus)  PKG_RPM=true ;;
   azurelinux|opensuse-leap|openEuler|photon)    PKG_RPM=true ;;
+  miraclelinux|opencloudos|anolis)              PKG_RPM=true ;;
   # slackware packages .txz, but its full install ships rpm 4.16.
   slackware)                                    PKG_RPM=true ;;
   # gentoo installs rpm and dpkg, but bindeb-pkg needs debhelper, which Gentoo does not package.
@@ -62,6 +63,7 @@ case "$ID" in
   # alpine: apk-based like chimera, but with gcc, so build only.
   # altlinux: rpm-based, but its rpm 4.13 fork has no --build-in-place, which
   # binrpm-pkg needs (4.16+), so build only.
+  # wolfi (apk) and artix (pacman): build only.
   # build only: anything else, e.g. rhel (the UBI image is defined but not in CI).
   *) ;;
 esac

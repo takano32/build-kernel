@@ -1,6 +1,8 @@
+# BASE: gentoo-musl in docker-compose.yml builds the same on the musl stage3.
+ARG BASE=gentoo/stage3:latest
 FROM gentoo/portage:latest as portage
 
-FROM gentoo/stage3:latest
+FROM ${BASE}
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
@@ -22,6 +24,9 @@ RUN emerge -qv app-arch/dpkg
 RUN touch /var/lib/dpkg/status
 
 RUN emerge -qv app-portage/gentoolkit
+
+# Only used by the musl build, through HOSTCFLAGS in docker-compose.yml.
+COPY ./musl/signal.h /musl-include/signal.h
 RUN eclean --deep distfiles
 
 COPY ./entrypoint.sh /

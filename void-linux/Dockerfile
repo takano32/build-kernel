@@ -1,4 +1,6 @@
-FROM ghcr.io/void-linux/void-linux:latest-thin-bb-x86_64
+# BASE: void-linux-musl in docker-compose.yml builds the same on musl.
+ARG BASE=ghcr.io/void-linux/void-linux:latest-thin-bb-x86_64
+FROM ${BASE}
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN xbps-install -Suvy xbps
@@ -27,6 +29,9 @@ RUN xbps-install -Suvy tar xz
 # headers_install, which binrpm-pkg runs, needs rsync
 RUN xbps-install -Suvy rsync
 RUN xbps-remove -Oo
+
+# Only used by the musl build, through HOSTCFLAGS in docker-compose.yml.
+COPY ./musl/signal.h /musl-include/signal.h
 
 RUN echo "ID=voidlinux" > /etc/os-release
 COPY ./entrypoint.sh /

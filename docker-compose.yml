@@ -179,6 +179,91 @@ services:
       dockerfile: ./cachyos/Dockerfile
     ports:
       - 8031:8000
+  miraclelinux:
+    build:
+      context: .
+      dockerfile: ./miraclelinux/Dockerfile
+    ports:
+      - 8032:8000
+  opencloudos:
+    build:
+      context: .
+      dockerfile: ./opencloudos/Dockerfile
+    ports:
+      - 8033:8000
+  anolisos:
+    build:
+      context: .
+      dockerfile: ./anolisos/Dockerfile
+    ports:
+      - 8034:8000
+  wolfi:
+    build:
+      context: .
+      dockerfile: ./wolfi/Dockerfile
+    ports:
+      - 8035:8000
+  artixlinux:
+    build:
+      context: .
+      dockerfile: ./artixlinux/Dockerfile
+    ports:
+      - 8036:8000
+  # Variants: the same Dockerfile on a development branch or on musl, chosen
+  # with the Dockerfile's BASE build argument. The musl ones point HOSTCFLAGS
+  # at musl/signal.h, which their Dockerfiles copy in (see there).
+  fedora-rawhide:
+    build:
+      context: .
+      dockerfile: ./fedora/Dockerfile
+      args:
+        BASE: fedora:rawhide
+    ports:
+      - 8037:8000
+  debian-sid:
+    build:
+      context: .
+      dockerfile: ./debian/Dockerfile
+      args:
+        BASE: debian:sid-slim
+    ports:
+      - 8038:8000
+  alpine-edge:
+    build:
+      context: .
+      dockerfile: ./alpine/Dockerfile
+      args:
+        BASE: alpine:edge
+    ports:
+      - 8039:8000
+  almalinux-kitten:
+    build:
+      context: .
+      dockerfile: ./almalinux/Dockerfile
+      args:
+        BASE: almalinux:10-kitten
+    ports:
+      - 8040:8000
+  gentoo-musl:
+    build:
+      context: .
+      dockerfile: ./gentoo/Dockerfile
+      args:
+        BASE: gentoo/stage3:amd64-musl
+    environment:
+      - HOSTCFLAGS=-I/musl-include
+    ports:
+      - 8041:8000
+  void-linux-musl:
+    build:
+      context: .
+      dockerfile: ./void-linux/Dockerfile
+      args:
+        BASE: ghcr.io/void-linux/void-linux:latest-thin-bb-x86_64-musl
+    environment:
+      - HOSTCFLAGS=-I/musl-include
+    ports:
+      - 8042:8000
   termux:
     build:
       context: .

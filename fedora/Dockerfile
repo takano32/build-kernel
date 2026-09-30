@@ -1,4 +1,6 @@
-FROM fedora:46
+# BASE: fedora-rawhide in docker-compose.yml builds the same with rawhide.
+ARG BASE=fedora:46
+FROM ${BASE}
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum -y install git

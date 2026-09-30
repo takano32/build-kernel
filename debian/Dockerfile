@@ -1,11 +1,15 @@
-FROM debian:trixie-slim
+# BASE: debian-sid in docker-compose.yml builds the same with sid.
+ARG BASE=debian:trixie-slim
+FROM ${BASE}
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBCONF_NOWARNINGS=yes
-# The image lists trixie in deb822 form without deb-src; sources.list replaces it.
-RUN rm -f /etc/apt/sources.list.d/debian.sources
-COPY ./debian/sources.list /etc/apt/
+# The image lists its suites in deb822 form without deb-src, which build-dep
+# needs. Adding the type in place works for trixie and sid alike (sid has no
+# -security or -updates suites to list).
+RUN sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/debian.sources \
+    && grep -q '^Types: deb deb-src$' /etc/apt/sources.list.d/debian.sources
 RUN apt-get update
 RUN apt-get install -y git
 
