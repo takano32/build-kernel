@@ -22,6 +22,12 @@ ARTIFACTS=/build-kernel/artifacts
 export KBUILD_BUILD_USER=build-kernel
 export KBUILD_BUILD_HOST=docker
 
+# Gentoo's LLVM stage3s keep clang and the other LLVM tools in
+# /usr/lib/llvm/<slot>/bin, which only reaches PATH through /etc/profile.env
+# (login shells); the image's own PATH lacks it. Append that PATH rather than
+# sourcing the file, which would drop /usr/sbin (depmod, for binrpm-pkg).
+if [ -r /etc/profile.env ]; then PATH="$PATH:$(. /etc/profile.env && echo "$PATH")"; fi
+
 MAKE="make"
 if command -v gmake > /dev/null; then MAKE="gmake"; fi
 
