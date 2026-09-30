@@ -209,9 +209,10 @@ services:
       dockerfile: ./artixlinux/Dockerfile
     ports:
       - 8036:8000
-  # Variants: the same Dockerfile on a development branch or on musl, chosen
-  # with the Dockerfile's BASE build argument. The musl ones point HOSTCFLAGS
-  # at musl/signal.h, which their Dockerfiles copy in (see there).
+  # Variants: the same Dockerfile on a development branch, on musl or on an
+  # LLVM stage3, chosen with the Dockerfile's BASE build argument. The musl
+  # ones point HOSTCFLAGS at musl/signal.h, which their Dockerfiles copy in
+  # (see there); the LLVM ones have no gcc and set USE_LLVM for entrypoint.sh.
   fedora-rawhide:
     build:
       context: .
@@ -254,6 +255,27 @@ services:
       - HOSTCFLAGS=-I/musl-include
     ports:
       - 8041:8000
+  gentoo-llvm:
+    build:
+      context: .
+      dockerfile: ./gentoo/Dockerfile
+      args:
+        BASE: gentoo/stage3:llvm
+    environment:
+      - USE_LLVM=true
+    ports:
+      - 8043:8000
+  gentoo-musl-llvm:
+    build:
+      context: .
+      dockerfile: ./gentoo/Dockerfile
+      args:
+        BASE: gentoo/stage3:musl-llvm
+    environment:
+      - HOSTCFLAGS=-I/musl-include
+      - USE_LLVM=true
+    ports:
+      - 8044:8000
   void-linux-musl:
     build:
       context: .

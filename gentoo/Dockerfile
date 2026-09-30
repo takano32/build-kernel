@@ -1,4 +1,5 @@
-# BASE: gentoo-musl in docker-compose.yml builds the same on the musl stage3.
+# BASE: gentoo-musl, gentoo-llvm and gentoo-musl-llvm in docker-compose.yml
+# build the same on the musl, LLVM and musl+LLVM stage3s.
 ARG BASE=gentoo/stage3:latest
 FROM gentoo/portage:latest as portage
 
@@ -7,14 +8,18 @@ LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 RUN eselect news read new
-# Python 3.14 only. The tree's targets are python3_14, but a stage3 can
-# still carry python packages built for an older one alone (the musl stage3:
-# python3_13), and anything that then wants them for 3.14 (Sphinx, for
-# linux-docs) slot-conflicts with the installed copies gemato needs.
-# Rebuild just those for the tree's targets; without --deep this stays at
-# the stage3's python packages (26 on the musl stage3) instead of an
-# @world update that rebuilt gcc and took gentoo from ~40 to ~150 minutes.
-RUN emerge -q1uN $(qlist -IC dev-python/ app-portage/gemato)
+# Python 3.14 only, on every stage3. The tree already targets python3_14,
+# but a stage3 can carry packages built for an older target alone (the musl
+# one: python3_13), and anything that then wants them for 3.14 (Sphinx, for
+# linux-docs) slot-conflicts with the installed copies gemato needs. Pin the
+# targets and rebuild just the packages installed for an older one, without
+# --deep: 56 merges on the musl stage3, none on the others (emerge -p against
+# the current tree), where an @world update pulled in gcc and 160-odd
+# packages and took gentoo from ~40 to ~150 minutes.
+RUN printf 'PYTHON_TARGETS="python3_14"\nPYTHON_SINGLE_TARGET="python3_14"\n' >> /etc/portage/make.conf
+RUN P=$(grep -lE 'python_(single_)?targets?_python3_1[0-3]( |$)' /var/db/pkg/*/*/USE \
+      | sed 's|/var/db/pkg/||; s|/USE||; s/-[0-9].*//' | sort -u); \
+    if [ -n "$P" ]; then emerge -q1uN $P; fi
 RUN emerge -qv dev-vcs/git
 
 ENV ORIGIN=https://github.com/gregkh/linux.git

@@ -1,5 +1,5 @@
 [![Build Linux Kernel](https://github.com/takano32/build-kernel/actions/workflows/build-all.yml/badge.svg)](https://github.com/takano32/build-kernel/actions/workflows/build-all.yml)
-![Distributions](https://img.shields.io/badge/distributions-41-blue)
+![Distributions](https://img.shields.io/badge/distributions-43-blue)
 
 # build-kernel
 
@@ -27,7 +27,7 @@ build Microsoft's kernel tree at its newest `rolling-lts/mariner-3` tag.
 
 ## CI
 
-Every push, plus a schedule on Monday and Thursday 00:00 UTC, builds all 41
+Every push, plus a schedule on Monday and Thursday 00:00 UTC, builds all 43
 distributions. Each job uploads `artifacts/` (the packages and the kernel
 config) as a workflow artifact. The longest jobs are the three that
 build their distro's full kernel config, archlinux, manjarolinux and
@@ -36,19 +36,22 @@ so a whole run takes about as long as the slowest of them.
 
 ## Supported distributions
 
-CI builds the kernel on these 41 distributions and variants:
+CI builds the kernel on these 43 distributions and variants:
 
 almalinux, almalinux-kitten, alpine, alpine-edge, altlinux, amazonlinux,
 anolisos, archlinux, artixlinux, azurelinux, cachyos, cbl-mariner,
 centos, centos8, chimeralinux, debian, debian-sid, fedora,
-fedora-rawhide, gentoo, gentoo-musl, kalilinux, linux-mint, mageia,
-manjarolinux, miraclelinux, opencloudos, openeuler, opensuse,
-opensuse-leap, oraclelinux, parrot, photon, rockylinux, slackware,
-solus, termux, ubuntu, void-linux, void-linux-musl, wolfi
+fedora-rawhide, gentoo, gentoo-llvm, gentoo-musl, gentoo-musl-llvm,
+kalilinux, linux-mint, mageia, manjarolinux, miraclelinux, opencloudos,
+openeuler, opensuse, opensuse-leap, oraclelinux, parrot, photon,
+rockylinux, slackware, solus, termux, ubuntu, void-linux,
+void-linux-musl, wolfi
 
 The `-rawhide`, `-sid`, `-edge` and `-kitten` jobs build on development
 branches to catch toolchain changes before they reach a release;
-`gentoo-musl` and `void-linux-musl` build those distributions on musl.
+`gentoo-musl` and `void-linux-musl` build those distributions on musl,
+and `gentoo-llvm` and `gentoo-musl-llvm` on Gentoo's LLVM stage3s, where
+the kernel is built with clang (LLVM=1).
 
 `centos` is CentOS Stream 10; `centos8` is CentOS Linux 8.5.2111, the
 last CentOS release before Stream, from vault.centos.org. Likewise

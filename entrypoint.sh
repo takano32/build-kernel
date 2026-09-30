@@ -34,7 +34,9 @@ if command -v gmake > /dev/null; then MAKE="gmake"; fi
 # of the list -- backwards, so an ID like "ol" matched a list containing "solus".
 PKG_DEB=false
 PKG_RPM=false
-USE_LLVM=false
+# USE_LLVM can also come from the environment: gentoo-llvm and
+# gentoo-musl-llvm (docker-compose.yml) have no gcc.
+USE_LLVM=${USE_LLVM:-false}
 case "$ID" in
   # Debian family: `apt-get build-dep linux` brings dpkg-dev and debhelper, and
   # every one of these images also installs rpm, so both targets apply. ubuntu
