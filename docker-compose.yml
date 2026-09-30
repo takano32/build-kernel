@@ -44,7 +44,7 @@ services:
   centos8:
     build:
       context: .
-      dockerfile: ./centos/Dockerfile
+      dockerfile: ./centos8/Dockerfile
     ports:
       - 8018:8000
   chimeralinux:

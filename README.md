@@ -44,6 +44,9 @@ gentoo, kalilinux, linux-mint, mageia, manjarolinux, openeuler,
 opensuse, opensuse-leap, oraclelinux, parrot, photon, rockylinux,
 slackware, solus, termux, ubuntu, void-linux
 
+`centos` is CentOS Stream 10; `centos8` is CentOS Linux 8.5.2111, the
+last CentOS release before Stream, from vault.centos.org.
+
 Defined in Docker Compose but not built in CI:
 
 * redhat: the public UBI repositories ship no bison/flex/dwarves,

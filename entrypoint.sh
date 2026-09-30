@@ -45,7 +45,10 @@ case "$ID" in
   # most likely over rpmbuild's BuildRequires check (that commit also added a
   # run-time `yum install dwarves perl` for the RHEL-likes); mariner and solus
   # were never tried. The check is skipped now (see binrpm-pkg below).
-  almalinux|amzn|centos|fedora|rocky|ol|mageia) PKG_RPM=true ;;
+  almalinux|amzn|fedora|rocky|ol|mageia)        PKG_RPM=true ;;
+  # centos8 is CentOS Linux 8.5, whose rpm 4.14 has no --build-in-place
+  # (binrpm-pkg needs 4.16+), so build only; Stream (centos) packages.
+  centos) [ "${VERSION_ID%%.*}" = 8 ] || PKG_RPM=true ;;
   opensuse-tumbleweed|mariner|voidlinux|solus)  PKG_RPM=true ;;
   azurelinux|opensuse-leap|openEuler|photon)    PKG_RPM=true ;;
   # slackware packages .txz, but its full install ships rpm 4.16.
