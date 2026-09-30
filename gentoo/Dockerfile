@@ -7,17 +7,11 @@ LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
 
 RUN eselect news read new
-# Bring the stage3 up to the portage tree first. The musl stage3 lags it:
-# its python packages were built for python3_13 only, and the ~amd64
-# linux-docs below pulls in Sphinx for python3_14, which left requests,
-# urllib3, certifi and friends in slot conflicts with the installed gemato.
-RUN emerge -quDN @world
 RUN emerge -qv dev-vcs/git
 
 ENV ORIGIN=https://github.com/gregkh/linux.git
 
 RUN emerge -qv sys-kernel/gentoo-sources
-RUN ACCEPT_KEYWORDS="~amd64" emerge -qv sys-kernel/linux-docs
 
 # RUN emerge -qv dev-python/pip
 # RUN emerge -qv app-portage/flaggie
