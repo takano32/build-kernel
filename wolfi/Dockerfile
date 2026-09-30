@@ -13,7 +13,7 @@ ENV ORIGIN=https://github.com/gregkh/linux.git
 
 RUN apk add build-base bc bison flex perl python3 elfutils-dev openssl-dev \
     linux-headers
-RUN apk add coreutils findutils diffutils grep sed gawk tar xz zstd cpio kmod \
+RUN apk add coreutils findutils diffutils grep sed gawk gnutar xz zstd cpio kmod \
     rsync posix-libc-utils
 
 COPY ./entrypoint.sh /
