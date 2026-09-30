@@ -20,6 +20,17 @@ RUN printf 'PYTHON_TARGETS="python3_14"\nPYTHON_SINGLE_TARGET="python3_14"\n' >>
 RUN P=$(grep -lE 'python_(single_)?targets?_python3_1[0-3]( |$)' /var/db/pkg/*/*/USE \
       | sed 's|/var/db/pkg/||; s|/USE||; s/-[0-9].*//' | sort -u); \
     if [ -n "$P" ]; then emerge -q1uN $P; fi
+# The musl LLVM stage3 has no gcc, and dev-lang/rust-bin (pulled in by git's
+# rust USE and by rpm's sequoia USE, through rpm-sequoia) wants
+# llvm-runtimes/libgcc or sys-devel/gcc: the former is masked, so emerge
+# built gcc 16 and binutils from source under clang, which kept
+# gentoo-musl-llvm in its image build for well over 100 minutes. Leave Rust
+# out there: git without its rust parts, rpm verifying signatures with
+# libgcrypt instead of Sequoia.
+RUN if [ -e /lib/ld-musl-x86_64.so.1 ] && [ "$(portageq envvar CC)" = clang ]; then \
+      mkdir -p /etc/portage/package.use \
+      && printf 'dev-vcs/git -rust\napp-arch/rpm -sequoia\n' > /etc/portage/package.use/no-rust; \
+    fi
 RUN emerge -qv dev-vcs/git
 
 ENV ORIGIN=https://github.com/gregkh/linux.git
