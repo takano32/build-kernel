@@ -3,10 +3,9 @@ LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN yum upgrade -y
 RUN yum clean all
-RUN yum install -y git
+RUN yum install -y git ca-certificates
 
 ENV ORIGIN=https://github.com/microsoft/CBL-Mariner-Linux-Kernel.git
-RUN git config --global http.sslVerify false
 
 RUN yum install -y make gcc bc bison flex awk openssl-devel
 RUN yum install -y binutils diffutils cpio zstd rpm-build rsync
