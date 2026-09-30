@@ -45,7 +45,9 @@ opensuse, opensuse-leap, oraclelinux, parrot, photon, rockylinux,
 slackware, solus, termux, ubuntu, void-linux
 
 `centos` is CentOS Stream 10; `centos8` is CentOS Linux 8.5.2111, the
-last CentOS release before Stream, from vault.centos.org.
+last CentOS release before Stream, from vault.centos.org. Likewise
+`azurelinux` is Azure Linux 3.0 and `cbl-mariner` stays on CBL-Mariner
+2.0, its end-of-life predecessor.
 
 Defined in Docker Compose but not built in CI:
 
