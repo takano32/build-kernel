@@ -9,7 +9,7 @@ set -euxo pipefail
 
 CI=${CI:-false}
 # The 7.1 series went EOL on 2026-09-02, so the pin moved on to 7.2.x.
-LINUX_VERSION=${LINUX_VERSION:-v7.2.6}
+LINUX_VERSION=${LINUX_VERSION:-v7.2.8}
 # Every Dockerfile sets ENV ORIGIN; cbl-mariner's points at Microsoft's tree.
 ORIGIN=${ORIGIN:-https://github.com/gregkh/linux.git}
 SRC=/build-kernel/linux

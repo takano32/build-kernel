@@ -14,7 +14,7 @@ $ docker compose up ubuntu
 Each service is one distribution's image with that distribution's toolchain.
 On start the container fetches a single pinned stable kernel tag
 (`LINUX_VERSION` in `entrypoint.sh`; override with
-`docker compose run -e LINUX_VERSION=v7.2.6 ubuntu`), builds it with an
+`docker compose run -e LINUX_VERSION=v7.2.8 ubuntu`), builds it with an
 `alldefconfig`-based config plus modules, runs `bindeb-pkg` / `binrpm-pkg`
 where the image has the tools, and serves the results from
 `/build-kernel/artifacts` on port 8000 (see the port mapping in
