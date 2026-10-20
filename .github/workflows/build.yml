@@ -22,15 +22,35 @@ jobs:
           remove-docker-images: true
       - name: Check out code
         uses: actions/checkout@v7
+      # A job whose runner dies leaves no log at all (GET /actions/jobs/<id>/logs
+      # answers 404 / BlobNotFound), so nothing about the death survives on
+      # GitHub's side. gentoo-llvm died this way on 10-05, 10-08 and 10-20, each
+      # time around 70 minutes in, with no way to tell memory pressure from a
+      # full disk. Run .github/scripts/sampler.sh next to the build: it posts
+      # memory/disk/PSI to ntfy.sh once a minute, and the last post is the state
+      # the runner died in. Read it with: curl -s https://ntfy.sh/<topic>/json
       - name: Build docker image
-        run: docker compose build ${{ inputs.linux }}
+        env:
+          SAMPLE_TOPIC: build-kernel-9f3a1c7b2e
+          SAMPLE_LABEL: image:${{ inputs.linux }}
+        run: |
+          bash .github/scripts/sampler.sh &
+          sampler=$!
+          trap 'kill "$sampler" 2>/dev/null || true' EXIT
+          docker compose build ${{ inputs.linux }}
       - name: Build Linux Kernel
-        run: >
-          mkdir -p artifacts &&
-          docker compose run --rm
-          --env CI=$CI --service-ports
-          -v "$PWD/artifacts:/build-kernel/artifacts"
-          ${{ inputs.linux }}
+        env:
+          SAMPLE_TOPIC: build-kernel-9f3a1c7b2e
+          SAMPLE_LABEL: kernel:${{ inputs.linux }}
+        run: |
+          bash .github/scripts/sampler.sh &
+          sampler=$!
+          trap 'kill "$sampler" 2>/dev/null || true' EXIT
+          mkdir -p artifacts
+          docker compose run --rm \
+            --env CI=$CI --service-ports \
+            -v "$PWD/artifacts:/build-kernel/artifacts" \
+            ${{ inputs.linux }}
       # entrypoint.sh copies .config into artifacts/ before compiling,
       # so `if: always()` still uploads the config of a failed build.
       - name: Upload artifacts
