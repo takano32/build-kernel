@@ -10,13 +10,17 @@
 #
 # SAMPLE_TOPIC  ntfy.sh topic name (default: build-kernel-lost-runner)
 # SAMPLE_LABEL  which stage this is, e.g. image:gentoo-llvm
+# SAMPLE_TOKEN  ntfy access token. When set every post is authenticated, so a
+#               topic with an ACL still accepts the samples; unset publishes
+#               anonymously, which only works on a public topic.
 set -u
 
 topic=${SAMPLE_TOPIC:-build-kernel-lost-runner}
 label=${SAMPLE_LABEL:-build}
+url=${SAMPLE_URL:-https://ntfy.sh/$topic}
 
 sample() {
-    local ts mem load disk dockerd psi_mem psi_io msg
+    local ts mem load disk dockerd psi_mem psi_io msg code
     ts=$(date -u +%H:%M:%SZ)
     mem=$(free -m | awk '/^Mem:/{printf "%d/%dMB", $3, $2}')
     load=$(cut -d' ' -f1 /proc/loadavg)
@@ -32,11 +36,21 @@ sample() {
     [ -n "$psi_mem" ] && msg="$msg psi_mem($psi_mem)"
     [ -n "$psi_io" ] && msg="$msg psi_io($psi_io)"
 
-    echo "[sample] $msg"
-    curl -fsS --max-time 10 -d "$msg" "https://ntfy.sh/$topic" >/dev/null 2>&1 || true
+    # Keep the POST status in the log: a silent 401/403 would otherwise look
+    # exactly like a runner that simply stopped sampling. GitHub masks the
+    # token itself in the Actions log.
+    if [ -n "${SAMPLE_TOKEN:-}" ]; then
+        code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 10 \
+            -H "Authorization: Bearer $SAMPLE_TOKEN" -d "$msg" "$url" 2>/dev/null) || code=000
+    else
+        code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 10 \
+            -d "$msg" "$url" 2>/dev/null) || code=000
+    fi
+
+    echo "[sample] post=$code $msg"
 }
 
-echo "[sample] runner nproc=$(nproc) $(free -m | awk '/^Mem:/{printf "mem=%dMB", $2}') $(df -h / | awk 'NR==2{printf "disk-free=%s of %s", $4, $2}')"
+echo "[sample] runner nproc=$(nproc) $(free -m | awk '/^Mem:/{printf "mem=%dMB", $2}') $(df -h / | awk 'NR==2{printf "disk-free=%s of %s", $4, $2}') auth=$([ -n "${SAMPLE_TOKEN:-}" ] && echo token || echo anonymous)"
 sample
 while :; do
     sleep 60

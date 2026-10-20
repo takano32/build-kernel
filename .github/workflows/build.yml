@@ -33,6 +33,7 @@ jobs:
         env:
           SAMPLE_TOPIC: build-kernel-9f3a1c7b2e
           SAMPLE_LABEL: image:${{ inputs.linux }}
+          SAMPLE_TOKEN: ${{ secrets.NTFY_TOKEN }}
         run: |
           bash .github/scripts/sampler.sh &
           sampler=$!
@@ -42,6 +43,7 @@ jobs:
         env:
           SAMPLE_TOPIC: build-kernel-9f3a1c7b2e
           SAMPLE_LABEL: kernel:${{ inputs.linux }}
+          SAMPLE_TOKEN: ${{ secrets.NTFY_TOKEN }}
         run: |
           bash .github/scripts/sampler.sh &
           sampler=$!
