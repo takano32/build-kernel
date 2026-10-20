@@ -30,5 +30,10 @@ jobs:
           # redhat: UBI repos lack bison/flex/dwarves; kernel cannot be built
           # without a RHEL subscription
     uses: ./.github/workflows/build.yml
+    # The sampler authenticates to ntfy with NTFY_TOKEN. A reusable workflow
+    # does not see repository secrets unless the caller passes them on, and
+    # without this the sampler quietly published anonymously (auth=anonymous
+    # in the log) instead of failing.
+    secrets: inherit
     with:
       linux: ${{ matrix.linux }}
