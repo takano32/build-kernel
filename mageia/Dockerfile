@@ -1,4 +1,6 @@
-FROM mageia:latest
+# Pin the release: this file upgrades 8 -> 9, and both the Mageia 8 trees and
+# mageia:latest move around (latest was 8 when this file was written).
+FROM mageia:9
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 
@@ -6,7 +8,12 @@ RUN echo "%_db_backend sqlite" >> /etc/rpm/macros.db
 RUN rm -rf /var/lib/rpm
 RUN rpmdb --rebuilddb --define "_db_backend sqlite"
 RUN echo "%_netsharedpath /sys:/proc" >> /etc/rpm/macros.dist
-RUN dnf upgrade -y --releasever=8
+# www.mageia.org hosts the mirrorlist and went offline for security
+# maintenance on 2026-10-22, so every dnf call died on a 404 from it and took
+# this job with it; the Mageia 8 trees are gone from the mirrors too. The image
+# already ships the same repos as static baseurls (mirrors.kernel.org) on
+# commented-out lines, so switch to those and stop depending on that host.
+RUN sed -i -e 's|^mirrorlist=|#mirrorlist=|' -e 's|^#baseurl=|baseurl=|' /etc/yum.repos.d/*.repo
 RUN dnf distro-sync -y --releasever=9
 RUN dnf upgrade -y --best --releasever=9
 RUN dnf install -y --best --releasever=9 yum
