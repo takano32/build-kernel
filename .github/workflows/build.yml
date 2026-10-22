@@ -53,6 +53,23 @@ jobs:
             --env CI=$CI --service-ports \
             -v "$PWD/artifacts:/build-kernel/artifacts" \
             ${{ inputs.linux }}
+      # A failing job announces itself here: one POST per failure with the
+      # distro, the conclusion and the run URL. The sampler's minute-by-minute
+      # stream is for the runner that dies (its posts just stop); this is for
+      # the ordinary failures, which are silent otherwise.
+      - name: Notify failure
+        if: failure() || cancelled()
+        env:
+          SAMPLE_TOPIC: build-kernel-9f3a1c7b2e
+          SAMPLE_TOKEN: ${{ secrets.NTFY_TOKEN }}
+        run: |
+          msg="FAILED ${{ inputs.linux }} (${{ job.status }}) ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 10 \
+            -H "Authorization: Bearer $SAMPLE_TOKEN" \
+            -H "Title: build-kernel: ${{ inputs.linux }} ${{ job.status }}" \
+            -H "Priority: high" -H "Tags: warning" \
+            -d "$msg" "https://ntfy.sh/$SAMPLE_TOPIC") || code=000
+          echo "notified: $code $msg"
       # entrypoint.sh copies .config into artifacts/ before compiling,
       # so `if: always()` still uploads the config of a failed build.
       - name: Upload artifacts
