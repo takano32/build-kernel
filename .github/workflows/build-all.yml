@@ -15,7 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linux: [debian, debian-12, kalilinux, linux-mint, ubuntu, ubuntu-24.04,
+        linux: [debian, debian-12, devuan, kalilinux, linux-mint, ubuntu,
+          ubuntu-24.04,
           almalinux, amazonlinux,
           centos, centos8, fedora, mageia,
           opensuse, opensuse-leap, oraclelinux, rockylinux,
@@ -27,7 +28,7 @@ jobs:
           miraclelinux, opencloudos, anolisos, wolfi, artixlinux,
           fedora-rawhide, debian-sid, alpine-edge, almalinux-kitten,
           gentoo-musl, gentoo-llvm, gentoo-musl-llvm, void-linux-musl,
-          almalinux-8]
+          almalinux-8, openkylin, openmandriva, sles]
           # redhat: UBI repos lack bison/flex/dwarves; kernel cannot be built
           # without a RHEL subscription
     uses: ./.github/workflows/build.yml

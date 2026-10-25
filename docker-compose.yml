@@ -316,3 +316,27 @@ services:
         BASE: almalinux:8
     ports:
       - 8047:8000
+  devuan:
+    build:
+      context: .
+      dockerfile: ./devuan/Dockerfile
+    ports:
+      - 8048:8000
+  openkylin:
+    build:
+      context: .
+      dockerfile: ./openkylin/Dockerfile
+    ports:
+      - 8049:8000
+  openmandriva:
+    build:
+      context: .
+      dockerfile: ./openmandriva/Dockerfile
+    ports:
+      - 8050:8000
+  sles:
+    build:
+      context: .
+      dockerfile: ./sles/Dockerfile
+    ports:
+      - 8051:8000
