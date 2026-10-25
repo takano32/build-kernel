@@ -1,5 +1,5 @@
 [![Build Linux Kernel](https://github.com/takano32/build-kernel/actions/workflows/build-all.yml/badge.svg)](https://github.com/takano32/build-kernel/actions/workflows/build-all.yml)
-![Distributions](https://img.shields.io/badge/distributions-52-blue)
+![Distributions](https://img.shields.io/badge/distributions-50-blue)
 
 # build-kernel
 
@@ -27,7 +27,7 @@ build Microsoft's kernel tree at its newest `rolling-lts/mariner-3` tag.
 
 ## CI
 
-Every push, plus a schedule on Monday and Thursday 00:00 UTC, builds all 52
+Every push, plus a schedule on Monday and Thursday 00:00 UTC, builds all 50
 distributions. Each job uploads `artifacts/` (the packages and the kernel
 config) as a workflow artifact. The longest jobs are the three that
 build their distro's full kernel config, archlinux, manjarolinux and
@@ -36,18 +36,17 @@ so a whole run takes about as long as the slowest of them.
 
 ## Supported distributions
 
-CI builds the kernel on these 52 distributions and variants:
+CI builds the kernel on these 50 distributions and variants:
 
 almalinux, almalinux-8, almalinux-kitten, alpine, alpine-edge, altlinux,
-amazonlinux, amazonlinux2,
+amazonlinux,
 anolisos, archlinux, artixlinux, azurelinux, cachyos, cbl-mariner,
 centos, centos8, chimeralinux, debian, debian-12, debian-sid, devuan, fedora,
 fedora-rawhide, gentoo, gentoo-llvm, gentoo-musl, gentoo-musl-llvm,
 kalilinux, linux-mint, mageia, manjarolinux, miraclelinux, opencloudos,
 openeuler, openkylin, openmandriva, opensuse, opensuse-leap, oraclelinux,
 parrot, photon,
-pureos, rockylinux, slackware, sles, solus, termux, ubuntu, ubuntu-24.04,
-void-linux,
+pureos, rockylinux, slackware, solus, termux, ubuntu, ubuntu-24.04, void-linux,
 void-linux-musl, wolfi
 
 The `-12`, `-24.04` and `-8` jobs pin the previous release of Debian, Ubuntu
@@ -69,6 +68,12 @@ Defined in Docker Compose but not built in CI:
 
 * redhat: the public UBI repositories ship no bison/flex/dwarves,
   so the kernel cannot be built without a RHEL subscription
+* sles: the public BCI image carries gcc 7.5 and clang 7/9 only, and the
+  kernel refuses anything older than gcc 8 ("Sorry, this C compiler is not
+  supported" out of olddefconfig); the full SLES repositories need a
+  subscription
+* amazonlinux2: its make is 3.82, and the kernel requires GNU Make 4.0 or
+  newer ("GNU Make >= 4.0 is required. Your Make version is 3.82")
 
 ## archlinux
 

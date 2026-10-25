@@ -17,7 +17,7 @@ ENV ORIGIN=https://github.com/gregkh/linux.git
 # Explicit list rather than build-dep: the archive is a snapshot and the
 # source indexes are not guaranteed to line up with the binary ones.
 RUN apt-get install -y build-essential dpkg-dev debhelper bc bison flex \
-      libelf-dev libssl-dev libncurses-dev cpio zstd rsync
+      libelf-dev libssl-dev libncurses-dev cpio zstd rsync kmod libdw-dev
 RUN apt-get install -y llvm clang lld
 RUN apt-get install -y rpm python3-pip
 RUN apt-get clean
