@@ -1,4 +1,6 @@
-FROM ubuntu:26.04
+# BASE: ubuntu-24.04 in docker-compose.yml builds the same on the previous LTS.
+ARG BASE=ubuntu:26.04
+FROM ${BASE}
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
