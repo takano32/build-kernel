@@ -28,7 +28,8 @@ jobs:
           miraclelinux, opencloudos, anolisos, wolfi, artixlinux,
           fedora-rawhide, debian-sid, alpine-edge, almalinux-kitten,
           gentoo-musl, gentoo-llvm, gentoo-musl-llvm, void-linux-musl,
-          almalinux-8, openkylin, openmandriva, sles]
+          almalinux-8, openkylin, openmandriva, sles,
+          amazonlinux2, pureos]
           # redhat: UBI repos lack bison/flex/dwarves; kernel cannot be built
           # without a RHEL subscription
     uses: ./.github/workflows/build.yml

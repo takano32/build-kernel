@@ -340,3 +340,15 @@ services:
       dockerfile: ./sles/Dockerfile
     ports:
       - 8051:8000
+  pureos:
+    build:
+      context: .
+      dockerfile: ./pureos/Dockerfile
+    ports:
+      - 8052:8000
+  amazonlinux2:
+    build:
+      context: .
+      dockerfile: ./amazonlinux2/Dockerfile
+    ports:
+      - 8053:8000

@@ -48,12 +48,15 @@ case "$ID" in
   # every one of these images also installs rpm, so both targets apply. ubuntu
   # and linuxmint had bindeb-pkg turned off in 2023-06 (47b8226) and ubuntu's
   # binrpm-pkg in 2023-07 (7f340db) without a recorded reason; back on since 2026-09.
-  debian|ubuntu|linuxmint|kali|parrot|devuan|openkylin) PKG_DEB=true; PKG_RPM=true ;;
+  debian|ubuntu|linuxmint|kali|parrot|devuan|openkylin|pureos) PKG_DEB=true; PKG_RPM=true ;;
   # rpm-native distros. ol, mageia and voidlinux were dropped in 2024-03 (155cde8),
   # most likely over rpmbuild's BuildRequires check (that commit also added a
   # run-time `yum install dwarves perl` for the RHEL-likes); mariner and solus
   # were never tried. The check is skipped now (see binrpm-pkg below).
-  almalinux|amzn|fedora|rocky|ol|mageia)        PKG_RPM=true ;;
+  almalinux|fedora|rocky|ol|mageia)             PKG_RPM=true ;;
+  # Amazon Linux 2's rpm is 4.11, which predates --build-in-place (4.16), so
+  # binrpm-pkg cannot work there; 2023 packages normally.
+  amzn) [ "${VERSION_ID%%.*}" = 2 ] || PKG_RPM=true ;;
   # openmandriva: dnf and a modern rpm, so binrpm-pkg applies.
   # sles: the BCI image brings zypper and rpm-build.
   openmandriva|sles)                            PKG_RPM=true ;;
