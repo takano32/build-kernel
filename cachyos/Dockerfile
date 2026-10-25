@@ -10,7 +10,11 @@ RUN useradd -m takano32
 RUN mkdir /build-kernel && chown takano32:takano32 /build-kernel
 RUN echo "takano32 ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/takano32
 
-COPY ./cachyos/entrypoint.sh /
+# shared with archlinux/ and manjarolinux/; this branch clones CachyOS's own
+# PKGBUILD instead of the distro's, and builds it with clang and ThinLTO.
+ENV ARCH_SOURCE=cachyos
+
+COPY ./entrypoint-arch.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
 EXPOSE 8000
 ENTRYPOINT ["/entrypoint.sh"]

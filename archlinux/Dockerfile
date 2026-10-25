@@ -16,7 +16,7 @@ RUN chown -R takano32.takano32 /build-kernel /home/takano32
 RUN echo "takano32 ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/takano32
 ENV SUDO="sudo -u takano32"
 
-COPY ./archlinux/entrypoint.sh /
+COPY ./entrypoint-arch.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
 EXPOSE 8000
 ENTRYPOINT ["/entrypoint.sh"]

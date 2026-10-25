@@ -21,7 +21,7 @@ RUN pacman -Syy --noconfirm asciidoctor
 RUN cd devtools && BUILDTOOLVER="${pkgver}-${pkgrel}-${arch}" make all
 RUN cd devtools && make install
 
-COPY ./manjarolinux/entrypoint.sh /
+COPY ./entrypoint-arch.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
 EXPOSE 8000
 ENTRYPOINT ["/entrypoint.sh"]
