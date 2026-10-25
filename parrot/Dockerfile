@@ -5,11 +5,14 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBCONF_NOWARNINGS=yes
 
 # deb.parrot.sh is a CDN, and one of its nodes (23.19.10.58 as of 2026-09) answers
-# 404 for files it should have, which failed about every other CI run. Use a plain
-# mirror that is in sync with the CDN instead, and fail here if the URL ever changes.
+# 404 for files it should have, which failed about every other CI run. mirrors.mit.edu
+# was the replacement until 2026-10-25, when it started answering 404 for tzdata
+# 2026e while its dists/echo/Release looked current. dotsrc has both (checked:
+# dists/echo/Release dated today, and the tzdata pool file answers 200), so use it
+# and fail here if the URL ever changes again.
 RUN find /etc/apt -type f \( -name '*.list' -o -name '*.sources' \) \
-      -exec sed -i 's|https\?://deb.parrot.sh/parrot|https://mirrors.mit.edu/parrot|g' {} + \
-    && grep -rq mirrors.mit.edu /etc/apt
+      -exec sed -i 's|https\?://deb.parrot.sh/parrot|https://mirrors.dotsrc.org/parrot|g' {} + \
+    && grep -rq mirrors.dotsrc.org /etc/apt
 
 RUN if ls /etc/apt/sources.list.d/*.sources > /dev/null 2>&1; then \
       sed 's/^Types: deb/Types: deb-src/g' /etc/apt/sources.list.d/*.sources > /etc/apt/sources.list.d/deb-src.sources; \
