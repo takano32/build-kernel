@@ -15,9 +15,10 @@ RUN dnf install -y llvm clang lld
 
 # /usr/bin/ld is a symlink to ld.lld here, and the kernel's x86 boot link
 # rejects lld: "ld: error: undefined symbol: ZO_kernel_info" out of
-# arch/x86/boot/setup.elf. The compile itself is gcc, so point LD at the GNU
-# linker that binutils ships alongside it.
-ENV LD=ld.bfd
+# arch/x86/boot/setup.elf. `ENV LD=ld.bfd` does not help: the kernel's
+# top-level Makefile assigns `LD = $(CROSS_COMPILE)ld` outright, so the
+# environment is ignored and only the `ld` on PATH matters. Repoint it.
+RUN ln -sf /usr/bin/ld.bfd /usr/bin/ld && ld --version | head -1
 # python (3.15) and python-pip, not python3/python3-pip.
 RUN dnf install -y python python-pip graphviz
 RUN dnf clean all
