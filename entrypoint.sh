@@ -57,9 +57,11 @@ case "$ID" in
   # Amazon Linux 2's rpm is 4.11, which predates --build-in-place (4.16), so
   # binrpm-pkg cannot work there; 2023 packages normally.
   amzn) [ "${VERSION_ID%%.*}" = 2 ] || PKG_RPM=true ;;
-  # openmandriva: dnf and a modern rpm, so binrpm-pkg applies.
   # sles: the BCI image brings zypper and rpm-build.
-  openmandriva|sles)                            PKG_RPM=true ;;
+  # openmandriva is build only: its rpm is new enough for --build-in-place, but
+  # binrpm-pkg then dies inside the generated spec's %build with
+  # "rpmbuild.env: No such file or directory" (first saw this on 2026-10-26).
+  sles)                                         PKG_RPM=true ;;
   # centos8 is CentOS Linux 8.5, whose rpm 4.14 has no --build-in-place
   # (binrpm-pkg needs 4.16+), so build only; Stream (centos) packages.
   centos) [ "${VERSION_ID%%.*}" = 8 ] || PKG_RPM=true ;;
