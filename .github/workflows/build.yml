@@ -34,6 +34,15 @@ jobs:
           SAMPLE_TOPIC: build-kernel-9f3a1c7b2e
           SAMPLE_LABEL: image:${{ inputs.linux }}
           SAMPLE_TOKEN: ${{ secrets.NTFY_TOKEN }}
+          # The gentoo images copy the whole portage tree and then emerge a lot.
+          # On 2026-10-25 that build took dockerd's own RSS from 580MB to 11GB
+          # in a single minute (sampler: mem 12.6/16GB, psi_mem avg10 8.57) and
+          # the runner was gone with "lost communication" right after -- the
+          # death this repository has been chasing since 10-05. Build the
+          # gentoo family with the legacy builder, which commits one layer at a
+          # time instead of holding the export in the daemon, and leave every
+          # other distro on BuildKit.
+          DOCKER_BUILDKIT: ${{ contains(inputs.linux, 'gentoo') && '0' || '1' }}
         run: |
           bash .github/scripts/sampler.sh &
           sampler=$!
