@@ -1,6 +1,6 @@
-# Pin the release: this file upgrades 8 -> 9, and both the Mageia 8 trees and
-# mageia:latest move around (latest was 8 when this file was written).
-FROM mageia:9
+# Pin the release: the trees and mageia:latest move around (latest was 8 when
+# this file was written, and it is 10 now).
+FROM mageia:10
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 
@@ -14,9 +14,9 @@ RUN echo "%_netsharedpath /sys:/proc" >> /etc/rpm/macros.dist
 # already ships the same repos as static baseurls (mirrors.kernel.org) on
 # commented-out lines, so switch to those and stop depending on that host.
 RUN sed -i -e 's|^mirrorlist=|#mirrorlist=|' -e 's|^#baseurl=|baseurl=|' /etc/yum.repos.d/*.repo
-RUN dnf distro-sync -y --releasever=9
-RUN dnf upgrade -y --best --releasever=9
-RUN dnf install -y --best --releasever=9 yum
+RUN dnf distro-sync -y --releasever=10
+RUN dnf upgrade -y --best --releasever=10
+RUN dnf install -y --best --releasever=10 yum
 RUN dnf clean packages
 RUN yum clean all
 RUN yum install -y git

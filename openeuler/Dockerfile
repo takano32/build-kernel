@@ -1,4 +1,4 @@
-FROM openeuler/openeuler:24.03-lts-sp4
+FROM openeuler/openeuler:25.09
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN dnf upgrade -y

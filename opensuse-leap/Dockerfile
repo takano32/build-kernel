@@ -1,4 +1,4 @@
-FROM opensuse/leap:16.0
+FROM opensuse/leap:16.1
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 RUN zypper ref && zypper update -y

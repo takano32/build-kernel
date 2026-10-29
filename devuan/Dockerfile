@@ -1,4 +1,5 @@
-FROM devuan/devuan:daedalus
+# excalibur is Devuan 6, the current stable; daedalus (5) is oldstable now.
+FROM devuan/devuan:excalibur
 LABEL maintainer "TAKANO Mitsuhiro <takano32@gmail.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
