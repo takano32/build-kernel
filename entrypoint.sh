@@ -8,8 +8,8 @@
 set -euxo pipefail
 
 CI=${CI:-false}
-# Pinned to the newest mainline release; 7.3 has no stable point release yet.
-LINUX_VERSION=${LINUX_VERSION:-v7.3}
+# Pinned to the newest stable release.
+LINUX_VERSION=${LINUX_VERSION:-v7.3.1}
 # Every Dockerfile sets ENV ORIGIN; cbl-mariner's points at Microsoft's tree.
 ORIGIN=${ORIGIN:-https://github.com/gregkh/linux.git}
 SRC=/build-kernel/linux
