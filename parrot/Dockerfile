@@ -14,6 +14,24 @@ RUN find /etc/apt -type f \( -name '*.list' -o -name '*.sources' \) \
       -exec sed -i 's|https\?://deb.parrot.sh/parrot|https://mirrors.dotsrc.org/parrot|g' {} + \
     && grep -rq mirrors.dotsrc.org /etc/apt
 
+RUN apt-get update
+RUN apt-get install -y git
+
+ENV ORIGIN=https://github.com/gregkh/linux.git
+
+# parrot-core 7.5.2 ships a new /etc/apt/apt.conf.d/99retry-on-error, which the
+# base image has modified, and dpkg's conffile prompt ignores
+# DEBIAN_FRONTEND=noninteractive and dies on EOF. Keep the image's copy.
+RUN apt-get upgrade -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold \
+    && apt-get dist-upgrade -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold
+
+# parrot-core 7.5.2 also moves parrot.list to parrot.list.old and installs a
+# deb822 parrot.sources that points back at deb.parrot.sh, with no index fetched
+# for it, so build-dep finds nothing installable. Point it at dotsrc again and
+# derive deb-src from whatever the upgrade left behind.
+RUN find /etc/apt -type f \( -name '*.list' -o -name '*.sources' \) \
+      -exec sed -i 's|https\?://deb.parrot.sh/parrot|https://mirrors.dotsrc.org/parrot|g' {} + \
+    && ! grep -rqE --include='*.list' --include='*.sources' '^[^#]*://deb\.parrot\.sh/parrot' /etc/apt
 RUN if ls /etc/apt/sources.list.d/*.sources > /dev/null 2>&1; then \
       sed 's/^Types: deb/Types: deb-src/g' /etc/apt/sources.list.d/*.sources > /etc/apt/sources.list.d/deb-src.sources; \
     else \
@@ -21,11 +39,6 @@ RUN if ls /etc/apt/sources.list.d/*.sources > /dev/null 2>&1; then \
     fi
 
 RUN apt-get update
-RUN apt-get install -y git
-
-ENV ORIGIN=https://github.com/gregkh/linux.git
-
-RUN apt-get upgrade -y && apt-get dist-upgrade -y
 RUN apt-get build-dep -y linux
 RUN apt-get install -y llvm clang lld
 RUN apt-get install -y rpm
